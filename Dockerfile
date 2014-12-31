@@ -6,5 +6,9 @@ MAINTAINER Alex
 # copy src
 COPY . /app
 
+RUN npm install karma-chrome-launcher --save-dev
+
 # build
 RUN grunt build --force
+
+EXPOSE 9018
