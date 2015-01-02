@@ -1,14 +1,13 @@
-# docker build -t alex/vmhub /c/Users/ozavgorodniy/docker/vmhub
-# docker run -it -p 8080:8080 -e TOMCAT_PASS="alex" alex/vmhub
 FROM alexagency/ngbp
 MAINTAINER Alex
 
 # copy src
 COPY . /app
 
-RUN npm install karma-chrome-launcher --save-dev
-
 # build
-RUN grunt build --force
+RUN grunt build
 
-EXPOSE 9018
+# run after start
+RUN sed -i s@exec@'exec node /app/src/common/proxy/proxy.js \&'@g /run.sh
+
+EXPOSE 8000

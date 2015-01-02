@@ -2,5 +2,9 @@ vmhub:
     build: ./
     ports:
         - "8080:8080"
+        - "9019:9019"
+        - "8000:8000"
     environment:
         TOMCAT_PASS: alex
+    volume:
+        - "/var/run/docker.sock:/var/run/docker.sock"
