@@ -3,7 +3,9 @@ angular.module( 'vmhub', [
   'templates-common',
   'vmhub.home',
   'vmhub.about',
-  'ui.router'
+  'ui.router',
+  'ngResource',
+  'docker'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {

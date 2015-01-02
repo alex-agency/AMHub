@@ -1,7 +1,8 @@
 angular.module( 'vmhub.about', [
   'ui.router',
   'placeholders',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'docker'
 ])
 
 .config(function config( $stateProvider ) {
@@ -17,13 +18,15 @@ angular.module( 'vmhub.about', [
   });
 })
 
-.controller( 'AboutCtrl', function AboutCtrl( $scope ) {
+.controller( 'AboutCtrl', function AboutCtrl( $scope, info ) {
   // This is simple a demo for UI Boostrap.
   $scope.dropdownDemoItems = [
     "The first choice!",
     "And another choice for you.",
     "but wait! A third!"
   ];
+
+  info.get({}, function(d) { $scope.info = d; });
 })
 
 ;
