@@ -23,7 +23,8 @@ net.createServer(function (socket) {
         // get data request from unix server
         serviceSocket.on('data', function (data) {
             // modify header to enable CORS
-            var cors_enable = '\r\nAccess-Control-Allow-Methods: POST, GET';
+            var cors_enable = '\r\nAccess-Control-Allow-Headers: Content-Type';
+            cors_enable += '\r\nAccess-Control-Allow-Methods: GET, POST, DELETE';
             cors_enable += '\r\nAccess-Control-Allow-Origin: *';
             var separator = '\r\n\r\n';
             cors_enable += separator;
