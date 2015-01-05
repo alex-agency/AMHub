@@ -3,7 +3,7 @@ angular.module( 'vmhub.removeImage', [
 ])
 
 .controller( 'RemoveImageCtrl', 
-  function RemoveImage( $scope, $modalInstance, $state, Image, Container ) {
+  function RemoveImageCtrl( $scope, $modalInstance, $state, Image, Container ) {
 
   $scope.imageContainers = [];
   angular.forEach($scope.containers, function( item ) {

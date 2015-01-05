@@ -17,7 +17,7 @@ angular.module( 'vmhub.home', [
 })
 
 .controller( 'HomeCtrl', 
-  function HomeController( $scope, Image, Container, $modal ) {
+  function HomeCtrl( $scope, Image, Container, $modal ) {
 
   $scope.updateImages = function() {
     Image.query({}, function( data ) {
@@ -91,6 +91,26 @@ angular.module( 'vmhub.home', [
     Container.remove({ id: data.Id }, function() {
       //alert('Container removed: ');
       $scope.updateContainers();
+    });
+  };
+
+  $scope.containerInfo = function( data ) {
+    $scope.container = data;
+    $modal.open({
+      scope: $scope,
+      templateUrl: 'containerInfo/containerInfo.tpl.html',
+      controller: 'ContainerInfoCtrl',
+      windowClass: 'large-Modal'
+    });
+  };
+
+  $scope.imageInfo = function( data ) {
+    $scope.image = data;
+    $modal.open({
+      scope: $scope,
+      templateUrl: 'imageInfo/imageInfo.tpl.html',
+      controller: 'ImageInfoCtrl',
+      windowClass: 'large-Modal'
     });
   };
 

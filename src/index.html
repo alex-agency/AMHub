@@ -20,19 +20,22 @@
       <div class="navbar-inner">
         <div class="container">
           <nav class="hidden-xs">
-              <ul class="nav navbar-nav">
-                  <a href="#top" role="button" class="navbar-brand">
-                      Version Manager Docker Hub
-                  </a>
-                  <li><a href="#images">Images</a></li>
-                  <li><a href="#containers">Containers</a></li>
-              </ul>
+            <ul class="nav navbar-nav">
+              <a href="#top" role="button" class="navbar-brand">
+                Version Manager Docker Hub
+              </a>
+              <li><a href="#images">Images</a></li>
+              <li><a href="#containers">Containers</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href ng-click="showSettings">Settings</a></li>
+            </ul>
           </nav>
           <nav class="visible-xs collapse" collapse="!isCollapsed" style="height: 0px;">
-              <ul class="nav navbar-nav">
-                  <li><a href="#images" ng-click="isCollapsed = !isCollapsed">Images</a></li>
-                  <li><a href="#containers" ng-click="isCollapsed = !isCollapsed">Containers</a></li>
-              </ul>
+            <ul class="nav navbar-nav">
+              <li><a href="#images" ng-click="isCollapsed = !isCollapsed">Images</a></li>
+              <li><a href="#containers" ng-click="isCollapsed = !isCollapsed">Containers</a></li>
+            </ul>
           </nav>
         </div>
       </div>

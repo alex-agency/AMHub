@@ -3,7 +3,7 @@ angular.module( 'vmhub.createContainer', [
 ])
 
 .controller( 'CreateContainerCtrl', 
-  function CreateContainer( $scope, $modalInstance, $state, Container ) {
+  function CreateContainerCtrl( $scope, $modalInstance, $state, Container ) {
 
   $scope.config = {
     name: ''

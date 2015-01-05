@@ -3,7 +3,7 @@ angular.module( 'vmhub.topContainer', [
 ])
 
 .controller( 'TopContainerCtrl', 
-  function TopContainer( $scope, $modalInstance, $state, Container ) {
+  function TopContainerCtrl( $scope, $modalInstance, $state, Container ) {
 
   $scope.top = Container.top({ id: $scope.container.Id });
 

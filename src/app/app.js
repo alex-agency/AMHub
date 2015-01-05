@@ -9,7 +9,10 @@ angular.module( 'vmhub', [
   'vmhub.createContainer',
   'vmhub.commitContainer',
   'vmhub.topContainer',
-  'vmhub.removeImage'
+  'vmhub.removeImage',
+  'vmhub.containerInfo',
+  'vmhub.imageInfo',
+  'vmhub.settings'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
@@ -19,12 +22,20 @@ angular.module( 'vmhub', [
 .run( function run () {
 })
 
-.controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
+.controller( 'AppCtrl', function AppCtrl ( $scope, $location, $modal ) {
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
       $scope.pageTitle = toState.data.pageTitle + ' | VMHub' ;
     }
   });
+
+  $scope.showSettings = function() {
+    $modal.open({
+      templateUrl: 'settings/settings.tpl.html',
+      controller: 'SettingsCtrl',
+      windowClass: 'large-Modal'
+    });
+  };
 })
 
 ;

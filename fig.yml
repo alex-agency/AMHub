@@ -6,5 +6,6 @@ vmhub:
         - "8000:8000"
     environment:
         TOMCAT_PASS: alex
-    volume:
-        - "/var/run/docker.sock:/var/run/docker.sock"
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - $(pwd)/src:/app/src

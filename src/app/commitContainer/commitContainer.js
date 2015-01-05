@@ -3,7 +3,7 @@ angular.module( 'vmhub.commitContainer', [
 ])
 
 .controller( 'CommitContainerCtrl', 
-  function CommitContainer( $scope, $modalInstance, $state, Commit ) {
+  function CommitContainerCtrl( $scope, $modalInstance, $state, Commit ) {
 
   $scope.config = {
     name: ''
