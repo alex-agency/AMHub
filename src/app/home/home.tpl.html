@@ -1,131 +1,79 @@
-<div class="jumbotron">
-  <h1>Non-Trivial AngularJS Made Easy</h1>
+<section id="top">
+  <header class="jumbotron">
+    <h1>Version Manager Docker Hub</h1>
+    <p>...</p>
+  </header>
+</section>
 
-  <p class="lead">
-    Everything you need to kickstart AngularJS projects: a best-practice
-    directory structure, an intelligent build system, and the best web design
-    libraries around.
-  </p>
-
-  <ul class="list-inline social-buttons">
-    <li>
-      <iframe 
-        src="http://ghbtns.com/github-btn.html?user=ngbp&amp;repo=ngbp&amp;type=watch&amp;count=true" 
-        allowtransparency="true" 
-        frameborder="0" 
-        scrolling="0" 
-        width="110" 
-        height="20">
-      </iframe>
-    </li>
-    <li>
-      <iframe 
-        src="http://ghbtns.com/github-btn.html?user=ngbp&amp;repo=ngbp&amp;type=fork&amp;count=true" 
-        allowtransparency="true" 
-        frameborder="0" 
-        scrolling="0" 
-        width="95" 
-        height="20">
-      </iframe>
-    </li>
-    <li>
-       <iframe allowtransparency="true" frameborder="0" scrolling="no"
-        src="https://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fbit.ly%2FngBoilerplate&counturl=http%3A%2F%2Fngbp.github.com%2Fngbp&text=Check%20out%20%23ngbp%20-%20an%20awesome%20kickstarter%20for%20web%20projects%20%7C&hashtags=angularjs&via=joshdmiller&related=joshdmiller"
-        style="width:130px; height:20px;"></iframe>
-    </li>
-    <li plus-one></li>
-  </ul> 
-  
-  <div class="btn-group">
-    <a href="https://github.com/ngbp/ngbp#readme" class="btn btn-large btn-default">
-      <i class="fa fa-book"></i>
-      Read the Docs
-    </a>
-    <a href="https://github.com/ngbp/ngbp" class="btn btn-large btn-success">
-      <i class="fa fa-download"></i>
-      Download
-    </a>
+<section id="images">
+  <div class="page-header">
+      <h1>Images</h1>
   </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Actions</th>
+        <th ng-click="sortImages='RepoTags'; reverse1=!reverse1">Name</th>
+        <th ng-click="sortImages='VirtualSize'; reverse1=!reverse1">Size</th>
+        <th ng-click="sortImages='Created'; reverse1=!reverse1">Created</th>
+      </tr>
+      <tr>
+        <th colspan="4">
+          <input ng-model="searchImages" class="form-control" placeholder="Image search ..."/>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="image in images | orderBy:sortImages:reverse1 | filter:searchImages">
+        <td>
+          <button class="btn btn-success btn-xs" ng-click="createContainer(image)">Create Container</button>
+          <button class="btn btn-danger btn-xs" ng-click="removeImage(image)">Remove Image</button>
+        </td>
+        <td>
+          <li ng-repeat='name in image.RepoTags'> {{ name }} </li>
+        </td>
+        <td>{{ image.VirtualSize | filesize }}</td>
+        <td>{{ image.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
 
-</div>
-
-<div class="marketing">
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4><i class="fa fa-thumbs-up"></i> Good to Go!</h4>
-      <p>
-        Kickstarts your project quickly, with everything you need, so you can 
-        focus on what matters: your app.
-      </p>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4><i class="fa fa-magic"></i> Complete Build System</h4>
-      <p>
-        A smart, <a href="http://gruntjs.com">Grunt</a>-based build system 
-        designed to save you time and energy.
-      </p>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4><i class="fa fa-retweet"></i> Modularization</h4>
-      <p>
-        Supports a structure that maintains separation of concerns while
-        ensuring maximum code reuse.
-      </p>
-    </div>
+<section id="containers">
+  <div class="page-header">
+      <h1>Containers</h1>
   </div>
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4><i class="fa fa-star"></i> AngularJS</h4>
-      <p>
-        JavaScript framework that augments browser-based, single-page 
-        applications with MVC functionality.
-        <a href="http://angularjs.org">More &raquo;</a>
-      </p>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4><i class="fa fa-resize-small"></i> LESS CSS</h4>
-      <p>
-        The dynamic stylesheet language that extends CSS with efficiency.
-        <a href="http://lesscss.org">More &raquo;</a>
-      </p>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4><i class="fa fa-twitter"></i> Twitter Bootstrap</h4>
-      <p>
-        Sleek, intuitive, and powerful front-end framework for faster and easier
-        web development.
-        <a href="http://getbootstrap.com">More &raquo;</a>
-      </p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4><i class="fa fa-circle"></i> Angular UI Bootstrap</h4>
-      <p>
-        Pure AngularJS components for Bootstrap written by the 
-        <a href="https://github.com/angular-ui?tab=members">AngularUI Team</a>.
-        <a href="http://angular-ui.github.com/bootstrap">More &raquo;</a>
-      </p>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4><i class="fa fa-flag"></i> Font Awesome</h4>
-      <p>
-        The iconic font designed for use with Twitter Bootstrap.
-        <a href="http://fortawesome.github.com/Font-Awesome">
-          More &raquo;
-        </a>
-      </p>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4><i class="fa fa-asterisk"></i> Placeholders</h4>
-      <p>
-        Client-side image and text placeholder directives written in pure 
-        AngularJS to make designing mock-ups wicked-fast.
-        <a href="http://joshdmiller.github.com/angular-placeholders">
-          More &raquo;
-        </a>
-      </p>
-    </div>
-  </div>
-</div>
-
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Actions</th>
+        <th ng-click="sortContainers='name'; reverse2=!reverse2">Name</th>
+        <th ng-click="sortContainers='Status'; reverse2=!reverse2">Status</th>
+        <th ng-click="sortContainers='Image'; reverse2=!reverse2">Image</th>
+        <th ng-click="sortContainers='Created'; reverse2=!reverse2">Created</th>
+      </tr>
+      <tr>
+        <th colspan="5">
+          <input ng-model="searchContainers" class="form-control" placeholder="Container search ..."/>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="container in containers | orderBy:sortContainers:reverse2 | filter:searchContainers">
+        <td>
+          <button class="btn btn-success btn-xs" ng-click="startContainer(container)">Start</button>
+          <button class="btn btn-warning btn-xs" ng-click="stopContainer(container)">Stop</button>
+          <button class="btn btn-info btn-xs" ng-click="commitContainer(container)">Commit</button>
+          <button class="btn btn-info btn-xs" ng-click="topContainer(container)">Top</button>
+          <button class="btn btn-danger btn-xs" ng-click="removeContainer(container)">Remove</button>
+        </td>
+        <td>
+          <li ng-repeat='name in container.Names'><a href="#">{{ name.slice(1) }}</a></li>
+        </td>
+        <td>{{ container.Status }}</td>
+        <td>{{ container.Image }}</td>
+        <td>{{ container.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

@@ -13,64 +13,30 @@
 
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
-
-    <!-- it's stupid to have to load it here, but this is for the +1 button -->
-    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-      { "parsetags": "explicit" }
-    </script>
   </head>
 
   <body>
-    <div class="container">
-      <div class="navbar navbar-default">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" ng-init="menuCollapsed = true"
-            ng-click="menuCollapsed = ! menuCollapsed">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <div class="navbar-brand">
-            Version Manager Docker Hub
-          </div>
-        </div>
-        <div class="collapse navbar-collapse" collapse="menuCollapsed">
-          <ul class="nav navbar-nav">
-            <li ui-sref-active="active">
-              <a href ui-sref="home">
-                <i class="fa fa-home"></i>
-                Home
-              </a>
-            </li>
-            <li ui-sref-active="active">
-              <a href ui-sref="about">
-                <i class="fa fa-info-circle"></i>
-                What is it?
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/ngbp/ngbp#readme">
-                <i class="fa fa-book"></i>
-                Read the Docs
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/ngbp/ngbp">
-                <i class="fa fa-github-alt"></i>
-                Github
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/ngbp/ngbp/issues">
-                <i class="fa fa-comments"></i>
-                Support
-              </a>
-            </li>
-          </ul>
+    <header class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <nav class="hidden-xs">
+              <ul class="nav navbar-nav">
+                  <a href="#top" role="button" class="navbar-brand">
+                      Version Manager Docker Hub
+                  </a>
+                  <li><a href="#images">Images</a></li>
+                  <li><a href="#containers">Containers</a></li>
+              </ul>
+          </nav>
+          <nav class="visible-xs collapse" collapse="!isCollapsed" style="height: 0px;">
+              <ul class="nav navbar-nav">
+                  <li><a href="#images" ng-click="isCollapsed = !isCollapsed">Images</a></li>
+                  <li><a href="#containers" ng-click="isCollapsed = !isCollapsed">Containers</a></li>
+              </ul>
+          </nav>
         </div>
       </div>
-    </div>
+    </header>
 
     <div class="container" ui-view="main"></div>
 
