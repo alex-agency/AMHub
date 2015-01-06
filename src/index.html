@@ -5,15 +5,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- font awesome from BootstrapCDN -->
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
-
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
-
-    <!-- cerulean bootswatch from BootstrapCDN -->
-    <!--link href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.1/cerulean/bootstrap.min.css" rel="stylesheet"-->
-    <link href="http://bootswatch.com/cerulean/bootstrap.css" rel="stylesheet">
 
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
@@ -44,6 +37,10 @@
         </div>
       </div>
     </header>
+
+    <!--div collapse="isCollapsed">
+      <div class="well well-lg">Some content</div> 
+    </div-->
 
     <div class="container" ui-view="main"></div>
 

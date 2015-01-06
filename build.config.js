@@ -72,6 +72,10 @@ module.exports = {
       'vendor/FileSaver/FileSaver.min.js'
     ],
     css: [
+      //'vendor/bootswatch-dist/css/bootstrap.min.css',
+      'vendor/components-font-awesome/css/font-awesome.css',
+      'vendor/components-font-awesome/fonts/fontawesome-webfont.woff',
+      'vendor/components-font-awesome/fonts/fontawesome-webfont.ttf'
     ],
     assets: [
     ]
