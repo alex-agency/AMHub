@@ -1,25 +1,37 @@
 <section id="top">
   <header class="jumbotron">
-    <h1>Version Manager Docker Hub</h1>
+    <h1><i class="fa fa-code-fork"></i></i> Version Manager Docker Hub</h1>
     <p>...</p>
   </header>
 </section>
 
 <section id="images">
   <div class="page-header">
-      <h1>Images</h1>
+    <h1> <i class="fa fa-sitemap"></i> Images</h1>
   </div>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <input ng-model="searchImages" class="form-control" placeholder="Image search ..."/>
+      <input ng-model="searchImages" class="form-control" placeholder="Image search for..."/>
     </div>
     <table class="table table-striped">
       <thead>
         <tr>
           <th>Actions</th>
-          <th><a href ng-click="sortImages='RepoTags'; reverse1=!reverse1">Name</a></th>
-          <th><a href ng-click="sortImages='VirtualSize'; reverse1=!reverse1">Size</a></th>
-          <th><a href ng-click="sortImages='Created'; reverse1=!reverse1">Created</a></th>
+          <th>
+            <a href ng-click="sortImages='RepoTags'; reverse1=!reverse1">
+              <i class="fa fa-sort"></i> Name
+            </a>
+          </th>
+          <th>
+            <a href ng-click="sortImages='VirtualSize'; reverse1=!reverse1">
+              <i class="fa fa-sort"></i> Size
+            </a>
+          </th>
+          <th>
+            <a href ng-click="sortImages='Created'; reverse1=!reverse1">
+              <i class="fa fa-sort"></i> Created
+            </a>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -41,20 +53,36 @@
 
 <section id="containers">
   <div class="page-header">
-      <h1>Containers</h1>
+    <h1> <i class="fa fa-th"></i>  Containers</h1>
   </div>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <input ng-model="searchContainers" class="form-control" placeholder="Container search ..."/>
+      <input ng-model="searchContainers" class="form-control" placeholder="Container search for..."/>
     </div>
     <table class="table table-striped">
       <thead>
         <tr>
           <th>Actions</th>
-          <th><a href ng-click="sortContainers='name'; reverse2=!reverse2">Name</a></th>
-          <th><a href ng-click="sortContainers='Status'; reverse2=!reverse2">Status</a></th>
-          <th><a href ng-click="sortContainers='Image'; reverse2=!reverse2">Image</a></th>
-          <th><a href ng-click="sortContainers='Created'; reverse2=!reverse2">Created</a></th>
+          <th>
+            <a href ng-click="sortContainers='name'; reverse2=!reverse2">
+              <i class="fa fa-sort"></i> Name
+            </a>
+          </th>
+          <th>
+            <a href ng-click="sortContainers='Status'; reverse2=!reverse2">
+              <i class="fa fa-sort"></i> Status
+            </a>
+          </th>
+          <th>
+            <a href ng-click="sortContainers='Image'; reverse2=!reverse2">
+              <i class="fa fa-sort"></i> Image
+            </a>
+          </th>
+          <th>
+            <a href ng-click="sortContainers='Created'; reverse2=!reverse2">
+              <i class="fa fa-sort"></i> Created
+            </a>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -63,7 +91,7 @@
             <button class="btn btn-success btn-xs" ng-click="startContainer(container)">Start</button>
             <button class="btn btn-warning btn-xs" ng-click="stopContainer(container)">Stop</button>
             <button class="btn btn-info btn-xs" ng-click="commitContainer(container)">Commit</button>
-            <button class="btn btn-info btn-xs" ng-click="topContainer(container)">Top</button>
+            <button class="btn btn-primary btn-xs" ng-click="topContainer(container)">Top</button>
             <button class="btn btn-danger btn-xs" ng-click="removeContainer(container)">Remove</button>
           </td>
           <td>

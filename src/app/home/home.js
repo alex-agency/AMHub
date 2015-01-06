@@ -88,9 +88,11 @@ angular.module( 'vmhub.home', [
   };
 
   $scope.removeContainer = function( data ) {
-    Container.remove({ id: data.Id }, function() {
-      //alert('Container removed: ');
-      $scope.updateContainers();
+    $scope.container = data;
+    $modal.open({
+      scope: $scope,
+      templateUrl: 'removeContainer/removeContainer.tpl.html',
+      controller: 'RemoveContainerCtrl'
     });
   };
 
