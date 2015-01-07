@@ -1,8 +1,9 @@
 <section id="top">
-  <header class="jumbotron">
+  <div class="jumbotron">
     <h1><i class="fa fa-code-fork"></i></i> Version Manager Docker Hub</h1>
-    <p>...</p>
-  </header>
+    <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <p><a class="btn btn-primary btn-lg" href="https://github.com/alex-agency/vmhub">Learn more</a></p>
+  </div>
 </section>
 
 <section id="images">
@@ -37,11 +38,16 @@
       <tbody>
         <tr ng-repeat="image in images | orderBy:sortImages:reverse1 | filter:searchImages">
           <td>
-            <button class="btn btn-success btn-xs" ng-click="createContainer(image)">Create Container</button>
-            <button class="btn btn-danger btn-xs" ng-click="removeImage(image)">Remove Image</button>
+            <span class="badge" ng-hide="isNone(image)">{{ getContainersNumber(image) }}</span>
+            <button class="btn btn-success btn-xs" ng-hide="isNone(image) || isVMHub(image)" 
+                    ng-click="createContainer(image)">Create Container</button>
+            <button class="btn btn-danger btn-xs" ng-hide="isVMHub(image)"
+                    ng-click="removeImage(image)">Remove Image</button>
           </td>
           <td>
-            <li ng-repeat='name in image.RepoTags'><a href ng-click="imageInfo(image)">{{ name }}</a></li>
+            <li ng-repeat='name in image.RepoTags'>
+              <a href ng-click="imageInfo(image)" ng-hide="isNone(image)">{{ name }}</a>
+            </li>
           </td>
           <td>{{ image.VirtualSize | filesize }}</td>
           <td>{{ image.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
@@ -88,11 +94,14 @@
       <tbody>
         <tr ng-repeat="container in containers | orderBy:sortContainers:reverse2 | filter:searchContainers">
           <td>
-            <button class="btn btn-success btn-xs" ng-click="startContainer(container)">Start</button>
-            <button class="btn btn-warning btn-xs" ng-click="stopContainer(container)">Stop</button>
+            <button class="btn btn-success btn-xs" ng-hide="isVMHub(container)"
+                    ng-click="startContainer(container)">Start</button>
+            <button class="btn btn-warning btn-xs" ng-hide="isVMHub(container)" 
+                    ng-click="stopContainer(container)">Stop</button>
             <button class="btn btn-info btn-xs" ng-click="commitContainer(container)">Commit</button>
             <button class="btn btn-primary btn-xs" ng-click="topContainer(container)">Top</button>
-            <button class="btn btn-danger btn-xs" ng-click="removeContainer(container)">Remove</button>
+            <button class="btn btn-danger btn-xs" ng-hide="isVMHub(container)"
+                    ng-click="removeContainer(container)">Remove</button>
           </td>
           <td>
             <li ng-repeat='name in container.Names'><a href ng-click="containerInfo(container)">{{ name.slice(1) }}</a></li>

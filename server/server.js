@@ -36,3 +36,23 @@ net.createServer(function (socket) {
 }).listen(PROXY_PORT);
 
 console.log("TCP server accepting connection on port: " + PROXY_PORT);
+
+
+
+var finalhandler = require('finalhandler')
+var http = require('http')
+var serveStatic = require('serve-static')
+
+// Serve up public/ftp folder
+var serve = serveStatic('build', {'index': ['index.html']})
+
+// Create server
+var server = http.createServer(function(req, res){
+  var done = finalhandler(req, res)
+  serve(req, res, done)
+})
+
+// Listen
+server.listen(80)
+
+console.log("Web server accepting connection on port: " + 80);

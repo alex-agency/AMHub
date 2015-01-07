@@ -8,10 +8,8 @@
 /**
  * First, we include the Twitter Bootstrap LESS files. Only the ones used in the
  * project should be imported as the rest are just wasting space.
+ * @import '../../vendor/bootstrap/less/bootstrap.less';
  */
-
-@import '../../vendor/bootstrap/less/bootstrap.less';
-
 
 /**
  * This is our main variables file. We must include it last so we can overwrite any variable
@@ -77,6 +75,17 @@ h2 {
 .footer {
   margin-top: 80px;
 
+/**
+  background-color: #2fa4e7;
+  border-color: #1995dc;
+  color: #ffffff;
+  border-top: 1px solid #178acc;
+
+  a, a:visited {
+    color: #ffffff;
+  }
+*/
+
   .footer-inner {
     padding: 40px 0;
     border-top: 1px solid #DDD;
@@ -92,14 +101,8 @@ h2 {
       margin-left: 20px;
 
       a, a:visited {
-        color: @gray-light;
         text-decoration: none;
         font-size: 40px;
-        .transition( 250ms ease-in-out );
-
-        &:hover {
-          color: @gray;
-        }
       }
     }
   }

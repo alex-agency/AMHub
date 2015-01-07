@@ -116,6 +116,31 @@ angular.module( 'vmhub.home', [
     });
   };
 
+  $scope.getContainersNumber = function( data ) {
+    var imageContainers = [];
+    angular.forEach($scope.containers, function( item ) {
+      if( item.Image == data.RepoTags[0] ) {
+        this.push(item);
+      }
+    }, imageContainers);
+    return imageContainers.length;
+  };
+
+  $scope.isNone = function( data ) {
+    return data.RepoTags[0] == '<none>:<none>';
+  };
+
+  $scope.isVMHub = function( data ) {
+    if( data.RepoTags && 
+          data.RepoTags[0].indexOf('vmhub') != -1 ) {
+      return true;
+    }
+    if( data.Image && data.Image.indexOf('vmhub') != -1 ) {
+      return true;
+    }
+    return false;
+  };
+
 })
 
 .filter( 'filesize', function () {

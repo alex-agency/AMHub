@@ -17,7 +17,7 @@ Windows: /c/Users/<USERNAME>/Docker/vmhub
 To run container in the background:
 
 ```
-# docker run -d -p 8080:8080 -p 9019:9019 -p 8000:8000 -e TOMCAT_PASS="alex" \
+# docker run -d -p 80:80 -p 9019:9019 -p 8000:8000 \
  -v /var/run/docker.sock:/var/run/docker.sock alexagency/vmhub
 or
 # fig up -d
@@ -26,7 +26,7 @@ or
 To run interactive with remove container after exit (--rm):
 
 ```
-# docker run -it --rm -p 8080:8080 -p 9019:9019 -p 8000:8000 -e TOMCAT_PASS="alex" \
+# docker run -it --rm -p 80:80 -p 9019:9019 -p 8000:8000 \
  -v /var/run/docker.sock:/var/run/docker.sock alexagency/vmhub
 or
 # fig up
@@ -43,14 +43,10 @@ To run Fig via container:
 # fig
 ```
 
-Tomcat server:
+NodeJS server:
 
 ```
 # http://<DOCKERHOST>:8080/
-
-# user:admin, password:alex
-# http://<DOCKERHOST>:8080/manager
-# http://<DOCKERHOST>:8080/host-manager
 ```
 
 Karma Test Runner:
@@ -63,8 +59,8 @@ Karma Test Runner:
 To run interactive container with continuous update source code ($PWD/src) on the fly:
 
 ```
-# docker run -it --rm -p 8080:8080 -p 9019:9019 -p 8000:8000 -e TOMCAT_PASS="alex" \
- -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/src:/app/src alexagency/vmhub
+# docker run -it --rm -p 80:80 -p 9019:9019 -p 8000:8000 \
+ -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/src:/usr/src/src alexagency/vmhub
 ```
 
 To remove all stoped containers:

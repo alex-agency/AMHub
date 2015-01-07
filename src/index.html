@@ -5,6 +5,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- font awesome from BootstrapCDN -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
 
@@ -47,13 +50,26 @@
     <footer class="footer">
       <div class="container">
         <div class="footer-inner">
+          <p class="pull-right"><a href="#top" target="_self">Back to top</a></p>
           <p>
-            ngbp is based on
+            Created by <a href="https://github.com/alex-agency/vmhub">Alex Zavgorodniy</a>. 
+            Code licensed under 
+            <a href="http://opensource.org/licenses/mit-license.html">The MIT License</a>. 
+            Documentation licensed under 
+            <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+            <br />
+            Powered by 
+            <a href="http://joshdmiller.github.io/ng-boilerplate">ngBoilerplate</a> is based on
             <a href="http://www.angularjs.org">AngularJS</a>,
             <a href="http://getbootstrap.com">Bootstrap</a>, 
             <a href="http://angular-ui.github.com/bootstrap">UI Bootstrap</a>,
             and 
-            <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a>.        
+            <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a>.      
+            <br />
+            A calm blue sky theme from 
+            <a href="http://bootswatch.com">Bootswatch</a>.
+            <br />
+            With <a href="http://nodejs.org/">Node.js</a> on server side.
           </p>
         </div>
       </div>
