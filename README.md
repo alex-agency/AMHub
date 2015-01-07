@@ -1,5 +1,4 @@
-vmhub
-====
+# VM Hub [![Build Status](https://api.travis-ci.org/alex-agency/vmhub.png)](https://travis-ci.org/alex-agency/vmhub)
 
 Version Manager Docker Hub
 
