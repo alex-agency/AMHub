@@ -19,7 +19,7 @@ angular.module( 'vmhub.removeContainer', [
     $modalInstance.close();
   };
 
-  $scope.cancel = function () {
+  $scope.close = function () {
     $modalInstance.dismiss();
   };
 

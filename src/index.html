@@ -17,44 +17,44 @@
 
   <body>
     <header class="navbar navbar-default navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <nav class="hidden-xs">
-            <ul class="nav navbar-nav">
-              <a href="#top" role="button" class="navbar-brand">
-                <i class="fa fa-code-fork"></i> Version Manager Docker Hub
-              </a>
-              <li><a href="#images"><i class="fa fa-sitemap"></i> Images</a></li>
-              <li><a href="#containers"><i class="fa fa-th"></i> Containers</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href ng-click="showSettings()"><i class="fa fa-cog"></i> Settings</a></li>
-            </ul>
-          </nav>
-          <nav class="visible-xs collapse" collapse="!isCollapsed" style="height: 0px;">
-            <ul class="nav navbar-nav">
-              <li><a href="#images" ng-click="isCollapsed = !isCollapsed">Images</a></li>
-              <li><a href="#containers" ng-click="isCollapsed = !isCollapsed">Containers</a></li>
-            </ul>
-          </nav>
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" ng-click="isCollapsed=!isCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="#top" ng-click="isCollapsed=false" class="navbar-brand">
+            <i class="fa fa-code-fork"></i> Version Manager Docker Hub
+          </a>
         </div>
+        <nav class="navbar-collapse bs-navbar-collapse" collapse="!isCollapsed">
+          <ul class="nav navbar-nav">
+            <li><a href="#images" ng-click="isCollapsed=false"><i class="fa fa-sitemap"></i> Images</a></li>
+            <li><a href="#containers" ng-click="isCollapsed=false"><i class="fa fa-th"></i> Containers</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a ng-href="/#settings" ng-click="isCollapsed=false"><i class="fa fa-cog"></i> Settings</a></li>
+          </ul>
+        </nav>
       </div>
     </header>
-
-    <!--div collapse="isCollapsed">
-      <div class="well well-lg">Some content</div> 
-    </div-->
 
     <div class="container" ui-view="main"></div>
 
     <footer class="footer">
       <div class="container">
         <div class="footer-inner">
-          <p class="pull-right"><a href="#top" target="_self">Back to top</a></p>
+          <p class="pull-right">
+            <a href="#top">Back to top</a>
+            <br />
+            <a href="https://github.com/alex-agency/vmhub/issues">Issues</a>
+          </p>
           <p>
             Created by <a href="https://github.com/alex-agency/vmhub">Alex Zavgorodniy</a>. 
-            Code licensed under 
-            <a href="http://opensource.org/licenses/mit-license.html">The MIT License</a>. 
+            Code licensed under the
+            <a href="http://opensource.org/licenses/mit-license.html">MIT License</a>. 
             Documentation licensed under 
             <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
             <br />

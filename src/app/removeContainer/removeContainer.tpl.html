@@ -1,14 +1,18 @@
 <div class="modal-header">
+  <button class="close" ng-click="close()"><span>&times;</span></button>
   <h3 class="modal-title"><i class="fa fa-trash"></i> Remove Container</h3>
 </div>
 <div class="modal-body">
-
-  <h4 ng-repeat="container in imageContainers">Container: {{ container.Names[0].slice(1) }}</h4>
-
-  <p>Are you sure?</p>
+  <!--form>
+    <div class="form-group">
+      <label for="recipient-name" class="control-label">Recipient:</label>
+      <input type="text" class="form-control" id="recipient-name">
+    </div>
+  </form-->
+  <p ng-repeat="container in imageContainers">Container: {{ container.Names[0].slice(1) }}</p>
 
 </div>
 <div class="modal-footer">
+    <button class="btn btn-default" ng-click="close()">Close</button>
     <button class="btn btn-danger" ng-click="remove()">Remove</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

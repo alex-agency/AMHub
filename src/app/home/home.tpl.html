@@ -3,6 +3,7 @@
     <h1><i class="fa fa-code-fork"></i></i> Version Manager Docker Hub</h1>
     <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
     <p><a class="btn btn-primary btn-lg" href="https://github.com/alex-agency/vmhub">Learn more</a></p>
+    <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=alex-agency&amp;repo=vmhub&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
   </div>
 </section>
 
@@ -11,49 +12,54 @@
     <h1> <i class="fa fa-sitemap"></i> Images</h1>
   </div>
   <div class="panel panel-default">
-    <div class="panel-heading">
-      <input ng-model="searchImages" class="form-control" placeholder="Image search for..."/>
+    <div class="panel-heading" ng-hide="images.length < 10">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+        <input ng-model="searchImages" class="form-control" placeholder="Images search for ...">
+      </div>
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Actions</th>
-          <th>
-            <a href ng-click="sortImages='RepoTags'; reverse1=!reverse1">
-              <i class="fa fa-sort"></i> Name
-            </a>
-          </th>
-          <th>
-            <a href ng-click="sortImages='VirtualSize'; reverse1=!reverse1">
-              <i class="fa fa-sort"></i> Size
-            </a>
-          </th>
-          <th>
-            <a href ng-click="sortImages='Created'; reverse1=!reverse1">
-              <i class="fa fa-sort"></i> Created
-            </a>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="image in images | orderBy:sortImages:reverse1 | filter:searchImages">
-          <td>
-            <span class="badge" ng-hide="isNone(image)">{{ getContainersNumber(image) }}</span>
-            <button class="btn btn-success btn-xs" ng-hide="isNone(image) || isVMHub(image)" 
-                    ng-click="createContainer(image)">Create Container</button>
-            <button class="btn btn-danger btn-xs" ng-hide="isVMHub(image)"
-                    ng-click="removeImage(image)">Remove Image</button>
-          </td>
-          <td>
-            <li ng-repeat='name in image.RepoTags'>
-              <a href ng-click="imageInfo(image)" ng-hide="isNone(image)">{{ name }}</a>
-            </li>
-          </td>
-          <td>{{ image.VirtualSize | filesize }}</td>
-          <td>{{ image.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Actions</th>
+            <th>
+              <a href ng-click="sortImages='RepoTags'; reverse1=!reverse1">
+                <i class="fa fa-sort"></i> Name
+              </a>
+            </th>
+            <th>
+              <a href ng-click="sortImages='VirtualSize'; reverse1=!reverse1">
+                <i class="fa fa-sort"></i> Size
+              </a>
+            </th>
+            <th>
+              <a href ng-click="sortImages='Created'; reverse1=!reverse1">
+                <i class="fa fa-sort"></i> Created
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="image in images | orderBy:sortImages:reverse1 | filter:searchImages">
+            <td>
+              <span class="badge" ng-hide="isNone(image)">{{ getContainersNumber(image) }}</span>
+              <button class="btn btn-success btn-xs" ng-hide="isNone(image) || isVMHub(image)" 
+                      ng-click="createContainer(image)">Create Container</button>
+              <button class="btn btn-danger btn-xs" ng-hide="isVMHub(image)"
+                      ng-click="removeImage(image)">Remove Image</button>
+            </td>
+            <td>
+              <li ng-repeat='name in image.RepoTags'>
+                <a href ng-click="imageInfo(image)" ng-hide="isNone(image)">{{ name }}</a>
+              </li>
+            </td>
+            <td>{{ image.VirtualSize | filesize }}</td>
+            <td>{{ image.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 
@@ -62,55 +68,60 @@
     <h1> <i class="fa fa-th"></i>  Containers</h1>
   </div>
   <div class="panel panel-default">
-    <div class="panel-heading">
-      <input ng-model="searchContainers" class="form-control" placeholder="Container search for..."/>
+    <div class="panel-heading" ng-hide="containers.length < 10">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+        <input ng-model="searchContainers" class="form-control" placeholder="Containers search for ...">
+      </div>
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Actions</th>
-          <th>
-            <a href ng-click="sortContainers='name'; reverse2=!reverse2">
-              <i class="fa fa-sort"></i> Name
-            </a>
-          </th>
-          <th>
-            <a href ng-click="sortContainers='Status'; reverse2=!reverse2">
-              <i class="fa fa-sort"></i> Status
-            </a>
-          </th>
-          <th>
-            <a href ng-click="sortContainers='Image'; reverse2=!reverse2">
-              <i class="fa fa-sort"></i> Image
-            </a>
-          </th>
-          <th>
-            <a href ng-click="sortContainers='Created'; reverse2=!reverse2">
-              <i class="fa fa-sort"></i> Created
-            </a>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="container in containers | orderBy:sortContainers:reverse2 | filter:searchContainers">
-          <td>
-            <button class="btn btn-success btn-xs" ng-hide="isVMHub(container)"
-                    ng-click="startContainer(container)">Start</button>
-            <button class="btn btn-warning btn-xs" ng-hide="isVMHub(container)" 
-                    ng-click="stopContainer(container)">Stop</button>
-            <button class="btn btn-info btn-xs" ng-click="commitContainer(container)">Commit</button>
-            <button class="btn btn-primary btn-xs" ng-click="topContainer(container)">Top</button>
-            <button class="btn btn-danger btn-xs" ng-hide="isVMHub(container)"
-                    ng-click="removeContainer(container)">Remove</button>
-          </td>
-          <td>
-            <li ng-repeat='name in container.Names'><a href ng-click="containerInfo(container)">{{ name.slice(1) }}</a></li>
-          </td>
-          <td>{{ container.Status }}</td>
-          <td>{{ container.Image }}</td>
-          <td>{{ container.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Actions</th>
+            <th>
+              <a href ng-click="sortContainers='name'; reverse2=!reverse2">
+                <i class="fa fa-sort"></i> Name
+              </a>
+            </th>
+            <th>
+              <a href ng-click="sortContainers='Status'; reverse2=!reverse2">
+                <i class="fa fa-sort"></i> Status
+              </a>
+            </th>
+            <th>
+              <a href ng-click="sortContainers='Image'; reverse2=!reverse2">
+                <i class="fa fa-sort"></i> Image
+              </a>
+            </th>
+            <th>
+              <a href ng-click="sortContainers='Created'; reverse2=!reverse2">
+                <i class="fa fa-sort"></i> Created
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="container in containers | orderBy:sortContainers:reverse2 | filter:searchContainers">
+            <td>
+              <button class="btn btn-success btn-xs" ng-hide="isVMHub(container)"
+                      ng-click="startContainer(container)">Start</button>
+              <button class="btn btn-warning btn-xs" ng-hide="isVMHub(container)" 
+                      ng-click="stopContainer(container)">Stop</button>
+              <button class="btn btn-info btn-xs" ng-click="commitContainer(container)">Commit</button>
+              <button class="btn btn-primary btn-xs" ng-click="topContainer(container)">Top</button>
+              <button class="btn btn-danger btn-xs" ng-hide="isVMHub(container)"
+                      ng-click="removeContainer(container)">Remove</button>
+            </td>
+            <td>
+              <li ng-repeat='name in container.Names'><a href ng-click="containerInfo(container)">{{ name.slice(1) }}</a></li>
+            </td>
+            <td>{{ container.Status }}</td>
+            <td>{{ container.Image }}</td>
+            <td>{{ container.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
