@@ -3,8 +3,8 @@ angular.module( 'vmhub', [
   'templates-common',
   'ui.router',
   'ui.bootstrap',
-  'ngResource',
   'docker',
+  'cookies',
   'vmhub.home',
   'vmhub.settings',
 
@@ -36,6 +36,19 @@ angular.module( 'vmhub', [
       $scope.pageTitle = 'VM Hub' ;
     }
   });
+})
+
+.directive( 'keyEnter', function () {
+  return function (scope, element, attrs) {
+    element.bind("keydown keypress", function ( event ) {
+      if( event.which === 13 ) {
+        scope.$apply(function () {
+          scope.$eval(attrs.ngEnter);
+        });
+        event.preventDefault();
+      }
+    });
+  };
 })
 
 ;

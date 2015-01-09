@@ -16,7 +16,9 @@ angular.module( 'vmhub.home', [
 })
 
 .controller( 'HomeCtrl', 
-  function HomeCtrl( $scope, Image, Container, $modal ) {
+  function HomeCtrl( $scope, $modal, Cookies, Image, Container ) {
+
+  $scope.settings = Cookies.settings;
 
   $scope.updateImages = function() {
     Image.query({}, function( data ) {

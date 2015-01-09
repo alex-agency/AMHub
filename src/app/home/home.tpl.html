@@ -43,7 +43,9 @@
         <tbody>
           <tr ng-repeat="image in images | orderBy:sortImages:reverse1 | filter:searchImages">
             <td>
-              <span class="badge" ng-hide="isNone(image)">{{ getContainersNumber(image) }}</span>
+              <span class="badge" ng-hide="isNone(image) || isVMHub(image)">
+                {{ getContainersNumber(image) }}
+              </span>
               <button class="btn btn-success btn-xs" ng-hide="isNone(image) || isVMHub(image)" 
                       ng-click="createContainer(image)">Create Container</button>
               <button class="btn btn-danger btn-xs" ng-hide="isVMHub(image)"

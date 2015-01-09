@@ -1,11 +1,21 @@
 <div class="modal-header">
-    <h3 class="modal-title"><i class="fa fa-cog"></i> Settings</h3>
+  <button class="close" ng-click="close()"><span>&times;</span></button>
+  <h3 class="modal-title"><i class="fa fa-cog"></i> Settings</h3>
 </div>
 <div class="modal-body">
-   <pre>
-   
-   </pre>
+  <form>
+    <div class="form-group">
+      <label for="images-filter" class="control-label">Images Filter:</label>
+      <input type="text" class="form-control" id="images-filter" 
+      placeholder="Enter filter" ng-model="settings.filter" ng-keyup="updateCookies()">
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="settings.advanced" ng-click="updateCookies()"> Advanced View
+      </label>
+    </div>
+  </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="close()">Close</button>
+    <button class="btn btn-default" ng-click="close()">Close</button>
 </div>

@@ -1,9 +1,11 @@
 angular.module( 'vmhub.settings', [
   'ui.router',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'cookies'
 ])
 
 .config( function config( $stateProvider ) {
+  var view = 'home';
   $stateProvider
     .state( 'settings', {
       url: 'settings',
@@ -11,7 +13,7 @@ angular.module( 'vmhub.settings', [
     })
     .state( 'settingsModal', {
       abstract: true,
-      parent: 'home',
+      parent: view,
       url: '',
       onEnter: function onEnter( $modal, $state ) {
         $modal
@@ -22,26 +24,24 @@ angular.module( 'vmhub.settings', [
           })
           .result.then( function() {
             // after clicking OK button
-            $state.transitionTo('home');
+            $state.transitionTo(view);
           }, function() {
             // after clicking Cancel button or clicking background
-            $state.transitionTo('home');
+            $state.transitionTo(view);
           });
       }
     })
   ;
 })
 
-.controller( 'SettingsCtrl', function SettingsCtrl( $scope ) {
+.controller( 'SettingsCtrl', function SettingsCtrl( $scope, Cookies ) {
 
-  $scope.close = function () {
+  $scope.settings = Cookies.settings;
+  $scope.updateCookies = Cookies.update;
+
+  $scope.close = function() {
     $scope.$dismiss();
     //$scope.$close(true);
-  };
-
-  $scope.keypressCallback = function( $event ) {
-    $scope.$dismiss();
-    $event.preventDefault();
   };
 })
 
