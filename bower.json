@@ -1,13 +1,12 @@
 {
-  "name": "ng-boilerplate",
-  "version": "0.3.2",
+  "name": "vmhub",
   "devDependencies": {
-    "angular": "~1.2",
-    "angular-mocks": "~1.2",
+    "angular": "~1.3",
+    "angular-mocks": "~1.3",
     "bootstrap": "~3.1",
     "angular-bootstrap": "~0.10.0",
     "angular-ui-router": "~0.2",
-    "angular-resource": "~1.2",
+    "angular-resource": "~1.3",
     "bootswatch-dist": "3.3.0-cerulean"
   },
   "dependencies": {}
