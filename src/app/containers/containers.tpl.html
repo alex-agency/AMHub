@@ -35,10 +35,12 @@
         <tbody>
           <tr ng-repeat="container in containers | filter:search | orderBy:sort:reverse">
             <td>
-              <button class="btn btn-success btn-xs" ng-hide="isMe(container)" ng-click="start(container)">
+              <button class="btn btn-success btn-xs" ng-hide="imageFilter(container, 'alexagency/vmhub')" 
+              ng-click="start(container)">
                 Start
               </button>
-              <button class="btn btn-warning btn-xs" ng-hide="isMe(container)" ng-click="stop(container)">
+              <button class="btn btn-warning btn-xs" ng-hide="imageFilter(container, 'alexagency/vmhub')" 
+              ng-click="stop(container)">
                 Stop
               </button>
               <button class="btn btn-info btn-xs" ng-click="commit(container)">
@@ -47,7 +49,8 @@
               <button class="btn btn-primary btn-xs" ng-show="settings.advanced" ng-click="top(container)">
                 Top
               </button>
-              <button class="btn btn-danger btn-xs" ng-hide="isMe(container)" ng-click="remove(container)">
+              <button class="btn btn-danger btn-xs" ng-hide="imageFilter(container, 'alexagency/vmhub')" 
+              ng-click="remove(container)">
                 Remove
               </button>
             </td>

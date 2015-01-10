@@ -4,58 +4,44 @@ angular.module( 'vmhub.containers', [
 ])
 
 .controller( 'ContainersCtrl', 
-  function ContainersCtrl( $scope, $modal, Cookies, Container ) {
+  function ContainersCtrl( $scope, $rootScope, $modal, Cookies, Container ) {
 
   $scope.settings = Cookies.settings;
   $scope.searchThreshold = 10;
 
   $scope.update = function() {
     Container.query({}, function( containers ) {
-      $scope.containers = [];
+      $rootScope.containers = [];
       angular.forEach( containers, function( item ) {
-        if( advancedView(item) && imageName(item) ) {
+        if( advancedView(item, $scope.settings.filter) ) {
           this.push(item);
         }
-      }, $scope.containers );
+      }, $rootScope.containers );
     });
   };
   $scope.update();
   $scope.sort = '-Created';
 
-  var customFilter = function( data, search ) {
-    if( data.Image && data.Image.indexOf(search) != -1 ) {
-      return true;
-    }
-    return false;
-  };
-
-  var advancedView = function( data ) {
-    if( $scope.settings.advanced ) {
-      return true;
-    }
-    if( $scope.isVMHub(data) || $scope.isNone(data) ) {
-      return false;
-    }
-    return true;
-  };
-
-  var imageName = function( data ) {
-    var filters = $scope.settings.filter.split('|');
+  $scope.imageFilter = function( data, filters ) {
+    filters = filters.split('|');
+    var name = data.Image;
     var result = false;
     angular.forEach(filters, function( filter ) {
-      if( customFilter( data, filter ) ) {
+      if( filter.charAt(0) != '!' && 
+          name.indexOf(filter) != -1 ) {
         result = true;
+      } else if( name.indexOf(filter.slice(1)) != -1 ) {
+        result = false;
       }
     });
     return result;
   };
 
-  $scope.isNone = function( data ) {
-    return customFilter( data, '<none>' );
-  };
-
-  $scope.isMe = function( data ) {
-    return customFilter( data, 'alexagency/vmhub' );
+  var advancedView = function( data, filters ) {
+    if( !$scope.settings.advanced ) {
+      filters += '|!alexagency/vmhub';
+    }
+    return $scope.imageFilter(data, filters);
   };
 
   $scope.start = function( data ) {

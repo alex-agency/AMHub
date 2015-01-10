@@ -34,17 +34,17 @@
         <tbody>
           <tr ng-repeat="image in images | filter:search | orderBy:sort:reverse">
             <td>
-              <span class="badge" ng-hide="isNone(image) || isMe(image)">
+              <span class="badge" ng-hide="imageFilter(image, '<none>')">
                 {{ getContainersCount(image) }}
               </span>
-              <button class="btn btn-success btn-xs" ng-hide="isNone(image) || isMe(image)" 
+              <button class="btn btn-success btn-xs" ng-hide="imageFilter(image, '<none>|alexagency/vmhub')" 
                       ng-click="createContainer(image)">Create Container</button>
-              <button class="btn btn-danger btn-xs" ng-hide="isMe(image) || !settings.advanced"
+              <button class="btn btn-danger btn-xs" ng-hide="!settings.advanced || imageFilter(image, 'alexagency/vmhub')"
                       ng-click="remove(image)">Remove Image</button>
             </td>
             <td>
               <li ng-repeat='name in image.RepoTags'>
-                <a href ng-click="details(image)" ng-hide="isNone(image)">{{ name }}</a>
+                <a href ng-click="details(image)" ng-hide="imageFilter(image, '<none>')">{{ name }}</a>
               </li>
             </td>
             <td ng-show="settings.advanced">{{ image.VirtualSize | filesize }}</td>
