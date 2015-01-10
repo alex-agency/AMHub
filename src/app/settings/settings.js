@@ -5,7 +5,7 @@ angular.module( 'vmhub.settings', [
 ])
 
 .config( function config( $stateProvider ) {
-  var view = 'home';
+  var home = 'home';
   $stateProvider
     .state( 'settings', {
       url: 'settings',
@@ -13,9 +13,8 @@ angular.module( 'vmhub.settings', [
     })
     .state( 'settingsModal', {
       abstract: true,
-      parent: view,
-      url: '',
-      onEnter: function onEnter( $modal, $state ) {
+      parent: home,
+      onEnter: function onEnter( $modal, $state, $stateParams ) {
         $modal
           // handle modal open
           .open({
@@ -24,10 +23,9 @@ angular.module( 'vmhub.settings', [
           })
           .result.then( function() {
             // after clicking OK button
-            $state.transitionTo(view);
           }, function() {
             // after clicking Cancel button or clicking background
-            $state.transitionTo(view);
+            $state.transitionTo(home, $stateParams, { reload: true });
           });
       }
     })

@@ -5,8 +5,8 @@ angular.module( 'cookies', [
 .factory( 'Cookies', function( $cookieStore, $location ) {
   // default settings
   var settings = {
-    advanced: true,
-    filter: 'alex'
+    advanced: false,
+    filter: 'alex|vm'
   };
 
   var cookies = $cookieStore.get('settings');

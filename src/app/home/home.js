@@ -21,20 +21,69 @@ angular.module( 'vmhub.home', [
   $scope.settings = Cookies.settings;
 
   $scope.updateImages = function() {
-    Image.query({}, function( data ) {
-      $scope.images = data;
+    Image.query({}, function( images ) {
+      $scope.images = [];
+      angular.forEach( images, function( item ) {
+        if( advancedView(item) && imageName(item) ) {
+          this.push(item);
+        }
+      }, $scope.images );
     });
   };
   $scope.updateImages();
   $scope.sortImages = '-Created';
 
   $scope.updateContainers = function() {
-    Container.query({}, function( data ) {
-      $scope.containers = data;
+    Container.query({}, function( containers ) {
+      $scope.containers = [];
+      angular.forEach( containers, function( item ) {
+        if( advancedView(item) && imageName(item) ) {
+          this.push(item);
+        }
+      }, $scope.containers );
     });
   };
   $scope.updateContainers();
   $scope.sortContainers = '-Created';
+
+  var customFilter = function( data, search ) {
+    if( data.RepoTags && data.RepoTags[0].indexOf(search) != -1 ) {
+      return true;
+    }
+    if( data.Image && data.Image.indexOf(search) != -1 ) {
+      return true;
+    }
+    return false;
+  };
+
+  var advancedView = function( data ) {
+    if( $scope.settings.advanced ) {
+      return true;
+    }
+    if( $scope.isVMHub(data) || $scope.isNone(data) ) {
+      return false;
+    }
+    return true;
+  };
+
+  var imageName = function( data ) {
+    var filters = $scope.settings.filter.split('|');
+    var result = false;
+    angular.forEach(filters, function( filter ) {
+      if( customFilter( data, filter ) ) {
+        result = true;
+      }
+    });
+    return result;
+  };
+
+  $scope.isNone = function( data ) {
+    return customFilter( data, '<none>' );
+  };
+
+  $scope.isVMHub = function( data ) {
+    return customFilter( data, 'alexagency/vmhub' );
+  };
 
   $scope.createContainer = function( data ) {
     $scope.image = data;
@@ -125,21 +174,6 @@ angular.module( 'vmhub.home', [
       }
     }, imageContainers);
     return imageContainers.length;
-  };
-
-  $scope.isNone = function( data ) {
-    return data.RepoTags[0] == '<none>:<none>';
-  };
-
-  $scope.isVMHub = function( data ) {
-    if( data.RepoTags && 
-          data.RepoTags[0].indexOf('vmhub') != -1 ) {
-      return true;
-    }
-    if( data.Image && data.Image.indexOf('vmhub') != -1 ) {
-      return true;
-    }
-    return false;
   };
 
 })
