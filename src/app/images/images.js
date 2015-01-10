@@ -9,7 +9,7 @@ angular.module( 'vmhub.images', [
   $scope.settings = Cookies.settings;
   $scope.searchThreshold = 10;
 
-  $scope.update = function() {
+  $rootScope.updateImages = function() {
     Image.query({}, function( images ) {
       $rootScope.images = [];
       angular.forEach( images, function( item ) {
@@ -19,7 +19,7 @@ angular.module( 'vmhub.images', [
       }, $rootScope.images );
     });
   };
-  $scope.update();
+  $scope.updateImages();
   $scope.sort = '-Created';
 
   $scope.imageFilter = function( data, filters ) {
@@ -42,16 +42,6 @@ angular.module( 'vmhub.images', [
       filters += '|!<none>|!alexagency/vmhub';
     }
     return $scope.imageFilter(data, filters);
-  };
-
-  $scope.createContainer = function( data ) {
-    $scope.image = data;
-    $scope.containers = $scope.containers;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'createContainer/createContainer.tpl.html',
-      controller: 'CreateContainerCtrl'
-    });
   };
 
   $scope.remove = function( data ) {

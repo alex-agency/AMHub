@@ -9,7 +9,7 @@ angular.module( 'vmhub.containers', [
   $scope.settings = Cookies.settings;
   $scope.searchThreshold = 10;
 
-  $scope.update = function() {
+  $rootScope.updateContainers = function() {
     Container.query({}, function( containers ) {
       $rootScope.containers = [];
       angular.forEach( containers, function( item ) {
@@ -19,7 +19,7 @@ angular.module( 'vmhub.containers', [
       }, $rootScope.containers );
     });
   };
-  $scope.update();
+  $scope.updateContainers();
   $scope.sort = '-Created';
 
   $scope.imageFilter = function( data, filters ) {

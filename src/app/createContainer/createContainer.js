@@ -4,35 +4,54 @@ angular.module( 'vmhub.createContainer', [
   'cookies'
 ])
 
-.controller( 'CreateContainerCtrl', 
-  function CreateContainerCtrl( $scope, $modalInstance, $state, Container ) {
+.config( function config( $stateProvider ) {
+  var home = 'home';
+  $stateProvider
+    .state( 'createContainer', {
+      url: 'images/:name/create',
+      parent: 'createContainerModal'
+    })
+    .state( 'createContainerModal', {
+      abstract: true,
+      parent: home,
+      onEnter: function onEnter( $modal, $state ) {
+        $modal
+          // handle modal open
+          .open({
+            templateUrl: 'createContainer/createContainer.tpl.html',
+            controller: 'CreateContainerCtrl'
+          })
+          .result.then( function() {
+            // after clicking OK button
+            $state.transitionTo(home);
+          }, function() {
+            // after clicking Cancel button or clicking background
+            $state.transitionTo(home);
+          });
+      }
+    })
+  ;
+})
 
-  $scope.config = {
-    name: ''
-  };
+.controller( 'CreateContainerCtrl', 
+  function CreateContainerCtrl( $scope, $stateParams, Container ) {
 
   $scope.create = function () {
     Container.create({ 
-      Image: $scope.image.RepoTags[0],
-      name: $scope.config.name,
-      Hostname: $scope.config.name
+      Image: $stateParams.name,
+      name: $scope.name,
+      Hostname: $scope.name
     }, function( created ) {
-      Container.start({ id: created.Id }, function( started ) {
+      Container.start({ id: created.Id, PublishAllPorts: true }, function( started ) {
         //alert('Container created and started: '+started.id);
         $scope.updateContainers();
       });  
     });
-    $modalInstance.close();
+    $scope.$close();
   };
 
-  $scope.cancel = function () {
-    $modalInstance.dismiss();
-  };
-
-  $scope.onKeyPress = function($event) {
-    if($event.keyCode == 13) {
-        $scope.create();
-    }
+  $scope.close = function() {
+    $scope.$dismiss();
   };
 
 })

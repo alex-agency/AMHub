@@ -1,17 +1,17 @@
 <div class="modal-header">
-    <h3 class="modal-title"><i class="fa fa-files-o"></i> Create Container</h3>
+  <button class="close" ng-click="close()"><span>&times;</span></button>
+  <h3 class="modal-title"><i class="fa fa-files-o"></i> Create Container</h3>
 </div>
-<div class="modal-body" ng-keypress="onKeyPress($event)">
-  <form role="form">
-    <fieldset>
-      <div class="form-group">
-          <label>Name:</label>
-          <input type="text" class="form-control" ng-model="config.name"/>
-      </div>
-    </fieldset>
+<div class="modal-body" key-enter="create()">
+  <form>
+    <div class="form-group">
+      <label for="name" class="control-label">Name:</label>
+      <input type="text" class="form-control" id="name" 
+      placeholder="Enter name" ng-model="name">
+    </div>
   </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="create()">Create</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-default" ng-click="close()">Close</button>
+  <button class="btn btn-primary" ng-click="create()">Create</button>
 </div>

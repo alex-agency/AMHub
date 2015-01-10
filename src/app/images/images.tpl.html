@@ -37,10 +37,14 @@
               <span class="badge" ng-hide="imageFilter(image, '<none>')">
                 {{ getContainersCount(image) }}
               </span>
-              <button class="btn btn-success btn-xs" ng-hide="imageFilter(image, '<none>|alexagency/vmhub')" 
-                      ng-click="createContainer(image)">Create Container</button>
+              <button class="btn btn-success btn-xs" ng-hide="imageFilter(image, '<none>|alexagency/vmhub')"
+              ui-sref="createContainer({name: image.RepoTags[0]})">
+                Create Container
+              </button>
               <button class="btn btn-danger btn-xs" ng-hide="!settings.advanced || imageFilter(image, 'alexagency/vmhub')"
-                      ng-click="remove(image)">Remove Image</button>
+                      ng-click="remove(image)">
+                Remove Image
+              </button>
             </td>
             <td>
               <li ng-repeat='name in image.RepoTags'>

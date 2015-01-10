@@ -5,8 +5,8 @@
 <div class="modal-body" key-enter="close()">
   <form>
     <div class="form-group">
-      <label for="images-filter" class="control-label">Images Filter:</label>
-      <input type="text" class="form-control" id="images-filter" 
+      <label for="filter" class="control-label">Images Filter:</label>
+      <input type="text" class="form-control" id="filter" 
       placeholder="Enter filter" ng-model="settings.filter" ng-keyup="updateCookies()">
     </div>
     <div class="checkbox">
@@ -17,5 +17,5 @@
   </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-default" ng-click="close()">Close</button>
+  <button class="btn btn-default" ng-click="close()">Close</button>
 </div>

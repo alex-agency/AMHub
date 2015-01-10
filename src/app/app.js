@@ -9,9 +9,9 @@ angular.module( 'vmhub', [
   'vmhub.settings',
   'vmhub.images',
   'vmhub.containers',
-
-
   'vmhub.createContainer',
+
+  
   'vmhub.commitContainer',
   'vmhub.removeContainer',
   'vmhub.containerInfo',
