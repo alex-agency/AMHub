@@ -7,9 +7,17 @@ angular.module( 'vmhub.home', [
   $stateProvider.state( 'home', {
     url: '/',
     views: {
-      "main": {
+      "top": {
         controller: 'HomeCtrl',
         templateUrl: 'home/home.tpl.html'
+      },
+      "images": {
+        controller: 'ImagesCtrl',
+        templateUrl: 'images/images.tpl.html'
+      },
+      "containers": {
+        controller: 'ContainersCtrl',
+        templateUrl: 'containers/containers.tpl.html'
       }
     }
   });
@@ -17,164 +25,6 @@ angular.module( 'vmhub.home', [
 
 .controller( 'HomeCtrl', 
   function HomeCtrl( $scope, $modal, Cookies, Image, Container ) {
-
-  $scope.settings = Cookies.settings;
-
-  $scope.updateImages = function() {
-    Image.query({}, function( images ) {
-      $scope.images = [];
-      angular.forEach( images, function( item ) {
-        if( advancedView(item) && imageName(item) ) {
-          this.push(item);
-        }
-      }, $scope.images );
-    });
-  };
-  $scope.updateImages();
-  $scope.sortImages = '-Created';
-
-  $scope.updateContainers = function() {
-    Container.query({}, function( containers ) {
-      $scope.containers = [];
-      angular.forEach( containers, function( item ) {
-        if( advancedView(item) && imageName(item) ) {
-          this.push(item);
-        }
-      }, $scope.containers );
-    });
-  };
-  $scope.updateContainers();
-  $scope.sortContainers = '-Created';
-
-  var customFilter = function( data, search ) {
-    if( data.RepoTags && data.RepoTags[0].indexOf(search) != -1 ) {
-      return true;
-    }
-    if( data.Image && data.Image.indexOf(search) != -1 ) {
-      return true;
-    }
-    return false;
-  };
-
-  var advancedView = function( data ) {
-    if( $scope.settings.advanced ) {
-      return true;
-    }
-    if( $scope.isVMHub(data) || $scope.isNone(data) ) {
-      return false;
-    }
-    return true;
-  };
-
-  var imageName = function( data ) {
-    var filters = $scope.settings.filter.split('|');
-    var result = false;
-    angular.forEach(filters, function( filter ) {
-      if( customFilter( data, filter ) ) {
-        result = true;
-      }
-    });
-    return result;
-  };
-
-  $scope.isNone = function( data ) {
-    return customFilter( data, '<none>' );
-  };
-
-  $scope.isVMHub = function( data ) {
-    return customFilter( data, 'alexagency/vmhub' );
-  };
-
-  $scope.createContainer = function( data ) {
-    $scope.image = data;
-    $scope.containers = $scope.containers;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'createContainer/createContainer.tpl.html',
-      controller: 'CreateContainerCtrl'
-    });
-  };
-
-  $scope.removeImage = function( data ) {
-    $scope.image = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'removeImage/removeImage.tpl.html',
-      controller: 'RemoveImageCtrl'
-    });
-  };
-
-  $scope.startContainer = function( data ) {
-    Container.start({ id: data.Id }, function( container ) {
-      //alert('Container started: '+container.id);
-      $scope.updateContainers();
-    });
-  };
-
-  $scope.stopContainer = function( data ) {
-    Container.stop({ id: data.Id }, function( container ) {
-      //alert('Container stoped: '+container.id);
-      $scope.updateContainers();
-    });
-  };
-
-  $scope.commitContainer = function( data ) {
-    $scope.container = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'commitContainer/commitContainer.tpl.html',
-      controller: 'CommitContainerCtrl'
-    });
-  };
-
-  $scope.topContainer = function( data ) {
-    $scope.container = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'topContainer/topContainer.tpl.html',
-      controller: 'TopContainerCtrl',
-      windowClass: 'large-Modal'
-    });
-  };
-
-  $scope.removeContainer = function( data ) {
-    $scope.container = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'removeContainer/removeContainer.tpl.html',
-      controller: 'RemoveContainerCtrl'
-    });
-  };
-
-  $scope.containerInfo = function( data ) {
-    $scope.container = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'containerInfo/containerInfo.tpl.html',
-      controller: 'ContainerInfoCtrl',
-      windowClass: 'large-Modal'
-    });
-  };
-
-  $scope.imageInfo = function( data ) {
-    $scope.image = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'imageInfo/imageInfo.tpl.html',
-      controller: 'ImageInfoCtrl',
-      windowClass: 'large-Modal'
-    });
-  };
-
-  $scope.getContainersNumber = function( data ) {
-    var imageContainers = [];
-    angular.forEach($scope.containers, function( item ) {
-      if( item.Image == data.RepoTags[0] ) {
-        this.push(item);
-      }
-    }, imageContainers);
-    return imageContainers.length;
-  };
 
 })
 

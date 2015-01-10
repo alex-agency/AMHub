@@ -7,6 +7,8 @@ angular.module( 'vmhub', [
   'cookies',
   'vmhub.home',
   'vmhub.settings',
+  'vmhub.images',
+  'vmhub.containers',
 
 
   'vmhub.createContainer',

@@ -1,0 +1,65 @@
+<section id="containers">
+  <div class="page-header">
+    <h1> <i class="fa fa-th"></i>  Containers</h1>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" ng-hide="containers.length < searchThreshold">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+        <input ng-model="search" class="form-control" placeholder="Containers search for ...">
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Actions</th>
+            <th>Name</th>
+            <th>
+              <a href ng-click="sort='Status'; reverse=!reverse">
+                <i class="fa fa-sort"></i> Status
+              </a>
+            </th>
+            <th>
+              <a href ng-click="sort='Image'; reverse=!reverse">
+                <i class="fa fa-sort"></i> Image
+              </a>
+            </th>
+            <th>
+              <a href ng-click="sort='Created'; reverse=!reverse">
+                <i class="fa fa-sort"></i> Created
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="container in containers | filter:search | orderBy:sort:reverse">
+            <td>
+              <button class="btn btn-success btn-xs" ng-hide="isMe(container)" ng-click="start(container)">
+                Start
+              </button>
+              <button class="btn btn-warning btn-xs" ng-hide="isMe(container)" ng-click="stop(container)">
+                Stop
+              </button>
+              <button class="btn btn-info btn-xs" ng-click="commit(container)">
+                Commit
+              </button>
+              <button class="btn btn-primary btn-xs" ng-show="settings.advanced" ng-click="top(container)">
+                Top
+              </button>
+              <button class="btn btn-danger btn-xs" ng-hide="isMe(container)" ng-click="remove(container)">
+                Remove
+              </button>
+            </td>
+            <td>
+              <li ng-repeat='name in container.Names'><a href ng-click="details(container)">{{ name.slice(1) }}</a></li>
+            </td>
+            <td>{{ container.Status }}</td>
+            <td>{{ container.Image }}</td>
+            <td>{{ container.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

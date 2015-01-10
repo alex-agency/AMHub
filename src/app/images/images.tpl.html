@@ -1,0 +1,57 @@
+<section id="images">
+  <div class="page-header">
+    <h1> <i class="fa fa-sitemap"></i> Images</h1>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" ng-hide="images.length < searchThreshold">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+        <input ng-model="search" class="form-control" placeholder="Images search for ...">
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Actions</th>
+            <th>
+              <a href ng-click="sort='RepoTags'; reverse=!reverse">
+                <i class="fa fa-sort"></i> Name
+              </a>
+            </th>
+            <th ng-show="settings.advanced">
+              <a href ng-click="sort='VirtualSize'; reverse=!reverse">
+                <i class="fa fa-sort"></i> Size
+              </a>
+            </th>
+            <th>
+              <a href ng-click="sort='Created'; reverse=!reverse">
+                <i class="fa fa-sort"></i> Created
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="image in images | filter:search | orderBy:sort:reverse">
+            <td>
+              <span class="badge" ng-hide="isNone(image) || isMe(image)">
+                {{ getContainersCount(image) }}
+              </span>
+              <button class="btn btn-success btn-xs" ng-hide="isNone(image) || isMe(image)" 
+                      ng-click="createContainer(image)">Create Container</button>
+              <button class="btn btn-danger btn-xs" ng-hide="isMe(image) || !settings.advanced"
+                      ng-click="remove(image)">Remove Image</button>
+            </td>
+            <td>
+              <li ng-repeat='name in image.RepoTags'>
+                <a href ng-click="details(image)" ng-hide="isNone(image)">{{ name }}</a>
+              </li>
+            </td>
+            <td ng-show="settings.advanced">{{ image.VirtualSize | filesize }}</td>
+            <td>{{ image.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

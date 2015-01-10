@@ -1,5 +1,7 @@
 angular.module( 'vmhub.createContainer', [
-  'docker'
+  'ui.router',
+  'ui.bootstrap',
+  'cookies'
 ])
 
 .controller( 'CreateContainerCtrl', 
