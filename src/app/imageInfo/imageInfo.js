@@ -35,7 +35,7 @@ angular.module( 'vmhub.imageInfo', [
 })
 
 .controller( 'ImageInfoCtrl', 
-  function ImageInfoCtrl( $scope, $stateParams, Image ) {
+  function ImageInfoCtrl( $scope, $stateParams, Image, Container ) {
 
   $scope.image = Image.get({ id: $stateParams.name });
 

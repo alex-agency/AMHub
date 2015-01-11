@@ -4,34 +4,63 @@
 </div>
 <div class="modal-body" key-enter="close()">
   <div class="panel panel-default">
-    <div class="panel-heading">Details</div>
-    
-
-    <div class="panel-body">
-      <p>...</p>
-
-      <div>Created: {{ image.Created | date:'yyyy-MM-dd HH:mm:ss' }}</div>
-      <div>
-        Environment:  <ul>
-                        <li ng-repeat="k in image.Config.Env">{{ k }}</li>
-                      </ul>
-      </div>
-      <div>
-        Exposed ports:  <ul>
-                          <li ng-repeat="(k,v) in image.Config.ExposedPorts">{{ k }}</li>
-                        </ul>
-      </div>
-      <div>Hostname: {{ image.Config.Hostname }}</div>
-      <div>Volumes: {{ image.Config.Volumes }}</div>
-      <div>Size: {{ image.Size }}</div>
-      <div>Virtual size: {{ image.VirtualSize }}</div>
-
-
+    <div class="panel-heading">
+      <h3 class="panel-title">Details</h3>
     </div>
-
-    <ul class="list-group">
-      <li class="list-group-item">...</li>
-    </ul>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Created</th>
+            <td>{{ image.Created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+          <tr>
+            <th>Environment</th>
+            <td>
+              <ul style="display:inline-table">
+                <li ng-repeat="k in image.Config.Env">{{ k }}</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Exposed ports</th>
+            <td>
+              <ul style="display:inline-table">
+                <li ng-repeat="(k,v) in image.Config.ExposedPorts">{{ k }}</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Hostname</th>
+            <td>{{ image.Config.Hostname }}</td>
+          </tr>
+          <tr>
+            <th>Volumes</th>
+            <td>{{ image.Config.Volumes }}</td>
+          </tr>
+          <tr>
+            <th>Size</th>
+            <td>{{ image.Size }}</td>
+          </tr>
+          <tr>
+            <th>Virtual Size</th>
+            <td>{{ image.VirtualSize }}</td>
+          </tr>           
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Containers</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+        <li ng-repeat="container in imageContainers">
+          {{ container.Names[0].slice(1) }}
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 <div class="modal-footer">

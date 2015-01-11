@@ -5,16 +5,30 @@
   </h3>
 </div>
 <div class="modal-body" key-enter="remove()">
-  <form>
-    <label>Image:</label>
-    <pre>{{ image.RepoTags[0] }}</pre>
-    <label>Containers:</label>
-    <pre>
-      <span ng-repeat='container in imageContainers'>
-        {{ container.Names[0].slice(1) }}
-      </span>
-    </pre>
-  </form>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Image</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+        <li ng-repeat="name in image.RepoTags">
+          <a ui-sref="imageInfo({name: name})">{{ name }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Containers</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+        <li ng-repeat="container in imageContainers">
+          {{ container.Names[0].slice(1) }}
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 </div>
 <div class="modal-footer">
