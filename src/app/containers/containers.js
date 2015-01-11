@@ -46,20 +46,6 @@ angular.module( 'vmhub.containers', [
     return $scope.imageFilter(data, filters);
   };
 
-  $scope.start = function( data ) {
-    Container.start({ id: data.Id }, function() {
-      console.log('Container started.');
-      $scope.updateContainers();
-    });
-  };
-
-  $scope.stop = function( data ) {
-    Container.stop({ id: data.Id }, function() {
-      console.log('Container stoped.');
-      $scope.updateContainers();
-    });
-  };
-
 })
 
 ;

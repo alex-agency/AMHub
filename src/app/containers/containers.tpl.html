@@ -36,11 +36,11 @@
           <tr ng-repeat="container in containers | filter:search | orderBy:sort:reverse">
             <td>
               <button class="btn btn-success btn-xs" ng-hide="imageFilter(container, 'alexagency/vmhub')" 
-              ng-click="start(container)">
+              ui-sref="startContainer({name: container.Names[0].slice(1)})">
                 Start
               </button>
               <button class="btn btn-warning btn-xs" ng-hide="imageFilter(container, 'alexagency/vmhub')" 
-              ng-click="stop(container)">
+              ui-sref="stopContainer({name: container.Names[0].slice(1)})">
                 Stop
               </button>
               <button class="btn btn-info btn-xs" ui-sref="commitContainer({name: container.Names[0].slice(1)})">

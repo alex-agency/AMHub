@@ -4,6 +4,7 @@ angular.module( 'vmhub.commitContainer', [
   'docker'
 ])
 
+//http://stackoverflow.com/questions/24963410/angularjs-passing-data-to-a-stateprovider-onenter-function-to-populate-a-modal
 .config( function config( $stateProvider ) {
   var home = 'home';
   $stateProvider
