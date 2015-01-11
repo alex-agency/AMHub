@@ -16,8 +16,7 @@ angular.module( 'vmhub', [
   
   
   'vmhub.commitContainer',
-  'vmhub.removeContainer',
-  'vmhub.topContainer'
+  'vmhub.removeContainer'
 ])
 
 .config( function myAppConfig ( $locationProvider, $urlRouterProvider ) {

@@ -69,16 +69,6 @@ angular.module( 'vmhub.containers', [
     });
   };
 
-  $scope.top = function( data ) {
-    $scope.container = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'topContainer/topContainer.tpl.html',
-      controller: 'TopContainerCtrl',
-      windowClass: 'large-Modal'
-    });
-  };
-
   $scope.remove = function( data ) {
     $scope.container = data;
     $modal.open({

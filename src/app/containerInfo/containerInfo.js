@@ -38,12 +38,14 @@ angular.module( 'vmhub.containerInfo', [
   function ContainerInfoCtrl( $scope, $stateParams, $location, Container ) {
 
   $scope.container = {};
+  $scope.top = {};
   Container.query({}, function( containers ) {
     for (var i in containers) {
       var names = containers[i].Names;
       for (var j in names) {
         if( names[j].slice(1) == $stateParams.name ) {
           $scope.container = Container.get({ id: containers[i].Id });
+          $scope.top = Container.top({ id: containers[i].Id });
           break;
         }
       }
