@@ -1,16 +1,61 @@
 angular.module( 'vmhub.removeImage', [
+  'ui.router',
+  'ui.bootstrap',
   'docker'
 ])
 
-.controller( 'RemoveImageCtrl', 
-  function RemoveImageCtrl( $scope, $modalInstance, $state, Image, Container ) {
+.config( function config( $stateProvider ) {
+  var home = 'home';
+  $stateProvider
+    .state( 'removeImage', {
+      url: 'images/:name/remove',
+      parent: 'removeImageModal'
+    })
+    .state( 'removeImageModal', {
+      abstract: true,
+      parent: home,
+      onEnter: function onEnter( $modal, $state ) {
+        $modal
+          // handle modal open
+          .open({
+            templateUrl: 'removeImage/removeImage.tpl.html',
+            controller: 'RemoveImageCtrl'
+          })
+          .result.then( function() {
+            // after clicking OK button
+            $state.transitionTo(home);
+          }, function() {
+            // after clicking Cancel button or clicking background
+            $state.transitionTo(home);
+          });
+      }
+    })
+  ;
+})
 
-  $scope.imageContainers = [];
-  angular.forEach($scope.containers, function( item ) {
-    if( item.Image == $scope.image.RepoTags[0] ) {
-      this.push(item);
+.controller( 'RemoveImageCtrl', 
+  function RemoveImageCtrl( $scope, $stateParams, Image, Container ) {
+
+  Image.query({}, function( images ) {
+    for (var i in images) {
+      var names = images[i].RepoTags;
+      for (var j in names) {
+        if( names[j] == $stateParams.name ) {
+          $scope.image = images[i];
+          break;
+        }
+      }
     }
-  }, $scope.imageContainers);
+  });
+  
+  $scope.imageContainers = [];
+  Container.query({}, function( containers ) {
+    for (var i in containers) {
+      if( containers[i].Image == $stateParams.name ) {
+        $scope.imageContainers.push(containers[i]);
+      }
+    }
+  });
 
   var removeContainers = function() {
     angular.forEach($scope.imageContainers, function( item ) {
@@ -27,9 +72,9 @@ angular.module( 'vmhub.removeImage', [
 
   var removeImage = function() {
     Image.remove({ id: $scope.image.Id }, function( data ) {
-      angular.forEach(data, function( item ) {
-        //alert('Image removed: '+ item.Deleted);
-      });
+      for (var i in data) {
+        //alert('Image removed: ');
+      }
       $scope.updateImages();
     });
   };
@@ -40,17 +85,11 @@ angular.module( 'vmhub.removeImage', [
     } else {
       removeImage();
     }
-    $modalInstance.close();
+    $scope.$close();
   };
 
-  $scope.cancel = function () {
-    $modalInstance.dismiss();
-  };
-
-  $scope.onKeyPress = function($event) {
-    if($event.keyCode == 13) {
-        $scope.create();
-    }
+  $scope.close = function() {
+    $scope.$dismiss();
   };
 
 })

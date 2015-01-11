@@ -23,18 +23,20 @@ angular.module( 'vmhub.containers', [
   $scope.sort = '-Created';
 
   $scope.imageFilter = function( data, filters ) {
-    filters = filters.split('|');
+    if( !data.Image ) {
+      return false;
+    }
     var name = data.Image;
-    var result = false;
-    angular.forEach(filters, function( filter ) {
-      if( filter.charAt(0) != '!' && 
-          name.indexOf(filter) != -1 ) {
-        result = true;
-      } else if( name.indexOf(filter.slice(1)) != -1 ) {
-        result = false;
+    filters = filters.split('|');
+    for (var i in filters) {
+      if( filters[i].charAt(0) != '!' && 
+          name.indexOf(filters[i]) != -1 ) {
+        return true;
+      } else if( name.indexOf(filters[i].slice(1)) != -1 ) {
+        return false;
       }
-    });
-    return result;
+    }
+    return false;
   };
 
   var advancedView = function( data, filters ) {

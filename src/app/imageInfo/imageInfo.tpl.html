@@ -1,9 +1,12 @@
 <div class="modal-header">
-    <h3 class="modal-title"><i class="fa fa-info-circle"></i> Image</h3>
+  <button class="close" ng-click="close()"><span>&times;</span></button>
+  <h3 class="modal-title"><i class="fa fa-info-circle"></i> Image</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body" key-enter="close()">
   <div class="panel panel-default">
-    <div class="panel-heading">Panel heading</div>
+    <div class="panel-heading">Details</div>
+    
+
     <div class="panel-body">
       <p>...</p>
 
@@ -25,11 +28,12 @@
 
 
     </div>
+
     <ul class="list-group">
       <li class="list-group-item">...</li>
     </ul>
   </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="close()">Close</button>
+  <button class="btn btn-default" ng-click="close()">Close</button>
 </div>

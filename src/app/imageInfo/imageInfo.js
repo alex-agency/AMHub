@@ -1,14 +1,55 @@
 angular.module( 'vmhub.imageInfo', [
+  'ui.router',
+  'ui.bootstrap',
   'docker'
 ])
 
+.config( function config( $stateProvider ) {
+  var home = 'home';
+  $stateProvider
+    .state( 'imageInfo', {
+      url: 'images/:name',
+      parent: 'imageInfoModal'
+    })
+    .state( 'imageInfoModal', {
+      abstract: true,
+      parent: home,
+      onEnter: function onEnter( $modal, $state ) {
+        $modal
+          // handle modal open
+          .open({
+            templateUrl: 'imageInfo/imageInfo.tpl.html',
+            controller: 'ImageInfoCtrl',
+            size: 'lg'
+            //windowClass: 'large-Modal'
+          })
+          .result.then( function() {
+            // after clicking OK button
+          }, function() {
+            // after clicking Cancel button or clicking background
+            $state.transitionTo(home);
+          });
+      }
+    })
+  ;
+})
+
 .controller( 'ImageInfoCtrl', 
-  function ImageInfoCtrl( $scope, $modalInstance, $state, $location, Image ) {
+  function ImageInfoCtrl( $scope, $stateParams, Image ) {
 
-  $scope.image = Image.get({ id: $scope.image.RepoTags[0] });
+  $scope.image = Image.get({ id: $stateParams.name });
 
-  $scope.close = function () {
-    $modalInstance.close();
+  $scope.imageContainers = [];
+  Container.query({}, function( containers ) {
+    for (var i in containers) {
+      if( containers[i].Image == $stateParams.name ) {
+        $scope.imageContainers.push(containers[i]);
+      }
+    }
+  });
+
+  $scope.close = function() {
+    $scope.$dismiss();
   };
 
 })

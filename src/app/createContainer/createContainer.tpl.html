@@ -3,11 +3,13 @@
   <h3 class="modal-title"><i class="fa fa-files-o"></i> Create Container</h3>
 </div>
 <div class="modal-body" key-enter="create()">
-  <form>
+  <form class="form-horizontal">
     <div class="form-group">
-      <label for="name" class="control-label">Name:</label>
-      <input type="text" class="form-control" id="name" 
-      placeholder="Enter name" ng-model="name">
+      <label for="name" class="col-lg-2 control-label">Name</label>
+      <div class="col-lg-10"> 
+        <input type="text" class="form-control" id="name" 
+        placeholder="Enter name" ng-model="name">
+      </div>
     </div>
   </form>
 </div>

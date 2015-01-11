@@ -3,16 +3,30 @@
   <h3 class="modal-title"><i class="fa fa-cog"></i> Settings</h3>
 </div>
 <div class="modal-body" key-enter="close()">
-  <form>
+  <form class="form-horizontal">
     <div class="form-group">
-      <label for="filter" class="control-label">Images Filter:</label>
-      <input type="text" class="form-control" id="filter" 
-      placeholder="Enter filter" ng-model="settings.filter" ng-keyup="updateCookies()">
+      <label for="filter" class="col-lg-2 control-label">Filter</label>
+      <div class="col-lg-10"> 
+        <input type="text" class="form-control" id="filter" 
+        placeholder="Enter filter" ng-model="settings.filter" ng-change="updateCookies()">
+      </div>
     </div>
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" ng-model="settings.advanced" ng-click="updateCookies()"> Advanced View
-      </label>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">View</label>
+      <div class="col-lg-10">
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="settings.advanced" ng-value="false" ng-change="updateCookies()">
+            Simple view
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" ng-model="settings.advanced" ng-value="true" ng-change="updateCookies()">
+            Advanced view
+          </label>
+        </div>
+      </div>
     </div>
   </form>
 </div>

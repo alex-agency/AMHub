@@ -1,17 +1,23 @@
-<div class="modal-header">
+<div class="modal-header modal-danger">
+  <button class="close" ng-click="close()"><span>&times;</span></button>
   <h3 class="modal-title">
-    <i class="fa fa-exclamation-triangle"></i> Remove Image and all its Containers
+    <i class="fa fa-exclamation-triangle"></i> Remove Image and its Containers
   </h3>
 </div>
-<div class="modal-body" ng-keypress="onKeyPress($event)">
-
-  <h4>Image: {{ image.RepoTags[0] }}</h2>
-  <h4 ng-repeat="container in imageContainers">Container: {{ container.Names[0].slice(1) }}</h4>
-
-  <p>Are you sure?</p>
-
+<div class="modal-body" key-enter="remove()">
+  <form>
+    <label>Image:</label>
+    <pre>{{ image.RepoTags[0] }}</pre>
+    <label>Containers:</label>
+    <pre>
+      <span ng-repeat='container in imageContainers'>
+        {{ container.Names[0].slice(1) }}
+      </span>
+    </pre>
+  </form>
+</div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-danger" ng-click="remove()">Remove</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-default" ng-click="close()">Close</button>
+  <button class="btn btn-danger" ng-click="remove()">Remove</button>
 </div>

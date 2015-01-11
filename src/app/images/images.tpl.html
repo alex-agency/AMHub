@@ -42,13 +42,16 @@
                 Create Container
               </button>
               <button class="btn btn-danger btn-xs" ng-hide="!settings.advanced || imageFilter(image, 'alexagency/vmhub')"
-                      ng-click="remove(image)">
+              ui-sref="removeImage({name: image.RepoTags[0]})">
                 Remove Image
               </button>
             </td>
             <td>
               <li ng-repeat='name in image.RepoTags'>
-                <a href ng-click="details(image)" ng-hide="imageFilter(image, '<none>')">{{ name }}</a>
+                <a ui-sref="imageInfo({name: name})" ng-hide="!settings.advanced || imageFilter(image, '<none>')">
+                  {{ name }}
+                </a>
+                <span ng-hide="settings.advanced || imageFilter(image, '<none>')">{{ name }}</span> 
               </li>
             </td>
             <td ng-show="settings.advanced">{{ image.VirtualSize | filesize }}</td>

@@ -1,7 +1,7 @@
 angular.module( 'vmhub.createContainer', [
   'ui.router',
   'ui.bootstrap',
-  'cookies'
+  'docker'
 ])
 
 .config( function config( $stateProvider ) {
@@ -42,7 +42,8 @@ angular.module( 'vmhub.createContainer', [
       name: $scope.name,
       Hostname: $scope.name
     }, function( created ) {
-      Container.start({ id: created.Id, PublishAllPorts: true }, function( started ) {
+      Container.start({ id: created.Id, PublishAllPorts: true }, 
+      function( started ) {
         //alert('Container created and started: '+started.id);
         $scope.updateContainers();
       });  

@@ -23,18 +23,20 @@ angular.module( 'vmhub.images', [
   $scope.sort = '-Created';
 
   $scope.imageFilter = function( data, filters ) {
-    filters = filters.split('|');
+    if( !data.RepoTags ) {
+      return false;
+    }
     var name = data.RepoTags[0];
-    var result = false;
-    angular.forEach(filters, function( filter ) {
-      if( filter.charAt(0) != '!' && 
-          name.indexOf(filter) != -1 ) {
-        result = true;
-      } else if( name.indexOf(filter.slice(1)) != -1 ) {
-        result = false;
+    filters = filters.split('|');
+    for (var i in filters) {
+      if( filters[i].charAt(0) != '!' && 
+          name.indexOf(filters[i]) != -1 ) {
+        return true;
+      } else if( name.indexOf(filters[i].slice(1)) != -1 ) {
+        return false;
       }
-    });
-    return result;
+    }
+    return false;
   };
 
   var advancedView = function( data, filters ) {
@@ -44,32 +46,13 @@ angular.module( 'vmhub.images', [
     return $scope.imageFilter(data, filters);
   };
 
-  $scope.remove = function( data ) {
-    $scope.image = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'removeImage/removeImage.tpl.html',
-      controller: 'RemoveImageCtrl'
-    });
-  };
-
-  $scope.details = function( data ) {
-    $scope.image = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'imageInfo/imageInfo.tpl.html',
-      controller: 'ImageInfoCtrl',
-      windowClass: 'large-Modal'
-    });
-  };
-
   $scope.getContainersCount = function( data ) {
     var containers = [];
-    angular.forEach($scope.containers, function( item ) {
-      if( item.Image == data.RepoTags[0] ) {
-        this.push(item);
+    for (var i in $scope.containers) {
+      if( $scope.containers[i].Image == data.RepoTags[0] ) {
+        containers.push($scope.containers[i]);
       }
-    }, containers);
+    }
     return containers.length;
   };
 

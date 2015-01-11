@@ -9,20 +9,20 @@ angular.module( 'vmhub', [
   'vmhub.settings',
   'vmhub.images',
   'vmhub.containers',
+  'vmhub.imageInfo',
   'vmhub.createContainer',
+  'vmhub.removeImage',
 
   
   'vmhub.commitContainer',
   'vmhub.removeContainer',
   'vmhub.containerInfo',
-  'vmhub.topContainer',
-  'vmhub.removeImage',
-  'vmhub.imageInfo'
+  'vmhub.topContainer'
 ])
 
 .config( function myAppConfig ( $locationProvider, $urlRouterProvider ) {
   // use the HTML5 History API
-  $locationProvider.html5Mode({ enabled: true, requireBase: false });
+  $locationProvider.html5Mode({ enabled: false, requireBase: false });
   // redirect any unmatched url
   $urlRouterProvider.otherwise( '/' );
 })
