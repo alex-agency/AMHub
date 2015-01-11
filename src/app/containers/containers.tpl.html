@@ -43,11 +43,11 @@
               ng-click="stop(container)">
                 Stop
               </button>
-              <button class="btn btn-info btn-xs" ng-click="commit(container)">
+              <button class="btn btn-info btn-xs" ui-sref="commitContainer({name: container.Names[0].slice(1)})">
                 Commit
               </button>
               <button class="btn btn-danger btn-xs" ng-hide="imageFilter(container, 'alexagency/vmhub')" 
-              ng-click="remove(container)">
+              ui-sref="removeContainer({name: container.Names[0].slice(1)})">
                 Remove
               </button>
             </td>

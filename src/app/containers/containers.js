@@ -47,34 +47,16 @@ angular.module( 'vmhub.containers', [
   };
 
   $scope.start = function( data ) {
-    Container.start({ id: data.Id }, function( container ) {
-      //alert('Container started: '+container.id);
-      $scope.update();
+    Container.start({ id: data.Id }, function() {
+      console.log('Container started.');
+      $scope.updateContainers();
     });
   };
 
   $scope.stop = function( data ) {
-    Container.stop({ id: data.Id }, function( container ) {
-      //alert('Container stoped: '+container.id);
-      $scope.update();
-    });
-  };
-
-  $scope.commit = function( data ) {
-    $scope.container = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'commitContainer/commitContainer.tpl.html',
-      controller: 'CommitContainerCtrl'
-    });
-  };
-
-  $scope.remove = function( data ) {
-    $scope.container = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'removeContainer/removeContainer.tpl.html',
-      controller: 'RemoveContainerCtrl'
+    Container.stop({ id: data.Id }, function() {
+      console.log('Container stoped.');
+      $scope.updateContainers();
     });
   };
 

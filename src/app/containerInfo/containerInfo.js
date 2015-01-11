@@ -21,7 +21,6 @@ angular.module( 'vmhub.containerInfo', [
             templateUrl: 'containerInfo/containerInfo.tpl.html',
             controller: 'ContainerInfoCtrl',
             size: 'lg'
-            //windowClass: 'large-Modal'
           })
           .result.then( function() {
             // after clicking OK button

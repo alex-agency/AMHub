@@ -2,17 +2,22 @@
   <button class="close" ng-click="close()"><span>&times;</span></button>
   <h3 class="modal-title"><i class="fa fa-trash"></i> Remove Container</h3>
 </div>
-<div class="modal-body">
-  <!--form>
-    <div class="form-group">
-      <label for="recipient-name" class="control-label">Recipient:</label>
-      <input type="text" class="form-control" id="recipient-name">
-    </div>
-  </form-->
-  <p ng-repeat="container in imageContainers">Container: {{ container.Names[0].slice(1) }}</p>
+<div class="modal-body" key-enter="remove()">
 
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Container</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+        <li ng-repeat="name in container.Names">
+          <a ui-sref="containerInfo({name: name.slice(1)})">{{ name.slice(1) }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-default" ng-click="close()">Close</button>
-    <button class="btn btn-danger" ng-click="remove()">Remove</button>
+  <button class="btn btn-default" ng-click="close()">Close</button>
+  <button class="btn btn-danger" ng-click="remove()">Remove</button>
 </div>

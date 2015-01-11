@@ -39,7 +39,6 @@ angular.module( 'vmhub.settings', [
 
   $scope.close = function() {
     $scope.$dismiss();
-    //$scope.$close(true);
   };
 })
 

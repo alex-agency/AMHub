@@ -21,7 +21,6 @@ angular.module( 'vmhub.imageInfo', [
             templateUrl: 'imageInfo/imageInfo.tpl.html',
             controller: 'ImageInfoCtrl',
             size: 'lg'
-            //windowClass: 'large-Modal'
           })
           .result.then( function() {
             // after clicking OK button

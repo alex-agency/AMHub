@@ -36,7 +36,7 @@ angular.module( 'vmhub.createContainer', [
 .controller( 'CreateContainerCtrl', 
   function CreateContainerCtrl( $scope, $stateParams, Container ) {
 
-  $scope.create = function () {
+  $scope.create = function() {
     Container.create({ 
       Image: $stateParams.name,
       name: $scope.name,
@@ -44,7 +44,7 @@ angular.module( 'vmhub.createContainer', [
     }, function( created ) {
       Container.start({ id: created.Id, PublishAllPorts: true }, 
       function( started ) {
-        //alert('Container created and started: '+started.id);
+        console.log('Container created and started: '+started.id);
         $scope.updateContainers();
       });  
     });

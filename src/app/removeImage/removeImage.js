@@ -60,9 +60,9 @@ angular.module( 'vmhub.removeImage', [
   var removeContainers = function() {
     angular.forEach($scope.imageContainers, function( item ) {
       Container.stop({ id: item.Id }, function() {
-        //alert('Container stoped: ');
+        console.log('Container stoped.');
         Container.remove({ id: item.Id}, function() {
-          //alert('Container removed: ');
+          console.log('Container removed.');
           $scope.updateContainers();
           removeImage();
         });
@@ -73,7 +73,7 @@ angular.module( 'vmhub.removeImage', [
   var removeImage = function() {
     Image.remove({ id: $scope.image.Id }, function( data ) {
       for (var i in data) {
-        //alert('Image removed: ');
+        console.log('Image removed.');
       }
       $scope.updateImages();
     });
