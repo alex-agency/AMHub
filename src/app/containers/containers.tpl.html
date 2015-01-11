@@ -55,7 +55,9 @@
               </button>
             </td>
             <td>
-              <li ng-repeat='name in container.Names'><a href ng-click="details(container)">{{ name.slice(1) }}</a></li>
+              <li ng-repeat='name in container.Names'>
+                <a ui-sref="containerInfo({name: name.slice(1)})">{{ name.slice(1) }}</a>
+              </li>
             </td>
             <td>{{ container.Status }}</td>
             <td>{{ container.Image }}</td>

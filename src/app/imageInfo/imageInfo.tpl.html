@@ -36,7 +36,11 @@
           </tr>
           <tr>
             <th>Volumes</th>
-            <td>{{ image.Config.Volumes }}</td>
+            <td>
+              <ul style="display:inline-table">
+                <li ng-repeat="(k,v) in image.Config.Volumes">{{ k }} -> {{ v }}</li>
+              </ul>
+            </td>
           </tr>
           <tr>
             <th>Size</th>
@@ -57,7 +61,9 @@
     <div class="panel-body">
       <ul>
         <li ng-repeat="container in imageContainers">
-          {{ container.Names[0].slice(1) }}
+          <a ui-sref="containerInfo({name: container.Names[0].slice(1)})">
+            {{ container.Names[0].slice(1) }}
+          </a>
         </li>
       </ul>
     </div>

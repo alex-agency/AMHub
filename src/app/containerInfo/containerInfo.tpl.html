@@ -1,49 +1,78 @@
 <div class="modal-header">
-    <h3 class="modal-title"><i class="fa fa-info-circle"></i> Container</h3>
+  <button class="close" ng-click="close()"><span>&times;</span></button>
+  <h3 class="modal-title"><i class="fa fa-info-circle"></i> Container</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body" key-enter="close()">
   <div class="panel panel-default">
-    <div class="panel-heading">Panel heading</div>
-    <div class="panel-body">
-      <p>...</p>
-
-      <div>Name: {{ container.Name.slice(1) }}</div>
-      <div>Created: {{ container.Created | date:'yyyy-MM-dd HH:mm:ss' }}</div>
-      <div>Started: {{ container.State.StartedAt | date:'yyyy-MM-dd HH:mm:ss' }}</div>
-      <div>Hostname: {{ container.Config.Hostname }}</div>
-      <div>
-        Ports:  <ul style="display:inline-table">
-                  <li ng-repeat="(containerport, hostports) in container.NetworkSettings.Ports">
-                      <span ng-repeat="(k,v) in hostports">{{ v.HostIp }}:{{ v.HostPort }}</span> -> {{ containerport }}
-                      
-                      <button class="btn btn-success btn-xs" style="margin-bottom:2px" 
-                      ng-show="(containerport=='3389/tcp')?true:false" 
-                      ng-click="connectRDP(hostports[0].HostPort)">RDP Connect</button>
-                      
-                      <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
-                      ng-show="(containerport=='80/tcp' || containerport=='8080/tcp')?true:false"
-                      ng-click="open(hostports[0].HostPort)" target="_blank" ng-href="{{targeturl}}">HTTP Connect</a>
-                  </li>
-                </ul>
-      </div>
-      <div>Path: {{ container.Path }}</div>
-      <div>
-        Environment:  <ul>
-                          <li ng-repeat="k in container.Config.Env">{{ k }}</li>
-                      </ul>
-      </div>
-      <div>
-        Volumes:  <ul>
-                      <li ng-repeat="(k,v) in container.Volumes">{{ k }} -> {{ v }}</li>
-                  </ul>
-      </div>
-
+    <div class="panel-heading">
+      <h3 class="panel-title">Details</h3>
     </div>
-    <ul class="list-group">
-      <li class="list-group-item">...</li>
-    </ul>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <td>{{ container.Name.slice(1) }}</td>
+          </tr>
+          <tr>
+            <th>Created</th>
+            <td>{{ container.Created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+          <tr>
+            <th>Started</th>
+            <td>{{ container.State.StartedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          </tr>
+          <tr>
+            <th>Hostname</th>
+            <td>{{ container.Config.Hostname }}</td>
+          </tr>
+          <tr>
+            <th>Ports</th>
+            <td>
+              <ul style="display:inline-table">
+                <li ng-repeat="(c, h) in container.NetworkSettings.Ports">
+                  <span ng-repeat="(k,v) in h">{{ v.HostIp }}:{{ v.HostPort }}</span> -> {{ c }}
+                  
+                  <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
+                  ng-show="(c=='3389/tcp')?true:false" 
+                  ng-click="connectRDP(h[0].HostPort)">RDP Connect</a>
+                  
+                  <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
+                  ng-show="(c=='80/tcp' || c=='8080/tcp' || c=='9019/tcp')?true:false"
+                  ng-click="connectHTTP(h[0].HostPort)" target="_blank" ng-href="{{targeturl}}">HTTP Connect</a>
+
+                  <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
+                  ng-show="(c=='443/tcp' || c=='8443/tcp')?true:false"
+                  ng-click="connectHTTPS(h[0].HostPort)" target="_blank" ng-href="{{targeturl}}">HTTPS Connect</a>
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Path</th>
+            <td>{{ container.Path }}</td>
+          </tr>
+          <tr>
+            <th>Environment</th>
+            <td>
+              <ul style="display:inline-table">
+                <li ng-repeat="k in container.Config.Env">{{ k }}</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Volumes</th>
+            <td>
+              <ul style="display:inline-table">
+                <li ng-repeat="(k,v) in container.Volumes">{{ k }} -> {{ v }}</li>
+              </ul>
+            </td>
+          </tr>          
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="close()">Close</button>
+  <button class="btn btn-default" ng-click="close()">Close</button>
 </div>

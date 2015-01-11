@@ -12,11 +12,11 @@ angular.module( 'vmhub', [
   'vmhub.imageInfo',
   'vmhub.createContainer',
   'vmhub.removeImage',
-
+  'vmhub.containerInfo',
+  
   
   'vmhub.commitContainer',
   'vmhub.removeContainer',
-  'vmhub.containerInfo',
   'vmhub.topContainer'
 ])
 

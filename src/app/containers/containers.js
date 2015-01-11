@@ -88,16 +88,6 @@ angular.module( 'vmhub.containers', [
     });
   };
 
-  $scope.details = function( data ) {
-    $scope.container = data;
-    $modal.open({
-      scope: $scope,
-      templateUrl: 'containerInfo/containerInfo.tpl.html',
-      controller: 'ContainerInfoCtrl',
-      windowClass: 'large-Modal'
-    });
-  };
-
 })
 
 ;

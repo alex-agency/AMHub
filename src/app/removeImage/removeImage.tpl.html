@@ -24,7 +24,9 @@
     <div class="panel-body">
       <ul>
         <li ng-repeat="container in imageContainers">
-          {{ container.Names[0].slice(1) }}
+          <a ui-sref="containerInfo({name: container.Names[0].slice(1)})">
+            {{ container.Names[0].slice(1) }}
+          </a>
         </li>
       </ul>
     </div>
