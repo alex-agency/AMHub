@@ -9,10 +9,6 @@ angular.module( 'vmhub.settings', [
   $stateProvider
     .state( 'settings', {
       url: 'settings',
-      parent: 'settingsModal'
-    })
-    .state( 'settingsModal', {
-      abstract: true,
       parent: home,
       onEnter: function onEnter( $modal, $state, $stateParams ) {
         $modal

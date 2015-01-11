@@ -9,10 +9,6 @@ angular.module( 'vmhub.imageInfo', [
   $stateProvider
     .state( 'imageInfo', {
       url: 'images/:name',
-      parent: 'imageInfoModal'
-    })
-    .state( 'imageInfoModal', {
-      abstract: true,
       parent: home,
       onEnter: function onEnter( $modal, $state ) {
         $modal

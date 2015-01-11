@@ -9,10 +9,6 @@ angular.module( 'vmhub.containerInfo', [
   $stateProvider
     .state( 'containerInfo', {
       url: 'containers/:name',
-      parent: 'containerInfoModal'
-    })
-    .state( 'containerInfoModal', {
-      abstract: true,
       parent: home,
       onEnter: function onEnter( $modal, $state ) {
         $modal
@@ -28,6 +24,54 @@ angular.module( 'vmhub.containerInfo', [
             // after clicking Cancel button or clicking background
             $state.transitionTo(home);
           });
+      }
+    })
+    .state( 'startContainer', {
+      url: 'containers/:name/start',
+      parent: 'home',
+      onEnter: function onEnter( $rootScope, $state, $stateParams, Container ) {
+        Container.query({}, function( containers ) {
+          for (var i in containers) {
+            var names = containers[i].Names;
+            for (var j in names) {
+              if( names[j].slice(1) == $stateParams.name ) {
+                start( containers[i] );
+                break;
+              }
+            }
+          }
+        });
+        var start = function( data ) {
+          Container.start({ id: data.Id, PublishAllPorts: true }, function() {
+            console.log('Container started.');
+            $rootScope.updateContainers();
+          });
+        };
+        $state.transitionTo('home');
+      }
+    })
+    .state( 'stopContainer', {
+      url: 'containers/:name/stop',
+      parent: 'home',
+      onEnter: function onEnter( $rootScope, $state, $stateParams, Container ) {
+        Container.query({}, function( containers ) {
+          for (var i in containers) {
+            var names = containers[i].Names;
+            for (var j in names) {
+              if( names[j].slice(1) == $stateParams.name ) {
+                stop( containers[i] );
+                break;
+              }
+            }
+          }
+        });
+        var stop = function( data ) {
+          Container.stop({ id: data.Id }, function() {
+            console.log('Container stopped.');
+            $rootScope.updateContainers();
+          });
+        };
+        $state.transitionTo('home');
       }
     })
   ;

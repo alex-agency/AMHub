@@ -9,10 +9,6 @@ angular.module( 'vmhub.removeContainer', [
   $stateProvider
     .state( 'removeContainer', {
       url: 'containers/:name/remove',
-      parent: 'removeContainerModal'
-    })
-    .state( 'removeContainerModal', {
-      abstract: true,
       parent: home,
       onEnter: function onEnter( $modal, $state ) {
         $modal

@@ -9,10 +9,6 @@ angular.module( 'vmhub.createContainer', [
   $stateProvider
     .state( 'createContainer', {
       url: 'images/:name/create',
-      parent: 'createContainerModal'
-    })
-    .state( 'createContainerModal', {
-      abstract: true,
       parent: home,
       onEnter: function onEnter( $modal, $state ) {
         $modal

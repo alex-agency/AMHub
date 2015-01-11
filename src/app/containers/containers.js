@@ -3,6 +3,20 @@ angular.module( 'vmhub.containers', [
   'docker'
 ])
 
+.config(function config( $stateProvider ) {
+  $stateProvider
+    .state( 'containers', {
+      url: '/containers',
+      views: {
+        "containers": {
+          controller: 'ContainersCtrl',
+          templateUrl: 'containers/containers.tpl.html'
+        }
+      }
+    })
+  ;
+})
+
 .controller( 'ContainersCtrl', 
   function ContainersCtrl( $scope, $rootScope, $modal, Cookies, Container ) {
 

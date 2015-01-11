@@ -9,10 +9,6 @@ angular.module( 'vmhub.removeImage', [
   $stateProvider
     .state( 'removeImage', {
       url: 'images/:name/remove',
-      parent: 'removeImageModal'
-    })
-    .state( 'removeImageModal', {
-      abstract: true,
       parent: home,
       onEnter: function onEnter( $modal, $state ) {
         $modal
