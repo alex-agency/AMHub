@@ -1,4 +1,4 @@
-angular.module( 'vmhub.settings', [
+angular.module( 'amhub.settings', [
   'ui.router',
   'ui.bootstrap',
   'cookies'

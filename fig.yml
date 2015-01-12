@@ -1,4 +1,4 @@
-vmhub:
+amhub:
     build: ./
     ports:
         - "80:80"

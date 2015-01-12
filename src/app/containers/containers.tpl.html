@@ -34,18 +34,18 @@
       <tbody>
         <tr ng-repeat="container in containers | filter:search | orderBy:sort:reverse">
           <td>
-            <button class="btn btn-success btn-xs" ng-hide="imageFilter(container, 'alexagency/vmhub')" 
+            <button class="btn btn-success btn-xs" ng-hide="imageFilter(container, 'alexagency/amhub')" 
             ui-sref="startContainer({name: container.Names[0].slice(1)})">
               Start
             </button>
-            <button class="btn btn-warning btn-xs" ng-hide="imageFilter(container, 'alexagency/vmhub')" 
+            <button class="btn btn-warning btn-xs" ng-hide="imageFilter(container, 'alexagency/amhub')" 
             ui-sref="stopContainer({name: container.Names[0].slice(1)})">
               Stop
             </button>
             <button class="btn btn-info btn-xs" ui-sref="commitContainer({name: container.Names[0].slice(1)})">
               Commit
             </button>
-            <button class="btn btn-danger btn-xs" ng-hide="imageFilter(container, 'alexagency/vmhub')" 
+            <button class="btn btn-danger btn-xs" ng-hide="imageFilter(container, 'alexagency/amhub')" 
             ui-sref="removeContainer({name: container.Names[0].slice(1)})">
               Remove
             </button>

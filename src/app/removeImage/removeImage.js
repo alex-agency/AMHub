@@ -1,4 +1,4 @@
-angular.module( 'vmhub.removeImage', [
+angular.module( 'amhub.removeImage', [
   'ui.router',
   'ui.bootstrap',
   'docker'

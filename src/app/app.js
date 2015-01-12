@@ -1,20 +1,20 @@
-angular.module( 'vmhub', [
+angular.module( 'amhub', [
   'templates-app',
   'templates-common',
   'ui.router',
   'ui.bootstrap',
   'docker',
   'cookies',
-  'vmhub.home',
-  'vmhub.settings',
-  'vmhub.images',
-  'vmhub.containers',
-  'vmhub.imageInfo',
-  'vmhub.createContainer',
-  'vmhub.removeImage',
-  'vmhub.containerInfo',
-  'vmhub.commitContainer',
-  'vmhub.removeContainer'
+  'amhub.home',
+  'amhub.settings',
+  'amhub.images',
+  'amhub.containers',
+  'amhub.imageInfo',
+  'amhub.createContainer',
+  'amhub.removeImage',
+  'amhub.containerInfo',
+  'amhub.commitContainer',
+  'amhub.removeContainer'
 ])
 
 .config( function myAppConfig ( $locationProvider, $urlRouterProvider ) {
@@ -30,9 +30,9 @@ angular.module( 'vmhub', [
 .controller( 'AppCtrl', function AppCtrl ( $scope ) {
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if( toState.data && toState.data.pageTitle ) {
-      $scope.pageTitle = toState.data.pageTitle + ' | VM Hub';
+      $scope.pageTitle = toState.data.pageTitle + ' | AM Hub';
     } else {
-      $scope.pageTitle = 'VM Hub' ;
+      $scope.pageTitle = 'AM Hub' ;
     }
   });
 })

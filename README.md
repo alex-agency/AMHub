@@ -1,23 +1,23 @@
-# VM Hub [![Build Status](https://api.travis-ci.org/alex-agency/vmhub.png)](https://travis-ci.org/alex-agency/vmhub)
+# AM Hub [![Build Status](https://api.travis-ci.org/alex-agency/amhub.png)](https://travis-ci.org/alex-agency/amhub)
 
-Version Manager Docker Hub
+Application Manager Docker Hub
 
 
 To build image using boot2docker:
 
 Copy the sources to following path:
-MacOS: /Users/<USERNAME>/Docker/vmhub 
-Windows: /c/Users/<USERNAME>/Docker/vmhub
+MacOS: /Users/<USERNAME>/Docker/amhub 
+Windows: /c/Users/<USERNAME>/Docker/amhub
 
 ```
-# docker build --force-rm=true -t alexagency/vmhub /Users/Alex/Docker/vmhub
+# docker build --force-rm=true -t alexagency/amhub /Users/Alex/Docker/amhub
 ```
 
 To run container in the background:
 
 ```
 # docker run -d -p 80:80 -p 9019:9019 -p 8000:8000 \
- -v /var/run/docker.sock:/var/run/docker.sock alexagency/vmhub
+ -v /var/run/docker.sock:/var/run/docker.sock alexagency/amhub
 or
 # fig up -d
 ```
@@ -26,7 +26,7 @@ To run interactive with remove container after exit (--rm):
 
 ```
 # docker run -it --rm -p 80:80 -p 9019:9019 -p 8000:8000 \
- -v /var/run/docker.sock:/var/run/docker.sock alexagency/vmhub
+ -v /var/run/docker.sock:/var/run/docker.sock alexagency/amhub
 or
 # fig up
 ```
@@ -59,7 +59,7 @@ To run interactive container with continuous update source code ($PWD/src) on th
 
 ```
 # docker run -it --rm -p 80:80 -p 9019:9019 -p 8000:8000 \
- -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/src:/usr/src/src alexagency/vmhub
+ -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/src:/usr/src/src alexagency/amhub
 ```
 
 To remove all stoped containers:

@@ -1,4 +1,4 @@
-angular.module( 'vmhub.createContainer', [
+angular.module( 'amhub.createContainer', [
   'ui.router',
   'ui.bootstrap',
   'docker'

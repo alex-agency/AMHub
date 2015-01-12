@@ -1,4 +1,4 @@
-angular.module( 'vmhub.home', [
+angular.module( 'amhub.home', [
   'ui.router',
   'docker'
 ])

@@ -1,4 +1,4 @@
-angular.module( 'vmhub.images', [
+angular.module( 'amhub.images', [
   'ui.router',
   'docker'
 ])
@@ -57,7 +57,7 @@ angular.module( 'vmhub.images', [
 
   var advancedView = function( data, filters ) {
     if( !$scope.settings.advanced ) {
-      filters += '|!<none>|!alexagency/vmhub';
+      filters += '|!<none>|!alexagency/amhub';
     }
     return $scope.imageFilter(data, filters);
   };

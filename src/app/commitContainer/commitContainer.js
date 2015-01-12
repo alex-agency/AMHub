@@ -1,4 +1,4 @@
-angular.module( 'vmhub.commitContainer', [
+angular.module( 'amhub.commitContainer', [
   'ui.router',
   'ui.bootstrap',
   'docker'
