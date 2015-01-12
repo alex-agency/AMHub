@@ -7,9 +7,20 @@ RUN npm -g install grunt-cli karma --save-dev bower
 # set app dir
 WORKDIR /AMHub
 
-# get project
+# this allow speed up build proccess for minor changes
 RUN git clone https://github.com/alex-agency/AMHub . && \
-	rm -rf .git
+	rm -rf .git && \
+	npm install && \
+	bower install --allow-root
+
+# install supervisord
+RUN apt-get update && apt-get install -y supervisor
+# copy supervisord configs
+COPY ./server/supervisord.conf /etc/supervisor/supervisord.conf
+COPY ./server/node.conf /etc/supervisor/conf.d/node.conf
+
+# copy project
+COPY . /AMHub
 
 # install project dependencies
 RUN npm install && \
@@ -19,7 +30,7 @@ RUN npm install && \
 RUN grunt build compile
 
 # Exec configuration to container
-CMD node server/server.js
+CMD ["supervisord"]
 
 # Inform which port could be opened
 EXPOSE 80 8000
