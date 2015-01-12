@@ -3,12 +3,12 @@
   For check Unix domain socket use: 
     echo -e "GET /info HTTP/1.1\r\n" | nc -U /var/run/docker.sock
   For check TCP socket use:
-    curl -s -XGET http://<PROXY>:8080/info
+    curl -s -XGET http://<PROXY>/info
 */
 var net = require('net');
 
 var PROXY_PORT = 8000;
-var DOCKER_SOCKET = '/var/run/docker.sock';
+var DOCKER_SOCKET = '/docker.sock';
 
 // create tcp server
 net.createServer(function (socket) {
@@ -34,9 +34,8 @@ net.createServer(function (socket) {
     });
   });
 }).listen(PROXY_PORT, function () {
-  var host = server.address().address
-  var port = server.address().port
-  console.log('TCP proxy server listening at http://%s:%s', host, port);
+  console.log('TCP proxy server listening at http://%s:%s', 
+    net.address().address, net.address().port);
 });
 
 /*
@@ -54,7 +53,6 @@ app.get('*', function (req, res) {
 });
 
 server.listen(80, function () {
-  var host = server.address().address
-  var port = server.address().port
-  console.log('Web server listening at http://%s:%s', host, port);
+  console.log('Web server listening at http://%s:%s', 
+    server.address().address, server.address().port);
 });
