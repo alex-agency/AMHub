@@ -12,47 +12,49 @@ var DOCKER_SOCKET = '/var/run/docker.sock';
 
 // create tcp server
 net.createServer(function (socket) {
-    // get msg request from tcp client
-    socket.on('data', function (msg) {
-        // create connection to unix server
-        var serviceSocket = new net.Socket();
-        serviceSocket.connect(DOCKER_SOCKET, function () {
-            // when connection established write msg responce to unix server
-            serviceSocket.write(msg);
-        });
-        // get data request from unix server
-        serviceSocket.on('data', function (data) {
-            // modify header to enable CORS
-            var cors_enable = '\r\nAccess-Control-Allow-Headers: Content-Type';
-            cors_enable += '\r\nAccess-Control-Allow-Methods: GET, POST, DELETE';
-            cors_enable += '\r\nAccess-Control-Allow-Origin: *';
-            var separator = '\r\n\r\n';
-            cors_enable += separator;
-            data = data.toString().replace(separator, cors_enable);
-            // write tcp response
-            socket.write(data.toString());
-        });
+  // get msg request from tcp client
+  socket.on('data', function (msg) {
+    // create connection to unix server
+    var serviceSocket = new net.Socket();
+    serviceSocket.connect(DOCKER_SOCKET, function () {
+      // when connection established write msg responce to unix server
+      serviceSocket.write(msg);
     });
-}).listen(PROXY_PORT);
+    // get data request from unix server
+    serviceSocket.on('data', function (data) {
+      // modify header to enable CORS
+      var cors_enable = '\r\nAccess-Control-Allow-Headers: Content-Type';
+      cors_enable += '\r\nAccess-Control-Allow-Methods: GET, POST, DELETE';
+      cors_enable += '\r\nAccess-Control-Allow-Origin: *';
+      var separator = '\r\n\r\n';
+      cors_enable += separator;
+      data = data.toString().replace(separator, cors_enable);
+      // write tcp response
+      socket.write(data.toString());
+    });
+  });
+}).listen(PROXY_PORT, function () {
+  var host = server.address().address
+  var port = server.address().port
+  console.log('TCP proxy server listening at http://%s:%s', host, port);
+});
 
-console.log("TCP server accepting connection on port: " + PROXY_PORT);
+/*
+  This web server translate all request to index.html page 
+*/
+var express = require('express');
+var app = express();
+var path = require('path');
+var server = require('http').createServer(app);
 
+app.use(express.static(path.resolve(__dirname, '../build')));
 
+app.get('*', function (req, res) {
+  res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
+});
 
-var finalhandler = require('finalhandler')
-var http = require('http')
-var serveStatic = require('serve-static')
-
-// Serve up public/ftp folder
-var serve = serveStatic('build', {'index': ['index.html']})
-
-// Create server
-var server = http.createServer(function(req, res){
-  var done = finalhandler(req, res)
-  serve(req, res, done)
-})
-
-// Listen
-server.listen(80)
-
-console.log("Web server accepting connection on port: " + 80);
+server.listen(80, function () {
+  var host = server.address().address
+  var port = server.address().port
+  console.log('Web server listening at http://%s:%s', host, port);
+});

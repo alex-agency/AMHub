@@ -35,6 +35,7 @@
     "karma": "^0.12.9",
     "karma-chrome-launcher": "~0.1",
     "karma-ng-html2js-preprocessor": "~0.1",
-    "karma-coverage": "~0.1"
+    "karma-coverage": "~0.2",
+    "express": "~4.10"
   }
 }

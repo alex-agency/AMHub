@@ -1,16 +1,19 @@
 FROM node:slim
 MAINTAINER Alex
 
+# install dev env
+RUN npm -g install grunt-cli karma --save-dev bower
+
 # set app dir
 WORKDIR /usr/src/
 
-# get ngbp project
-ENV NGBP_BRANCH  v0.3.2-release
-RUN git clone -b $NGBP_BRANCH git://github.com/joshdmiller/ng-boilerplate . && \
+# get project
+RUN git clone https://github.com/alex-agency/AMHub . && \
 	rm -rf .git
 
-# install dev env
-RUN npm -g install grunt-cli karma --save-dev bower
+# install project dependencies
+RUN npm install && \
+	bower install --allow-root
 
 # install server.js dependencies
 RUN npm install serve-static finalhandler
