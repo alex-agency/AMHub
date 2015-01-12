@@ -34,8 +34,7 @@ net.createServer(function (socket) {
     });
   });
 }).listen(PROXY_PORT, function () {
-  console.log('TCP proxy server listening at http://%s:%s', 
-    net.address().address, net.address().port);
+  console.log('TCP proxy server listening at %s port', PROXY_PORT);
 });
 
 /*
