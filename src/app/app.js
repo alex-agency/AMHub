@@ -19,7 +19,7 @@ angular.module( 'vmhub', [
 
 .config( function myAppConfig ( $locationProvider, $urlRouterProvider ) {
   // use the HTML5 History API
-  $locationProvider.html5Mode({ enabled: false, requireBase: false });
+  $locationProvider.html5Mode({ enabled: true, requireBase: false });
   // redirect any unmatched url
   $urlRouterProvider.otherwise( '/' );
 })

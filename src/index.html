@@ -25,29 +25,35 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="#top" ng-click="isCollapsed=false" class="navbar-brand">
+          <a href="#_top" ng-click="isCollapsed=false" class="navbar-brand">
             <i class="fa fa-code-fork"></i> Version Manager Docker Hub
           </a>
         </div>
         <nav class="navbar-collapse bs-navbar-collapse" collapse="!isCollapsed">
           <ul class="nav navbar-nav">
-            <li><a href="#images" ng-click="isCollapsed=false"><i class="fa fa-sitemap"></i> Images</a></li>
-            <li><a href="#containers" ng-click="isCollapsed=false"><i class="fa fa-th"></i> Containers</a></li>
+            <li><a href="#_images" ng-click="isCollapsed=false"><i class="fa fa-sitemap"></i> Images</a></li>
+            <li><a href="#_containers" ng-click="isCollapsed=false"><i class="fa fa-th"></i> Containers</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a ui-sref="settings" ng-click="isCollapsed=false"><i class="fa fa-cog"></i> Settings</a></li>
+            <li><a href="/#settings" ng-click="isCollapsed=false"><i class="fa fa-cog"></i> Settings</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <div class="container" ui-view="top"></div>
-    <div class="container" ui-view="images"></div>
-    <div class="container" ui-view="containers"></div>
+    <section id="_top">
+      <div class="container" ui-view="top"></div>
+    </section>
+    <section id="_images">
+      <div class="container" ui-view="images"></div>
+    </section>
+    <section id="_containers">
+      <div class="container" ui-view="containers"></div>
+    </section>
     
     <footer class="footer">
       <div class="container">
-        <div class="footer-inner">
+        <div class="footer-inner">        
           <p class="pull-right">
             <a href="#top">Back to top</a>
             <br />

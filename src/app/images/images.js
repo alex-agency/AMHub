@@ -3,6 +3,7 @@ angular.module( 'vmhub.images', [
   'docker'
 ])
 
+/*
 .config(function config( $stateProvider ) {
   $stateProvider
     .state( 'images', {
@@ -16,6 +17,7 @@ angular.module( 'vmhub.images', [
     })
   ;
 })
+*/
 
 .controller( 'ImagesCtrl', 
   function ImagesCtrl( $scope, $rootScope, $modal, Cookies, Image ) {
