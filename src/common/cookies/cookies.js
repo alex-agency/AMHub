@@ -6,7 +6,7 @@ angular.module( 'cookies', [
   // default settings
   var settings = {
     advanced: false,
-    filter: 'alex|vm'
+    filter: ''
   };
 
   var cookies = $cookieStore.get('settings');
