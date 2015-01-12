@@ -1,4 +1,4 @@
-# AM Hub [![Build Status](https://api.travis-ci.org/alex-agency/amhub.png)](https://travis-ci.org/alex-agency/amhub)
+# AM Hub [![Build Status](https://api.travis-ci.org/alex-agency/AMHub.png)](https://travis-ci.org/alex-agency/AMHub)
 
 Application Manager Docker Hub
 
