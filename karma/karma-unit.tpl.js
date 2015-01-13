@@ -80,11 +80,14 @@ module.exports = function ( karma ) {
 
     coverageReporter: {
       // type of file to output, use text to output to console
-      type : 'text',
+      //type : 'text',
       // directory where coverage results are saved
-      dir: 'test-results'
+      //dir: 'test-results'
       // if type is text or text-summary, you can set the file name
       // file: 'coverage.txt'
+      // type lcov and dir coverage used by coveralls
+      type: "lcov",
+      dir: "coverage/"
     }
   });
 };
