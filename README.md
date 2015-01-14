@@ -1,4 +1,5 @@
-[![Build Status](https://api.travis-ci.org/alex-agency/AMHub.png)](https://travis-ci.org/alex-agency/AMHub)
+[![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
 
 Application Manager Docker Hub
 ===============================
@@ -19,3 +20,12 @@ and browsing to it:
 ```
 
 In case if you using boot2docker browsing to its ip address.
+
+## License
+
+  [MIT](LICENSE)
+
+[travis-image]: https://travis-ci.org/alex-agency/AMHub.svg?style=flat
+[travis-url]: https://travis-ci.org/alex-agency/AMHub
+[coveralls-image]: https://img.shields.io/coveralls/alex-agency/AMHub.svg?style=flat
+[coveralls-url]: https://coveralls.io/r/alex-agency/AMHub?branch=master
