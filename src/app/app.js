@@ -14,7 +14,8 @@ angular.module( 'amhub', [
   'amhub.removeImage',
   'amhub.containerInfo',
   'amhub.commitContainer',
-  'amhub.removeContainer'
+  'amhub.removeContainer',
+  'amhub.startContainer'
 ])
 
 .config( function myAppConfig ( $locationProvider, $urlRouterProvider ) {

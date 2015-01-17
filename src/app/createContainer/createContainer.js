@@ -30,7 +30,14 @@ angular.module( 'amhub.createContainer', [
 })
 
 .controller( 'CreateContainerCtrl', 
-  function CreateContainerCtrl( $scope, $stateParams, Container ) {
+  function CreateContainerCtrl( $scope, $stateParams, Image, Container ) {
+
+  $scope.bindings = {};
+  Image.get({ id: $stateParams.name }, function( image ) {
+    for (var port in image.Config.ExposedPorts) {
+      $scope.bindings[port] = [{ HostPort: '' }];
+    }
+  });
 
   $scope.create = function() {
     Container.create({ 
@@ -38,11 +45,14 @@ angular.module( 'amhub.createContainer', [
       name: $scope.name,
       Hostname: $scope.name
     }, function( created ) {
-      Container.start({ id: created.Id, PublishAllPorts: true }, 
-      function( started ) {
+      Container.start({ 
+        id: created.Id, 
+        PublishAllPorts: true,
+        PortBindings: angular.toJson($scope.bindings)
+      }, function( started ) {
         console.log('Container created and started: '+started.id);
         $scope.updateContainers();
-      });  
+      });
     });
     $scope.$close();
   };

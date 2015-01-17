@@ -3,7 +3,7 @@
   For check Unix domain socket use: 
     echo -e "GET /info HTTP/1.1\r\n" | nc -U /var/run/docker.sock
   For check TCP socket use:
-    curl -s -XGET http://<PROXY>/info
+    curl -s -XGET http://<PROXY_HOST>:<PROXY_PORT>/info
 */
 var net = require('net');
 
@@ -38,7 +38,7 @@ net.createServer(function (socket) {
 });
 
 /*
-  This web server translate all request to index.html page 
+  This web server translate all request to index.html 
 */
 var express = require('express');
 var app = express();

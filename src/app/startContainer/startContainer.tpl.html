@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <button class="close" ng-click="close()"><span>&times;</span></button>
+  <h3 class="modal-title"><i class="fa fa-paper-plane"></i> Start Container</h3>
+</div>
+<div class="modal-body" key-enter="start()">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Binding Ports</h3>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Host</th>
+            <th>Container</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(k,v) in bindings">
+              <td class="col-lg-2">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <input type="checkbox" ng-model="checked" ng-click="v[0].HostPort = ''">
+                  </span>
+                  <input type="text" class="form-control" ng-model="(v[0])['HostPort']" 
+                  placeholder="{{checked?'Enter port ...':'Random'}}" ng-disabled="!checked">
+                </div>
+              </td>
+              <td class="col-lg-2">
+                <input type="text" class="form-control" disabled ng-model="k">
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="close()">Close</button>
+  <button class="btn btn-primary" ng-click="start()">Start</button>
+</div>

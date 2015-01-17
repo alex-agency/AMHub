@@ -31,23 +31,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="image in images | filter:search | orderBy:sort:reverse">
+        <tr ng-repeat="image in images | filter:search | orderBy:sort:reverse"
+        ng-hide="!settings.advanced && imageFilter(image, '<none>')">
           <td>
             <span class="badge" ng-hide="imageFilter(image, '<none>')">
               {{ getContainersCount(image) }}
             </span>
-            <button class="btn btn-success btn-xs" ng-hide="imageFilter(image, '<none>|alexagency/amhub')"
+            <button class="btn btn-success btn-xs" ng-hide="imageFilter(image, '<none>')"
             ui-sref="createContainer({name: image.RepoTags[0]})">
               Create Container
             </button>
-            <button class="btn btn-danger btn-xs" ng-hide="!settings.advanced || imageFilter(image, 'alexagency/amhub')"
+            <button class="btn btn-danger btn-xs" ng-hide="!settings.advanced"
             ui-sref="removeImage({name: image.RepoTags[0]})">
               Remove Image
             </button>
           </td>
           <td>
             <li ng-repeat='name in image.RepoTags'>
-              <a ui-sref="imageInfo({name: name})" ng-hide="!settings.advanced || imageFilter(image, '<none>')">
+              <a ui-sref="imageInfo({name: name})" ng-hide="imageFilter(image, '<none>')">
                 {{ name }}
               </a>
               <span ng-hide="settings.advanced || imageFilter(image, '<none>')">{{ name }}</span> 
