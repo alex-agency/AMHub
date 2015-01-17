@@ -48,7 +48,7 @@
           </td>
           <td>
             <li ng-repeat='name in image.RepoTags'>
-              <a ui-sref="imageInfo({name: name})" ng-hide="imageFilter(image, '<none>')">
+              <a ui-sref="imageInfo({name: name})" ng-hide="!settings.advanced || imageFilter(image, '<none>')">
                 {{ name }}
               </a>
               <span ng-hide="settings.advanced || imageFilter(image, '<none>')">{{ name }}</span> 
