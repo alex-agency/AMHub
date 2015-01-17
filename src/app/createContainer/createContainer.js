@@ -45,7 +45,11 @@ angular.module( 'amhub.createContainer', [
     Container.create({ 
       Image: $stateParams.name,
       name: $scope.name,
-      Hostname: $scope.name
+      Hostname: $scope.name,
+      Memory: 1073741824,
+      MemorySwap: 0,
+      CpuShares: 512,
+      Cpuset: '0,1'
     }, function( created ) {
       Container.start({ 
         id: created.Id, 

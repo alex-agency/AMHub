@@ -19,13 +19,13 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>Host</th>
+                  <th class="col-lg-6">Host</th>
                   <th>Container</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="(k,v) in bindings">
-                    <td class="col-lg-2">
+                    <td>
                       <div class="input-group">
                         <span class="input-group-addon">
                           <input type="checkbox" ng-model="checked" ng-click="v[0].HostPort = ''">
@@ -34,7 +34,7 @@
                         placeholder="{{checked?'Enter port ...':'Random'}}" ng-disabled="!checked">
                       </div>
                     </td>
-                    <td class="col-lg-2">
+                    <td>
                       <input type="text" class="form-control" disabled ng-model="k">
                     </td>
                 </tr>
