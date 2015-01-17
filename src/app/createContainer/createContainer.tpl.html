@@ -11,36 +11,36 @@
         placeholder="Enter name" ng-model="name">
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-hide="!settings.advanced">
       <label for="name" class="col-lg-3 control-label">Binding Ports</label>
       <div class="col-lg-9"> 
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Host</th>
-                <th>Container</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="(k,v) in bindings">
-                  <td>
-                    <div class="input-group input-group-sm">
-                      <span class="input-group-addon">
-                        <input type="checkbox" ng-model="checked" ng-click="v[0].HostPort = ''">
-                      </span>
-                      <input type="text" class="form-control" ng-model="(v[0])['HostPort']" 
-                      placeholder="{{checked?'Enter port ...':'Random'}}" ng-disabled="!checked">
-                    </div>
-                  </td>
-                  <td>
-                    <div class="input-group input-group-sm">
+        <div class="panel panel-default">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Host</th>
+                  <th>Container</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="(k,v) in bindings">
+                    <td class="col-lg-2">
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <input type="checkbox" ng-model="checked" ng-click="v[0].HostPort = ''">
+                        </span>
+                        <input type="text" class="form-control" ng-model="(v[0])['HostPort']" 
+                        placeholder="{{checked?'Enter port ...':'Random'}}" ng-disabled="!checked">
+                      </div>
+                    </td>
+                    <td class="col-lg-2">
                       <input type="text" class="form-control" disabled ng-model="k">
-                    </div>
-                  </td>
-              </tr>
-            </tbody>
-          </table>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div> 

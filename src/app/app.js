@@ -20,7 +20,7 @@ angular.module( 'amhub', [
 
 .config( function myAppConfig ( $locationProvider, $urlRouterProvider ) {
   // use the HTML5 History API
-  $locationProvider.html5Mode({ enabled: true, requireBase: false });
+  $locationProvider.html5Mode({ enabled: false, requireBase: false });
   // redirect any unmatched url
   $urlRouterProvider.otherwise( '/' );
 })

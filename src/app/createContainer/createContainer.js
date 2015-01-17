@@ -30,7 +30,9 @@ angular.module( 'amhub.createContainer', [
 })
 
 .controller( 'CreateContainerCtrl', 
-  function CreateContainerCtrl( $scope, $stateParams, Image, Container ) {
+  function CreateContainerCtrl( $scope, $stateParams, Cookies, Image, Container ) {
+
+  $scope.settings = Cookies.settings;
 
   $scope.bindings = {};
   Image.get({ id: $stateParams.name }, function( image ) {
