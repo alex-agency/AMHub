@@ -30,7 +30,9 @@ angular.module( 'amhub.startContainer', [
 })
 
 .controller( 'StartContainerCtrl', 
-  function StartContainerCtrl( $scope, $stateParams, Container ) {
+  function StartContainerCtrl( $scope, $stateParams, Cookies, Container ) {
+
+  $scope.settings = Cookies.settings;
 
   Container.query({}, function( containers ) {
     for (var i in containers) {

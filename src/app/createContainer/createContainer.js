@@ -33,28 +33,38 @@ angular.module( 'amhub.createContainer', [
   function CreateContainerCtrl( $scope, $stateParams, Cookies, Image, Container ) {
 
   $scope.settings = Cookies.settings;
+  $scope.hostVolumes = [];
 
-  $scope.bindings = {};
+  $scope.bindingPorts = {};
   Image.get({ id: $stateParams.name }, function( image ) {
+    $scope.image = image;
     for (var port in image.Config.ExposedPorts) {
-      $scope.bindings[port] = [{ HostPort: '' }];
+      $scope.bindingPorts[port] = [{ HostPort: '' }];
     }
   });
 
   $scope.create = function() {
+    var bindingVolumes = [];
+    var i = 0;
+    for (var volume in $scope.image.Config.Volumes) {
+      var key = $scope.hostVolumes[i]; i++;
+      if(key) {
+        bindingVolumes.push(key+':'+volume);
+      }
+    }
     Container.create({ 
       Image: $stateParams.name,
       name: $scope.name,
       Hostname: $scope.name,
       Memory: 1073741824,
-      MemorySwap: 0,
-      CpuShares: 512,
-      Cpuset: '0,1'
+      MemorySwap: -1,
+      CpuShares: 256
     }, function( created ) {
       Container.start({ 
         id: created.Id, 
         PublishAllPorts: true,
-        PortBindings: angular.toJson($scope.bindings)
+        Binds: bindingVolumes,
+        PortBindings: angular.toJson($scope.bindingPorts)
       }, function( started ) {
         console.log('Container created and started: '+started.id);
         $scope.updateContainers();
