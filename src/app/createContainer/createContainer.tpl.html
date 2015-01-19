@@ -26,16 +26,16 @@
               <tbody>
                 <tr ng-repeat="(k,v) in image.Config.Volumes">
                     <td>
-                      <div class="input-group">
+                      <div class="input-group input-group-sm">
                         <span class="input-group-addon">
                           <input type="checkbox" ng-model="checked" ng-click="hostVolumes[$index] = ''">
                         </span>
-                        <input type="text" class="form-control" ng-model="hostVolumes[$index]" ng-disabled="!checked"
-                        placeholder="{{checked?'Enter volume ...':'Random'}}">
+                        <input type="text" class="form-control" ng-model="hostVolumes[$index]" 
+                        ng-disabled="!checked" placeholder="{{checked?'Enter volume ...':'Random'}}">
                       </div>
                     </td>
                     <td>
-                      <input type="text" class="form-control" disabled ng-model="k">
+                      <input type="text" class="form-control input-sm" disabled ng-model="k">
                     </td>
                 </tr>
               </tbody>
@@ -59,7 +59,7 @@
               <tbody>
                 <tr ng-repeat="(k,v) in bindingPorts">
                     <td>
-                      <div class="input-group">
+                      <div class="input-group input-group-sm">
                         <span class="input-group-addon">
                           <input type="checkbox" ng-model="checked" ng-click="v[0].HostPort = ''">
                         </span>
@@ -68,7 +68,7 @@
                       </div>
                     </td>
                     <td>
-                      <input type="text" class="form-control" disabled ng-model="k">
+                      <input type="text" class="form-control input-sm" disabled ng-model="k">
                     </td>
                 </tr>
               </tbody>

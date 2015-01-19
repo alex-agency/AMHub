@@ -19,7 +19,7 @@
               <tbody>
                 <tr ng-repeat="(k,v) in bindings">
                     <td>
-                      <div class="input-group">
+                      <div class="input-group input-group-sm">
                         <span class="input-group-addon">
                           <input type="checkbox" ng-model="checked" ng-click="v[0].HostPort = ''">
                         </span>
@@ -28,7 +28,7 @@
                       </div>
                     </td>
                     <td>
-                      <input type="text" class="form-control" disabled ng-model="k">
+                      <input type="text" class="form-control input-sm" disabled ng-model="k">
                     </td>
                 </tr>
               </tbody>

@@ -15,7 +15,8 @@ angular.module( 'amhub', [
   'amhub.containerInfo',
   'amhub.commitContainer',
   'amhub.removeContainer',
-  'amhub.startContainer'
+  'amhub.startContainer',
+  'amhub.browseRepos'
 ])
 
 .config( function myAppConfig ( $locationProvider, $urlRouterProvider ) {
