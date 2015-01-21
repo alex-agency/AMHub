@@ -54,22 +54,33 @@ angular.module( 'amhub.containerInfo', [
 })
 
 .controller( 'ContainerInfoCtrl', 
-  function ContainerInfoCtrl( $scope, $stateParams, $location, Container ) {
+  function ContainerInfoCtrl( $scope, $stateParams, $location, $interval, Container ) {
 
-  $scope.container = {};
-  $scope.top = {};
   Container.query({}, function( containers ) {
     for (var i in containers) {
       var names = containers[i].Names;
       for (var j in names) {
         if( names[j].slice(1) == $stateParams.name ) {
-          $scope.container = Container.get({ id: containers[i].Id });
-          $scope.top = Container.top({ id: containers[i].Id });
+          get_info( containers[i].Id );
           break;
         }
       }
     }
   });
+
+  var get_info = function( id ) {
+    Container.get({ id: id }, function( data ) {
+      $scope.container = data;
+      refresh_top();            
+    });
+  };
+
+  var refresh_top = function() {
+    Container.top({ id: $scope.container.Id }, function( data ) {
+      $scope.top = data;
+    });
+  };
+  $interval(refresh_top, 5000);
 
   $scope.connectHTTP = function( port ) {
     $scope.targeturl = "http://"+$location.host()+":"+port;   

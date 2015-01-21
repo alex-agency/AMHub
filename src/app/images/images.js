@@ -20,7 +20,7 @@ angular.module( 'amhub.images', [
 */
 
 .controller( 'ImagesCtrl', 
-  function ImagesCtrl( $scope, $rootScope, $modal, Cookies, Image ) {
+  function ImagesCtrl( $scope, $rootScope, $modal, $interval, Cookies, Image ) {
 
   $scope.settings = Cookies.settings;
   $scope.searchThreshold = 10;
@@ -36,6 +36,7 @@ angular.module( 'amhub.images', [
     });
   };
   $scope.updateImages();
+  $interval($scope.updateImages, 9000);
   $scope.sort = '-Created';
 
   $scope.imageFilter = function( data, filters ) {

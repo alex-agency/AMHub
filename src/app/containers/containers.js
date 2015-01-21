@@ -20,7 +20,7 @@ angular.module( 'amhub.containers', [
 */
 
 .controller( 'ContainersCtrl', 
-  function ContainersCtrl( $scope, $rootScope, $modal, Cookies, Container ) {
+  function ContainersCtrl( $scope, $rootScope, $modal, $interval, Cookies, Container ) {
 
   $scope.settings = Cookies.settings;
   $scope.searchThreshold = 10;
@@ -36,6 +36,7 @@ angular.module( 'amhub.containers', [
     });
   };
   $scope.updateContainers();
+  $interval($scope.updateContainers, 4000);
   $scope.sort = '-Created';
 
   $scope.imageFilter = function( data, filters ) {
