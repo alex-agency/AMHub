@@ -34,6 +34,11 @@ angular.module( 'amhub.createContainer', [
 
   $scope.settings = Cookies.settings;
   $scope.hostVolumes = [];
+  $scope.limits = {
+    memory: '1.5',
+    swap: '0',
+    cpu: '50'
+  };
 
   $scope.bindingPorts = {};
   Image.get({ id: $stateParams.name }, function( image ) {
@@ -56,9 +61,9 @@ angular.module( 'amhub.createContainer', [
       Image: $stateParams.name,
       name: $scope.name,
       Hostname: $scope.name,
-      Memory: 1073741824,
-      MemorySwap: -1,
-      CpuShares: 256
+      Memory: $scope.limits.memory*1073741824,
+      MemorySwap: $scope.limits.swap,
+      CpuShares: 1024*$scope.limits.cpu/100
     }, function( created ) {
       Container.start({ 
         id: created.Id, 
