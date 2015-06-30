@@ -51,7 +51,9 @@ angular.module( 'docker', ['ngResource'] )
     // POST /containers/(id)/start
     start: { method: 'POST', params:{ id: '@id', action: 'start' } }, 
     // POST /containers/(id)/stop
-    stop: { method: 'POST', params:{ id: '@id', action: 'stop' } }, 
+    stop: { method: 'POST', params:{ id: '@id', action: 'stop' } },
+    // POST /containers/(id)/kill
+    kill: { method: 'POST', params:{ id: '@id', action: 'kill' } }, 
     // DELETE /containers/(id)
     remove: { method: 'DELETE', params:{ id: '@id' } }
   });

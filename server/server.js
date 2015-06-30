@@ -32,21 +32,53 @@ net.createServer(function (socket) {
       // write tcp response
       socket.write(data.toString());
     });
+    // close connection
+    serviceSocket.on('end', function (end) {
+      console.log('TCP proxy server disconnected');
+      socket.end();
+    });
   });
 }).listen(PROXY_PORT, function () {
   console.log('TCP proxy server listening at %s port', PROXY_PORT);
 });
 
 /*
-  This web server translate all request to index.html 
+  Web server 
 */
 var express = require('express');
 var app = express();
-var path = require('path');
 var server = require('http').createServer(app);
 
-app.use(express.static(path.resolve(__dirname, '../build')));
+// json api
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+var router = express.Router();
+// config
+var fs = require('fs')
+var configFile = 'server/config.json'
+var config = JSON.parse(fs.readFileSync(configFile));
+router.route('/config')
+  .get(function (req, res) {
+    res.json(config);
+  })
+  .post(function (req, res) {
+    config = req.body;
+    fs.writeFile(configFile, JSON.stringify(config, null, 4), function (err) {
+      if (err) 
+        res.send(err);
+      res.json("Config successfully saved.");
+    });
+  });
+router.route('/config/:param')
+  .get(function (req, res) {
+    res.json(config[req.params.param]);
+  });
+app.use('/api', router);
 
+// redirect everything to index.html
+var path = require('path');
+app.use(express.static(path.resolve(__dirname, '../build')));
 app.get('*', function (req, res) {
   res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
 });

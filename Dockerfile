@@ -8,15 +8,15 @@ RUN npm -g install grunt-cli karma --save-dev bower && \
 # set app dir
 WORKDIR /AMHub
 
+# install git and supervisord 
+RUN apt-get update && apt-get install -y git supervisor && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # this allow speed up build proccess for minor changes
 RUN git clone https://github.com/alex-agency/AMHub . && \
     rm -rf .git && \
     npm install && \
     bower install --allow-root
-
-# install supervisord
-RUN apt-get update && apt-get install -y supervisor && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # copy supervisord configs
 COPY ./server/supervisord.conf /etc/supervisor/supervisord.conf

@@ -1,6 +1,5 @@
-angular.module( 'amhub.home', [
-  'ui.router',
-  'docker'
+angular.module( 'app.home', [
+  'ui.router'
 ])
 
 .config(function config( $stateProvider ) {
@@ -8,10 +7,6 @@ angular.module( 'amhub.home', [
     .state( 'home', {
       url: '/',
       views: {
-        "top": {
-          controller: 'HomeCtrl',
-          templateUrl: 'home/home.tpl.html'
-        },
         "images": {
           controller: 'ImagesCtrl',
           templateUrl: 'images/images.tpl.html'
@@ -22,11 +17,20 @@ angular.module( 'amhub.home', [
         }
       }
     })
+    .state( 'about', {
+      url: '/about',
+      views: {
+        "about": {
+          controller: 'AboutCtrl',
+          templateUrl: 'home/home.tpl.html'
+        }
+      }
+    })
   ;
 })
 
-.controller( 'HomeCtrl', 
-  function HomeCtrl( $scope, $modal, Cookies, Image, Container ) {
+.controller( 'AboutCtrl', 
+  function AboutCtrl( $scope, $modal ) {
 
 })
 

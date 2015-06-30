@@ -11,7 +11,7 @@
     <div class="panel-body">
       <ul>
         <li ng-repeat="name in container.Names">
-          <a ui-sref="containerInfo({name: name.slice(1)})">{{ name.slice(1) }}</a>
+          <a ui-sref="containerInfo({name: name.slice(1)})">{{:: name.slice(1) }}</a>
         </li>
       </ul>
     </div>

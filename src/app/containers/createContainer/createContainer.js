@@ -1,20 +1,19 @@
-angular.module( 'amhub.createContainer', [
+angular.module( 'app.createContainer', [
   'ui.router',
-  'ui.bootstrap',
-  'docker'
+  'ui.bootstrap'
 ])
 
 .config( function config( $stateProvider ) {
   var home = 'home';
   $stateProvider
-    .state( 'createContainer', {
-      url: 'images/:name/create',
+    .state( 'createContainerMain', {
       parent: home,
       onEnter: function onEnter( $modal, $state ) {
         $modal
           // handle modal open
           .open({
-            templateUrl: 'createContainer/createContainer.tpl.html',
+            // main view
+            templateUrl: 'containers/createContainer/createContainer.tpl.html',
             controller: 'CreateContainerCtrl'
           })
           .result.then( function() {
@@ -26,11 +25,24 @@ angular.module( 'amhub.createContainer', [
           });
       }
     })
+    .state('createContainer', {
+      url: 'images/:name/create',
+      parent: 'createContainerMain',
+      // nestead views
+      views: {
+        "bindingAddress@": {
+          controller: 'BindingAddressCtrl',
+          templateUrl: 'containers/bindingAddress/bindingAddress.tpl.html'
+        }
+      }
+    })
   ;
 })
 
 .controller( 'CreateContainerCtrl', 
-  function CreateContainerCtrl( $scope, $stateParams, Cookies, Image, Container ) {
+  function CreateContainerCtrl( $scope, $rootScope, $stateParams, Cookies, Image, Container ) {
+
+  var imageName = decodeURIComponent($stateParams.name);
 
   $scope.settings = Cookies.settings;
   $scope.hostVolumes = [];
@@ -40,12 +52,9 @@ angular.module( 'amhub.createContainer', [
     cpu: '50'
   };
 
-  $scope.bindingPorts = {};
-  Image.get({ id: $stateParams.name }, function( image ) {
+  Image.get({ id: imageName }, function( image ) {
     $scope.image = image;
-    for (var port in image.Config.ExposedPorts) {
-      $scope.bindingPorts[port] = [{ HostPort: '' }];
-    }
+    $scope.bindingPorts = image.Config.ExposedPorts;
   });
 
   $scope.create = function() {
@@ -57,25 +66,25 @@ angular.module( 'amhub.createContainer', [
         bindingVolumes.push(key+':'+volume);
       }
     }
-    Container.create({ 
-      Image: $stateParams.name,
+    Container.create({
+      Image: imageName,
       name: $scope.name,
       Hostname: $scope.name,
-      Memory: $scope.limits.memory*1073741824,
-      MemorySwap: $scope.limits.swap,
-      CpuShares: 1024*$scope.limits.cpu/100
+      //Memory: $scope.limits.memory*1073741824,
+      MemorySwap: $scope.limits.swap//,
+      //CpuShares: 1024*$scope.limits.cpu/100
     }, function( created ) {
       Container.start({ 
         id: created.Id, 
         PublishAllPorts: true,
         Binds: bindingVolumes,
         PortBindings: angular.toJson($scope.bindingPorts)
-      }, function( started ) {
-        console.log('Container created and started: '+started.id);
-        $scope.updateContainers();
+      }, function() {
+        console.log('Container created and started.');
       });
+      // close after creation
+      $scope.$close();
     });
-    $scope.$close();
   };
 
   $scope.close = function() {

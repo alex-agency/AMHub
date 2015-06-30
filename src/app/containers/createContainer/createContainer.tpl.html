@@ -1,11 +1,18 @@
 <div class="modal-header">
   <button class="close" ng-click="close()"><span>&times;</span></button>
-  <h3 class="modal-title"><i class="fa fa-paper-plane"></i> Start Container</h3>
+  <h3 class="modal-title"><i class="fa fa-files-o"></i> Create Container</h3>
 </div>
-<div class="modal-body" key-enter="start()">
+<div class="modal-body" key-enter="create()">
   <form class="form-horizontal">
-    <div class="form-group" ng-hide="!container.Config.ExposedPorts">
-      <label for="name" class="col-lg-3 control-label">Binding Ports</label>
+    <div class="form-group">
+      <label for="name" class="col-lg-3 control-label">Name</label>
+      <div class="col-lg-9"> 
+        <input type="text" class="form-control" id="name" 
+        placeholder="Enter name" ng-model="name">
+      </div>
+    </div>
+    <div class="form-group" ng-if="settings.advanced && image.Config.Volumes">
+      <label for="name" class="col-lg-3 control-label">Binding Volumes</label>
       <div class="col-lg-9"> 
         <div class="panel panel-default">
           <div class="table-responsive">
@@ -17,14 +24,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="(k,v) in bindings">
+                <tr ng-repeat="(k,v) in image.Config.Volumes">
                     <td>
                       <div class="input-group input-group-sm">
                         <span class="input-group-addon">
-                          <input type="checkbox" ng-model="checked" ng-click="v[0].HostPort = ''">
+                          <input type="checkbox" ng-model="checked" ng-click="hostVolumes[$index] = ''">
                         </span>
-                        <input type="text" class="form-control" ng-model="(v[0])['HostPort']" 
-                        placeholder="{{checked?'Enter port ...':'Random'}}" ng-disabled="!checked">
+                        <input type="text" class="form-control" ng-model="hostVolumes[$index]" 
+                        ng-disabled="!checked" placeholder="{{checked?'Enter volume ...':'Random'}}">
                       </div>
                     </td>
                     <td>
@@ -37,9 +44,10 @@
         </div>
       </div>
     </div>
+    <div ui-view="bindingAddress"></div>
   </form>
 </div>
 <div class="modal-footer">
   <button class="btn btn-default" ng-click="close()">Close</button>
-  <button class="btn btn-primary" ng-click="start()">Start</button>
+  <button class="btn btn-primary" ng-click="create()">Create</button>
 </div>

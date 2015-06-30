@@ -1,7 +1,6 @@
-angular.module( 'amhub.browseRepos', [
+angular.module( 'app.browseRepos', [
   'ui.router',
-  'ui.bootstrap',
-  'docker'
+  'ui.bootstrap'
 ])
 
 .config( function config( $stateProvider ) {
@@ -45,7 +44,7 @@ angular.module( 'amhub.browseRepos', [
       $scope.repos = data;
     });
   };
-
+  
   $scope.pull = function( name ) {
     Image.pull({ fromImage: name+':latest' });
   };

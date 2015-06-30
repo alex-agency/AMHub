@@ -11,8 +11,11 @@
     </div>
     <div class="panel-body">
       <ul>
-        <li ng-repeat="name in image.RepoTags">
-          <a ui-sref="imageInfo({name: name})">{{ name }}</a>
+        <li ng-repeat="image in images">
+          <a ng-if="image.RepoTags != '<none>:<none>'" ui-sref="imageInfo({name: image.RepoTags[0]})">
+            {{:: image.RepoTags[0] }}
+          </a>
+          <span ng-if="image.RepoTags == '<none>:<none>'">{{:: image.RepoTags[0] }}</span> 
         </li>
       </ul>
     </div>
@@ -25,7 +28,7 @@
       <ul>
         <li ng-repeat="container in imageContainers">
           <a ui-sref="containerInfo({name: container.Names[0].slice(1)})">
-            {{ container.Names[0].slice(1) }}
+            {{:: container.Names[0].slice(1) }}
           </a>
         </li>
       </ul>

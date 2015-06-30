@@ -12,13 +12,13 @@
         <tbody>
           <tr>
             <th>Created</th>
-            <td>{{ image.Created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td>{{:: image.Created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
           </tr>
           <tr>
             <th>Environment</th>
             <td>
               <ul style="display:inline-table">
-                <li ng-repeat="k in image.Config.Env">{{ k }}</li>
+                <li ng-repeat="k in image.Config.Env">{{:: k }}</li>
               </ul>
             </td>
           </tr>
@@ -26,29 +26,29 @@
             <th>Exposed ports</th>
             <td>
               <ul style="display:inline-table">
-                <li ng-repeat="(k,v) in image.Config.ExposedPorts">{{ k }}</li>
+                <li ng-repeat="(k,v) in image.Config.ExposedPorts">{{:: k }}</li>
               </ul>
             </td>
           </tr>
           <tr>
             <th>Hostname</th>
-            <td>{{ image.Config.Hostname }}</td>
+            <td>{{:: image.Config.Hostname }}</td>
           </tr>
           <tr>
             <th>Volumes</th>
             <td>
               <ul style="display:inline-table">
-                <li ng-repeat="(k,v) in image.Config.Volumes">{{ k }}</li>
+                <li ng-repeat="(k,v) in image.Config.Volumes">{{:: k }}</li>
               </ul>
             </td>
           </tr>
           <tr>
             <th>Size</th>
-            <td>{{ image.Size }}</td>
+            <td>{{:: image.Size }}</td>
           </tr>
           <tr>
             <th>Virtual Size</th>
-            <td>{{ image.VirtualSize }}</td>
+            <td>{{:: image.VirtualSize }}</td>
           </tr>           
         </tbody>
       </table>

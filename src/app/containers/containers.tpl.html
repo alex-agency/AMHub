@@ -1,11 +1,14 @@
-<div class="page-header">
+<div class="page-header" ng-if="containers.length > 0">
   <h1> <i class="fa fa-th"></i>  Containers</h1>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-default" ng-if="containers.length > 0">
   <div class="panel-heading" ng-hide="containers.length < searchThreshold">
     <div class="input-group">
       <span class="input-group-addon"><i class="fa fa-search"></i></span>
       <input ng-model="search" class="form-control" placeholder="Containers search for ...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="viewLimit=999">Show All</button>
+      </span>
     </div>
   </div>
   <div class="table-responsive">
@@ -32,15 +35,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="container in containers | filter:search | orderBy:sort:reverse"
+        <tr ng-repeat="container in containers | filter:search | limitTo:viewLimit | orderBy:sort:reverse"
         ng-hide="!settings.advanced && imageFilter(container, 'alexagency/amhub')">
           <td>
             <button class="btn btn-success btn-xs" ui-sref="startContainer({name: container.Names[0].slice(1)})"
-            ng-show="container.Status.indexOf('Up')">
+            ng-if="container.Status.indexOf('Up')">
               Start
             </button>
             <button class="btn btn-warning btn-xs" ui-sref="stopContainer({name: container.Names[0].slice(1)})"
-            ng-hide="container.Status.indexOf('Up')">
+            ng-if=" !container.Status.indexOf('Up')">
               Stop
             </button>
             <button class="btn btn-info btn-xs" ui-sref="commitContainer({name: container.Names[0].slice(1)})">
@@ -52,21 +55,21 @@
           </td>
           <td>
             <li ng-repeat='name in container.Names'>
-              <a ui-sref="containerInfo({name: name.slice(1)})">{{ name.slice(1) }}</a>
+              <a ui-sref="containerInfo({name: name.slice(1)})">{{:: name.slice(1) }}</a>
             </li>
           </td>
           <td>
-            <span class="label label-{{container.Status.indexOf('Up')?'danger':'success'}}">
-              {{ container.Status }}
+            <span class="label label-{{::container.Status.indexOf('Up')?'danger':'success'}}">
+              {{:: container.Status }}
             </span>
           </td>
           <td>
-            <a ui-sref="imageInfo({name: container.Image})" ng-show="settings.advanced">
-              {{ container.Image }}
+            <a ui-sref="imageInfo({name: container.Image})" ng-if="settings.advanced">
+              {{:: container.Image }}
             </a>
-            <span ng-hide="settings.advanced">{{ container.Image }}</span>
+            <span ng-if=" !settings.advanced">{{:: container.Image }}</span>
           </td>
-          <td>{{ container.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          <td>{{:: container.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
         </tr>
       </tbody>
     </table>

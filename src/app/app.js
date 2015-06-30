@@ -5,18 +5,19 @@ angular.module( 'amhub', [
   'ui.bootstrap',
   'docker',
   'cookies',
-  'amhub.home',
-  'amhub.settings',
-  'amhub.images',
-  'amhub.containers',
-  'amhub.imageInfo',
-  'amhub.createContainer',
-  'amhub.removeImage',
-  'amhub.containerInfo',
-  'amhub.commitContainer',
-  'amhub.removeContainer',
-  'amhub.startContainer',
-  'amhub.browseRepos'
+  'app.home',
+  'app.settings',
+  'app.images',
+  'app.imageInfo',
+  'app.removeImage',
+  'app.browseRepos',
+  'app.containers',
+  'app.bindingAddress',
+  'app.startContainer',
+  'app.createContainer',
+  'app.containerInfo',
+  'app.commitContainer',
+  'app.removeContainer'
 ])
 
 .config( function myAppConfig ( $locationProvider, $urlRouterProvider ) {
@@ -53,4 +54,3 @@ angular.module( 'amhub', [
 })
 
 ;
-

@@ -1,6 +1,5 @@
-angular.module( 'amhub.images', [
-  'ui.router',
-  'docker'
+angular.module( 'app.images', [
+  //'ui.router'
 ])
 
 /*
@@ -20,26 +19,71 @@ angular.module( 'amhub.images', [
 */
 
 .controller( 'ImagesCtrl', 
-  function ImagesCtrl( $scope, $rootScope, $modal, $interval, Cookies, Image ) {
+  function ImagesCtrl( $scope, $rootScope, $modal, $interval, Cookies, ImageService ) {
 
   $scope.settings = Cookies.settings;
   $scope.searchThreshold = 10;
-
-  $rootScope.updateImages = function() {
-    Image.query({}, function( images ) {
-      $rootScope.images = [];
-      angular.forEach( images, function( item ) {
-        if( advancedView(item, $scope.settings.filter) ) {
-          this.push(item);
-        }
-      }, $rootScope.images );
-    });
-  };
-  $scope.updateImages();
-  $interval($scope.updateImages, 9000);
+  $scope.viewLimit = 10;
   $scope.sort = '-Created';
 
-  $scope.imageFilter = function( data, filters ) {
+  $scope.update = function() {
+    ImageService.update();
+  };
+  var intervalPromise = $interval($scope.update, 15000);
+
+  $scope.getContainersCount = function( data ) {
+    var containers = [];
+    for (var i in $scope.containers) {
+      if( $scope.containers[i].Image == data.RepoTags[0] ) {
+        containers.push($scope.containers[i]);
+      }
+    }
+    return containers.length;
+  };
+
+  $scope.imageFilter = ImageService.imageFilter;
+
+  $scope.$on('$destroy', function () { 
+    $interval.cancel(intervalPromise);
+  });
+
+})
+
+.service( 'ImageService', 
+  function ( $rootScope, $q, Cookies, Image, ContainerService ) {
+  var self = this;
+
+  this.init = function() {
+    if( !$rootScope.images) {
+      return self.update();
+    }
+    return $q.when();
+  };
+
+  this.update = function() {
+    var settings = Cookies.settings;
+
+    var advancedView = function( data, filters ) {
+      if( !settings.advanced ) {
+        filters += '|!<none>|!alexagency/amhub';
+      }
+      return self.imageFilter(data, filters);
+    };
+
+    var deferred = $q.defer();
+    Image.query({}, function( images ) {
+      $rootScope.images = [];
+      for(var i in images) {
+        if( advancedView(images[i], settings.filter) ) {
+          $rootScope.images.push(images[i]);
+        }
+      }
+      return deferred.resolve();
+    });
+    return deferred.promise;
+  };
+
+  this.imageFilter = function( data, filters ) {
     if( !data.RepoTags ) {
       return false;
     }
@@ -56,21 +100,38 @@ angular.module( 'amhub.images', [
     return false;
   };
 
-  var advancedView = function( data, filters ) {
-    if( !$scope.settings.advanced ) {
-      filters += '|!<none>|!alexagency/amhub';
-    }
-    return $scope.imageFilter(data, filters);
+  this.getAllByName = function( name ) {
+    return self.init().then(function() {
+      var images = [];
+      for (var i in $rootScope.images) {
+        var names = $rootScope.images[i].RepoTags;
+        for (var j in names) {
+          if( names[j] == name ) {
+              images.push($rootScope.images[i]);
+          }
+        }
+      }
+      return images;
+    });
   };
 
-  $scope.getContainersCount = function( data ) {
-    var containers = [];
-    for (var i in $scope.containers) {
-      if( $scope.containers[i].Image == data.RepoTags[0] ) {
-        containers.push($scope.containers[i]);
-      }
-    }
-    return containers.length;
+  this.remove = function( name ) {
+    var removeImage = function( image ) {
+      Image.remove({ id: image.Id }, function() {
+        console.log('Image removed.');
+      });
+    }; 
+    var removeAllImages = function( name ) {
+      self.getAllByName( name ).then(function( images ) {
+        for(var i in images) {
+          removeImage(images[i]);  
+        }
+      });
+    };
+    return ContainerService.removeAllByImage( name )
+      .then(function() {
+        removeAllImages(name);
+    });
   };
 
 })

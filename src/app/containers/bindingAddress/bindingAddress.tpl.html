@@ -1,0 +1,48 @@
+<div class="form-group" ng-if="bindingPorts && addresses.length > 0">
+  <label for="name" class="col-lg-3 control-label">Binding Address</label>
+  <div class="col-lg-9">
+    <div class="input-group">
+      <span class="input-group-addon">IPv4</span>
+      <select class="form-control" ng-model="hostIp" 
+        ng-options="address.ip as address.ip for address in addresses"
+        ng-change="setBindings(hostIp)">
+        <option value="">0.0.0.0</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="form-group" ng-if="settings.advanced && bindingPorts">
+  <label for="name" class="col-lg-3 control-label">Binding Ports</label>
+  <div class="col-lg-9"> 
+    <div class="panel panel-default">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-lg-6">Host</th>
+              <th>Container</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(k,v) in bindingPorts">
+                <td>
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-addon">
+                      <input type="checkbox" ng-model="checked" ng-disabled="v[0].HostIp"  
+                      ng-change="v[0]['HostPort'] = ''">
+                    </span>
+                    <input type="text" class="form-control" ng-model="v[0]['HostPort']" 
+                    placeholder="{{checked?'Enter port ...':'Random'}}" 
+                    ng-disabled="!checked || v[0].HostIp">
+                  </div>
+                </td>
+                <td>
+                  <input type="text" class="form-control input-sm" disabled ng-value="k">
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -37,6 +37,7 @@
     "karma-ng-html2js-preprocessor": "~0.1",
     "karma-coverage": "~0.2",
     "express": "~4.10",
-    "grunt-karma-coveralls": "~2.5"
+    "grunt-karma-coveralls": "~2.5",
+    "body-parser": "^1.13"
   }
 }

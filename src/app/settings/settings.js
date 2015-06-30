@@ -1,7 +1,8 @@
-angular.module( 'amhub.settings', [
+angular.module( 'app.settings', [
   'ui.router',
   'ui.bootstrap',
-  'cookies'
+  'cookies',
+  'server'
 ])
 
 .config( function config( $stateProvider ) {
@@ -28,10 +29,23 @@ angular.module( 'amhub.settings', [
   ;
 })
 
-.controller( 'SettingsCtrl', function SettingsCtrl( $scope, Cookies ) {
+.controller( 'SettingsCtrl', function SettingsCtrl( $scope, Cookies, Config ) {
 
   $scope.settings = Cookies.settings;
   $scope.updateCookies = Cookies.update;
+
+  Config.get({}, function(data) {
+    $scope.config = data;
+  });
+
+  /*$scope.updateConfig = function(item) {
+    var value = { data: $scope.config[item] };
+    Config.update({ item:item }, value);
+  };*/
+
+  $scope.saveConfig = function() {
+    Config.save({}, $scope.config);
+  };
 
   $scope.close = function() {
     $scope.$dismiss();

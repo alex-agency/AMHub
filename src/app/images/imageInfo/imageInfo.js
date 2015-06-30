@@ -1,7 +1,6 @@
-angular.module( 'amhub.imageInfo', [
+angular.module( 'app.imageInfo', [
   'ui.router',
-  'ui.bootstrap',
-  'docker'
+  'ui.bootstrap'
 ])
 
 .config( function config( $stateProvider ) {
@@ -14,7 +13,7 @@ angular.module( 'amhub.imageInfo', [
         $modal
           // handle modal open
           .open({
-            templateUrl: 'imageInfo/imageInfo.tpl.html',
+            templateUrl: 'images/imageInfo/imageInfo.tpl.html',
             controller: 'ImageInfoCtrl',
             size: 'lg'
           })
@@ -30,17 +29,15 @@ angular.module( 'amhub.imageInfo', [
 })
 
 .controller( 'ImageInfoCtrl', 
-  function ImageInfoCtrl( $scope, $stateParams, Image, Container ) {
+  function ImageInfoCtrl( $scope, $rootScope, $stateParams, Image, ContainerService ) {
 
-  $scope.image = Image.get({ id: $stateParams.name });
-
-  $scope.imageContainers = [];
-  Container.query({}, function( containers ) {
-    for (var i in containers) {
-      if( containers[i].Image == $stateParams.name ) {
-        $scope.imageContainers.push(containers[i]);
-      }
-    }
+  var name = decodeURIComponent($stateParams.name);
+  
+  $scope.image = Image.get({ id: name });
+  
+  ContainerService.getAllByImage( name )
+    .then(function( containers ) {
+      $scope.imageContainers = containers;
   });
 
   $scope.close = function() {

@@ -1,7 +1,6 @@
-angular.module( 'amhub.containerInfo', [
+angular.module( 'app.containerInfo', [
   'ui.router',
-  'ui.bootstrap',
-  'docker'
+  'ui.bootstrap'
 ])
 
 .config( function config( $stateProvider ) {
@@ -14,7 +13,7 @@ angular.module( 'amhub.containerInfo', [
         $modal
           // handle modal open
           .open({
-            templateUrl: 'containerInfo/containerInfo.tpl.html',
+            templateUrl: 'containers/containerInfo/containerInfo.tpl.html',
             controller: 'ContainerInfoCtrl',
             size: 'lg'
           })
@@ -29,24 +28,13 @@ angular.module( 'amhub.containerInfo', [
     .state( 'stopContainer', {
       url: 'containers/:name/stop',
       parent: 'home',
-      onEnter: function onEnter( $rootScope, $state, $stateParams, Container ) {
-        Container.query({}, function( containers ) {
-          for (var i in containers) {
-            var names = containers[i].Names;
-            for (var j in names) {
-              if( names[j].slice(1) == $stateParams.name ) {
-                stop( containers[i] );
-                break;
-              }
-            }
-          }
+      onEnter: function onEnter( $rootScope, $state, $stateParams, ContainerService, Container ) {
+        ContainerService.getByName( decodeURIComponent($stateParams.name) )
+          .then(function( container ) {
+            Container.stop({ id: container.Id }, function() {
+              console.log('Container stoped.');
+            });
         });
-        var stop = function( data ) {
-          Container.stop({ id: data.Id }, function() {
-            console.log('Container stopped.');
-            $rootScope.updateContainers();
-          });
-        };
         $state.transitionTo('home');
       }
     })
@@ -54,33 +42,25 @@ angular.module( 'amhub.containerInfo', [
 })
 
 .controller( 'ContainerInfoCtrl', 
-  function ContainerInfoCtrl( $scope, $stateParams, $location, $interval, Container ) {
+  function ContainerInfoCtrl( $scope, $stateParams, $location, $interval, ContainerService, Container ) {
 
-  Container.query({}, function( containers ) {
-    for (var i in containers) {
-      var names = containers[i].Names;
-      for (var j in names) {
-        if( names[j].slice(1) == $stateParams.name ) {
-          get_info( containers[i].Id );
-          break;
+  var intervalPromise; 
+  ContainerService.getByName( decodeURIComponent($stateParams.name) )
+    .then(function( container ) {
+      Container.get({ id: container.Id }, function( data ) {
+        $scope.container = data;
+        if(container.Status.indexOf('Up') != -1) {
+          intervalPromise = $interval(top, 5000);
+          top();
         }
-      }
-    }
+      });
   });
 
-  var get_info = function( id ) {
-    Container.get({ id: id }, function( data ) {
-      $scope.container = data;
-      refresh_top();            
-    });
-  };
-
-  var refresh_top = function() {
+  var top = function() {
     Container.top({ id: $scope.container.Id }, function( data ) {
       $scope.top = data;
     });
   };
-  $interval(refresh_top, 5000);
 
   $scope.connectHTTP = function( port ) {
     $scope.targeturl = "http://"+$location.host()+":"+port;   
@@ -104,6 +84,10 @@ angular.module( 'amhub.containerInfo', [
   $scope.close = function() {
     $scope.$dismiss();
   };
+
+  $scope.$on('$destroy', function () { 
+    $interval.cancel(intervalPromise);
+  });
 
 })
 

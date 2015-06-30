@@ -1,16 +1,19 @@
 <div class="page-header">
-  <div class="btn-group move-rigth" ng-hide="!settings.advanced">
+  <div class="btn-group move-rigth" ng-if="settings.advanced">
     <button type="button" class="btn btn-primary" ui-sref="browseRepos">
       Browse Repos
     </button>
   </div>
   <h1> <i class="fa fa-sitemap"></i> Images</h1>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-default" ng-if="images.length > 0">
   <div class="panel-heading" ng-hide="images.length < searchThreshold">
     <div class="input-group">
       <span class="input-group-addon"><i class="fa fa-search"></i></span>
       <input ng-model="search" class="form-control" placeholder="Images search for ...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="viewLimit=999">Show All</button>
+      </span>
     </div>
   </div>
   <div class="table-responsive">
@@ -23,7 +26,7 @@
               <i class="fa fa-sort"></i> Name
             </a>
           </th>
-          <th ng-show="settings.advanced">
+          <th ng-if="settings.advanced">
             <a href ng-click="sort='VirtualSize'; reverse=!reverse">
               <i class="fa fa-sort"></i> Size
             </a>
@@ -36,31 +39,31 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="image in images | filter:search | orderBy:sort:reverse"
-        ng-hide="!settings.advanced && imageFilter(image, '<none>')">
+        <tr ng-repeat="image in images | filter:search | limitTo:viewLimit | orderBy:sort:reverse"
+        ng-if="settings.advanced || !imageFilter(image, '<none>')">
           <td>
-            <span class="badge" ng-hide="imageFilter(image, '<none>')">
-              {{ getContainersCount(image) }}
+            <span class="badge" ng-if=" !imageFilter(image, '<none>')">
+              {{:: getContainersCount(image) }}
             </span>
-            <button class="btn btn-success btn-xs" ng-hide="imageFilter(image, '<none>')"
+            <button class="btn btn-success btn-xs" ng-if=" !imageFilter(image, '<none>')"
             ui-sref="createContainer({name: image.RepoTags[0]})">
               Create Container
             </button>
-            <button class="btn btn-danger btn-xs" ng-hide="!settings.advanced"
+            <button class="btn btn-danger btn-xs" ng-if="settings.advanced"
             ui-sref="removeImage({name: image.RepoTags[0]})">
               Remove Image
             </button>
           </td>
           <td>
             <li ng-repeat='name in image.RepoTags'>
-              <a ui-sref="imageInfo({name: name})" ng-hide="!settings.advanced || imageFilter(image, '<none>')">
-                {{ name }}
+              <a ui-sref="imageInfo({name: name})" ng-if="settings.advanced && !imageFilter(image, '<none>')">
+                {{:: name }}
               </a>
-              <span ng-hide="settings.advanced || imageFilter(image, '<none>')">{{ name }}</span> 
+              <span ng-if=" !settings.advanced && !imageFilter(image, '<none>')">{{:: name }}</span> 
             </li>
           </td>
-          <td ng-show="settings.advanced">{{ image.VirtualSize | filesize }}</td>
-          <td>{{ image.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+          <td ng-if="settings.advanced">{{:: image.VirtualSize | filesize }}</td>
+          <td>{{:: image.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
         </tr>
       </tbody>
     </table>

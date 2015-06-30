@@ -32,14 +32,14 @@
             <td>
               <button class="btn btn-primary btn-xs" ng-click="pull(repo.name)">Pull Image</button>
             </td>
-            <td><i class="fa fa-star" ng-show="repo.is_official"></i></td>
+            <td><i class="fa fa-star" ng-if="repo.is_official"></i></td>
             <td>
               <a target="_blank" 
-              href="https://registry.hub.docker.com/{{repo.is_official?'_':'u'}}/{{repo.name}}/">
-                {{ repo.name }}
+              href="https://registry.hub.docker.com/{{::repo.is_official?'_':'u'}}/{{::repo.name}}/">
+                {{:: repo.name }}
               </a>
             </td>
-            <td>{{ repo.description }}</td>
+            <td>{{:: repo.description }}</td>
           </tr>
         </tbody>
       </table>

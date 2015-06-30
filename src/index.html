@@ -25,14 +25,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="#_top" ng-click="isCollapsed=false" class="navbar-brand">
+          <a href="/#about" ng-click="isCollapsed=false" class="navbar-brand">
             <i class="fa fa-code-fork"></i> Application Manager Docker Hub
           </a>
         </div>
         <nav class="navbar-collapse bs-navbar-collapse" collapse="!isCollapsed">
           <ul class="nav navbar-nav">
-            <li><a href="#_images" ng-click="isCollapsed=false"><i class="fa fa-sitemap"></i> Images</a></li>
             <li><a href="#_containers" ng-click="isCollapsed=false"><i class="fa fa-th"></i> Containers</a></li>
+            <li><a href="#_images" ng-click="isCollapsed=false"><i class="fa fa-sitemap"></i> Images</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/#settings" ng-click="isCollapsed=false"><i class="fa fa-cog"></i> Settings</a></li>
@@ -41,14 +41,15 @@
       </div>
     </header>
 
-    <section id="_top">
-      <div class="container" ui-view="top"></div>
+    <section id="_about">
+      <div class="container" ui-view="about" autoscroll="false"></div>
+    </section>
+
+    <section id="_containers">
+      <div class="container" ui-view="containers" autoscroll="false"></div>
     </section>
     <section id="_images">
-      <div class="container" ui-view="images"></div>
-    </section>
-    <section id="_containers">
-      <div class="container" ui-view="containers"></div>
+      <div class="container" ui-view="images" autoscroll="false"></div>
     </section>
     
     <footer class="footer">

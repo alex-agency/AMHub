@@ -1,7 +1,6 @@
-angular.module( 'amhub.commitContainer', [
+angular.module( 'app.commitContainer', [
   'ui.router',
-  'ui.bootstrap',
-  'docker'
+  'ui.bootstrap'
 ])
 
 .config( function config( $stateProvider ) {
@@ -14,7 +13,7 @@ angular.module( 'amhub.commitContainer', [
         $modal
           // handle modal open
           .open({
-            templateUrl: 'commitContainer/commitContainer.tpl.html',
+            templateUrl: 'containers/commitContainer/commitContainer.tpl.html',
             controller: 'CommitContainerCtrl'
           })
           .result.then( function() {
@@ -30,28 +29,20 @@ angular.module( 'amhub.commitContainer', [
 })
 
 .controller( 'CommitContainerCtrl', 
-  function CommitContainerCtrl( $scope, $stateParams, Container, Commit ) {
+  function CommitContainerCtrl( $scope, $stateParams, ContainerService, Commit, ImageService ) {
 
-  var container = {};
-  Container.query({}, function( containers ) {
-    for (var i in containers) {
-      var names = containers[i].Names;
-      for (var j in names) {
-        if( names[j].slice(1) == $stateParams.name ) {
-          container = Container.get({ id: containers[i].Id });
-          break;
-        }
-      }
-    }
+  ContainerService.getByName( decodeURIComponent($stateParams.name) )
+    .then(function( container ) {
+      $scope.container = container;
   });
 
   $scope.commit = function() {
     Commit.post({ 
-      id: container.Id,
+      id: $scope.container.Id,
       name: $scope.name
-    }, function( image ) {
-        console.log('Image created: '+image.Id);
-        $scope.updateImages();
+    }, function() {
+      console.log('Image created.');
+      ImageService.update();
     });  
     $scope.$close();
   };

@@ -6,9 +6,10 @@
   <form class="form-horizontal">
     <div class="form-group">
       <label for="filter" class="col-lg-2 control-label">Filter</label>
-      <div class="col-lg-10"> 
+      <div class="col-lg-10">
         <input type="text" class="form-control" id="filter" 
-        placeholder="Enter filter" ng-model="settings.filter" ng-change="updateCookies()">
+        placeholder="Enter filter" ng-model="settings.filter" ng-change="updateCookies()"
+        ng-model-options="{debounce:600}">
       </div>
     </div>
     <div class="form-group">
@@ -26,6 +27,60 @@
             Advanced view
           </label>
         </div>
+      </div>
+    </div>
+    <div class="form-group" ng-if="settings.advanced">
+      <label for="address" class="col-lg-2 control-label">Addresses</label>
+      <div class="col-lg-10">
+
+        <div class="panel panel-default">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="col-xs-4">Actions</th>
+                  <th>IPv4</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="address in config.addresses">
+                  <td>
+                    <button class="btn btn-success btn-xs" ng-click="edit=!edit">
+                      Edit
+                    </button>
+                    <button class="btn btn-danger btn-xs" 
+                    ng-click="config.addresses.splice($index,1);saveConfig()">
+                      Remove
+                    </button>
+                  </td>
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <input ng-if="edit" type="text" class="form-control" id="address" 
+                        placeholder="Enter IPv4 ..." ng-model="address.ip" ng-change="saveConfig()" 
+                        ng-model-options="{debounce:1000}">
+                      <span ng-if=" !edit">{{:: address.ip }}</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button class="btn btn-info btn-xs" 
+                    ng-click="config.addresses.push({ip:newIP});saveConfig()">
+                      Add
+                    </button>
+                  </td>
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" placeholder="Enter IPv4 ..." 
+                      ng-model="newIP">
+                    </div>  
+                  </td>  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </div>
   </form>

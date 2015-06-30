@@ -1,6 +1,5 @@
-angular.module( 'amhub.containers', [
-  'ui.router',
-  'docker'
+angular.module( 'app.containers', [
+  //'ui.router'
 ])
 
 /*
@@ -20,47 +19,160 @@ angular.module( 'amhub.containers', [
 */
 
 .controller( 'ContainersCtrl', 
-  function ContainersCtrl( $scope, $rootScope, $modal, $interval, Cookies, Container ) {
+  function ContainersCtrl( $scope, $modal, $interval, Cookies, ContainerService, ImageService ) {
 
   $scope.settings = Cookies.settings;
   $scope.searchThreshold = 10;
-
-  $rootScope.updateContainers = function() {
-    Container.query({}, function( containers ) {
-      $rootScope.containers = [];
-      angular.forEach( containers, function( item ) {
-        if( advancedView(item, $scope.settings.filter) ) {
-          this.push(item);
-        }
-      }, $rootScope.containers );
-    });
-  };
-  $scope.updateContainers();
-  $interval($scope.updateContainers, 4000);
+  $scope.viewLimit = 10;
   $scope.sort = '-Created';
 
-  $scope.imageFilter = function( data, filters ) {
-    if( !data.Image ) {
-      return false;
+  $scope.update = function() {
+    ContainerService.update();
+  };
+  var intervalPromise = $interval($scope.update, 8000);
+
+  ContainerService.update().then( ImageService.update() );
+  
+  $scope.$on('$destroy', function () { 
+    $interval.cancel(intervalPromise);
+  });
+
+})
+
+.service( 'ContainerService', 
+  function ( $rootScope, $q, Cookies, Config, Container ) {
+  var self = this;
+
+  this.init = function() {
+    if( !$rootScope.containers) {
+      return self.update();
     }
-    var name = data.Image;
-    filters = filters.split('|');
-    for (var i in filters) {
-      if( filters[i].charAt(0) != '!' && 
-          name.indexOf(filters[i]) != -1 ) {
-        return true;
-      } else if( name.indexOf(filters[i].slice(1)) != -1 ) {
-        return false;
-      }
-    }
-    return false;
+    return $q.when();
   };
 
-  var advancedView = function( data, filters ) {
-    if( !$scope.settings.advanced ) {
-      filters += '|!alexagency/amhub';
-    }
-    return $scope.imageFilter(data, filters);
+  this.update = function() {
+    var settings = Cookies.settings;
+    
+    var imageFilter = function( data, filters ) {
+      if( !data.Image ) {
+        return false;
+      }
+      var name = data.Image;
+      filters = filters.split('|');
+      for (var i in filters) {
+        if( filters[i].charAt(0) != '!' && 
+            name.indexOf(filters[i]) != -1 ) {
+          return true;
+        } else if( name.indexOf(filters[i].slice(1)) != -1 ) {
+          return false;
+        }
+      }
+      return false;
+    };
+
+    var advancedView = function( data, filters ) {
+      if( !settings.advanced ) {
+        filters += '|!alexagency/amhub';
+      }
+      return imageFilter(data, filters);
+    };
+
+    var deferred = $q.defer();
+    Container.query({}, function( containers ) {
+      $rootScope.containers = [];
+      for(var i in containers) {
+        if( advancedView(containers[i], settings.filter) ) {
+          $rootScope.containers.push(containers[i]);
+        }
+      }
+      return deferred.resolve();
+    });
+    return deferred.promise;
+  };
+
+  this.getByName = function( name ) {
+    return self.init().then(function() {
+      for (var i in $rootScope.containers) {
+        if($rootScope.containers[i].Names[0].slice(1) == name) { 
+          return $rootScope.containers[i];
+        }
+      }
+    });
+  };
+
+  this.getActive = function() {
+    return self.init().then(function() {
+      var containers = [];
+      for(var i in $rootScope.containers) {
+        if($rootScope.containers[i].Status.indexOf('Up') != -1) {
+          containers.push($rootScope.containers[i]);
+        }  
+      }
+      return containers;
+    });
+  };
+
+  this.getFreeAddresses = function() {
+    var addresses = [];
+    var removeUsedAddresses = function( id ) {
+      Container.get({ id: id }, function( container ) {
+        var ports = container.NetworkSettings.Ports; 
+        if(ports.length > 0) {
+          var containerIp = ports[0][0].HostIp;
+          for(var i in addresses) {
+            if(addresses[i].ip == containerIp) {
+              addresses.splice(i,1);
+            }
+          }
+        }
+      });
+    };
+    var deferred = $q.defer();
+    Config.get({}, function(config) {
+      addresses = config.addresses;
+      self.getActive().then(function( containers ) {
+        for (var i in containers) {
+          removeUsedAddresses( containers[i].Id );
+        }
+        return deferred.resolve( addresses );
+      });
+    });
+    return deferred.promise;
+  }; 
+
+  this.remove = function( id ) {
+    return Container.kill({ id: id }, function() {
+      console.log('Container killed.');
+      return Container.remove({ id: id }, function() {
+        console.log('Container removed.');
+      });
+    });
+  };
+
+  this.getAllByImage = function( imageName ) {
+    return self.init().then(function() {
+      var imageContainers = [];
+      for (var i in $rootScope.containers) {
+        var container = $rootScope.containers[i];
+        if( container.Image == imageName ) {
+          imageContainers.push(container);
+        }
+      }
+      return imageContainers;
+    });
+  };
+
+  this.removeAllByImage = function( imageName ) {
+    return self.init().then(function() {
+      var promises = [];
+      for (var i in $rootScope.containers) {
+        var container = $rootScope.containers[i];
+        if( container.Image == imageName ) {
+          promises.push(self.remove( container.Id ));
+        }
+      }
+      return $q.all(promises);
+    });
   };
 
 })
