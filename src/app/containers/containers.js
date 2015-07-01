@@ -115,39 +115,27 @@ angular.module( 'app.containers', [
   };
 
   this.getFreeAddresses = function() {
-    var addresses = [];
-    var removeUsedAddresses = function( id ) {
-      var innerDeferred = $q.defer();
-      Container.get({ id: id }, function( container ) {
-        var ports = container.NetworkSettings.Ports;
-        for(var port in ports) {
-          if(ports[port] && ports[port][0]) {
-            var containerIp = ports[port][0].HostIp;
-            if(containerIp != "0.0.0.0") {
-              for(var i in addresses) {
-                if(addresses[i].ip == containerIp) {
-                  addresses.splice(i,1);
-                }
-              }
-            } 
-          }
-        }
-        return innerDeferred.resolve();
-      });
-      return innerDeferred.promise;
-    };
     var deferred = $q.defer();
     Config.get({}, function(config) {
-      addresses = config.addresses;
-      self.getActive().then(function( containers ) {
-        var promises = [];
-        for (var i in containers) {
-          promises.push(removeUsedAddresses( containers[i].Id ));
+      var addresses = config.addresses;
+      self.init().then(function() {
+        for (var i in $rootScope.containers) {
+          var container = $rootScope.containers[i];
+          for(var index in container.Ports) {
+            if(container.Ports[index] && container.Ports[index].IP) {
+              var containerIp = container.Ports[index].IP;
+              if(containerIp != "0.0.0.0") {
+                for(var j in addresses) {
+                  if(addresses[j].ip == containerIp) {
+                    addresses.splice(j,1);
+                    break;
+                  }
+                }
+              } 
+            }
+          }
         }
-        return $q.all(promises)
-          .then(function(resolutions) {
-            deferred.resolve(addresses);
-        });
+        deferred.resolve(addresses);
       });
     });
     return deferred.promise;
