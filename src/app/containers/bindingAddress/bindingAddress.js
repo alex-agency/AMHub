@@ -1,17 +1,23 @@
 angular.module( 'app.bindingAddress', [])
 
 .controller( 'BindingAddressCtrl', 
-  function BindingAddressCtrl( $scope, $stateParams, Cookies, ContainerService ) {
+  function BindingAddressCtrl( $scope, $stateParams, Cookies, Config, ContainerService ) {
 
   $scope.settings = Cookies.settings;
 
-  ContainerService.getFreeAddresses().then(function( addresses ) {
-    if(addresses.length > 0) {
-      $scope.addresses = addresses;
-      $scope.hostIp = addresses[0].ip;
-      $scope.setBindings( $scope.hostIp );
-    }
-  });
+  if($scope.settings.disableAddressesLookup) {
+    Config.get({}, function(config) {
+      $scope.addresses = config.addresses;
+    });
+  } else {
+    ContainerService.getFreeAddresses().then(function( addresses ) {
+      if(addresses.length > 0) {
+        $scope.addresses = addresses;
+        $scope.hostIp = addresses[0].ip;
+        $scope.setBindings( $scope.hostIp );
+      }
+    }); 
+  }
 
   $scope.setBindings = function( ip ) {
     for(var port in $scope.bindingPorts) {

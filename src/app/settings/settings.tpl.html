@@ -32,7 +32,6 @@
     <div class="form-group" ng-if="settings.advanced">
       <label for="address" class="col-lg-2 control-label">Addresses</label>
       <div class="col-lg-10">
-
         <div class="panel panel-default">
           <div class="table-responsive">
             <table class="table">
@@ -78,9 +77,14 @@
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div>        
         </div>
-
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="settings.disableAddressesLookup" ng-change="updateCookies()">
+            More then one container per address
+          </label>
+        </div>
       </div>
     </div>
   </form>

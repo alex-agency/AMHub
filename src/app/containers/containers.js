@@ -115,26 +115,36 @@ angular.module( 'app.containers', [
   this.getFreeAddresses = function() {
     var addresses = [];
     var removeUsedAddresses = function( id ) {
+      var innerDeferred = $q.defer();
       Container.get({ id: id }, function( container ) {
-        var ports = container.NetworkSettings.Ports; 
-        if(ports.length > 0) {
-          var containerIp = ports[0][0].HostIp;
-          for(var i in addresses) {
-            if(addresses[i].ip == containerIp) {
-              addresses.splice(i,1);
+        var ports = container.NetworkSettings.Ports;
+        for(var port in ports) {
+          var containerIp = ports[port][0].HostIp;
+          if(containerIp != "0.0.0.0") {
+            for(var i in addresses) {
+              if(addresses[i].ip == containerIp) {
+                addresses.splice(i,1);
+              }
             }
           }
+          break; // check first port only
         }
+        return innerDeferred.resolve();
       });
+      return innerDeferred.promise;
     };
     var deferred = $q.defer();
     Config.get({}, function(config) {
       addresses = config.addresses;
       self.getActive().then(function( containers ) {
+        var promises = [];
         for (var i in containers) {
-          removeUsedAddresses( containers[i].Id );
+          promises.push(removeUsedAddresses( containers[i].Id ));
         }
-        return deferred.resolve( addresses );
+        return $q.all(promises)
+          .then(function(resolutions) {
+            deferred.resolve(addresses);
+        });
       });
     });
     return deferred.promise;
@@ -163,7 +173,8 @@ angular.module( 'app.containers', [
   };
 
   this.removeAllByImage = function( imageName ) {
-    return self.init().then(function() {
+    var deferred = $q.defer();
+    self.init().then(function() {
       var promises = [];
       for (var i in $rootScope.containers) {
         var container = $rootScope.containers[i];
@@ -171,8 +182,12 @@ angular.module( 'app.containers', [
           promises.push(self.remove( container.Id ));
         }
       }
-      return $q.all(promises);
+      $q.all(promises)
+        .then(function(resolutions) {
+          return deferred.resolve();
+      });
     });
+    return deferred.promise;
   };
 
 })
