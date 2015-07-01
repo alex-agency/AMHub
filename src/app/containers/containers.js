@@ -33,6 +33,8 @@ angular.module( 'app.containers', [
 
   ContainerService.update().then( ImageService.update() );
   
+  $scope.imageFilter = ContainerService.imageFilter;
+
   $scope.$on('$destroy', function () { 
     $interval.cancel(intervalPromise);
   });
@@ -50,31 +52,31 @@ angular.module( 'app.containers', [
     return $q.when();
   };
 
+  this.imageFilter = function( data, filters ) {
+    if( !data.Image ) {
+      return false;
+    }
+    var name = data.Image;
+    filters = filters.split('|');
+    for (var i in filters) {
+      if( filters[i].charAt(0) != '!' && 
+          name.indexOf(filters[i]) != -1 ) {
+        return true;
+      } else if( name.indexOf(filters[i].slice(1)) != -1 ) {
+        return false;
+      }
+    }
+    return false;
+  };
+
   this.update = function() {
     var settings = Cookies.settings;
     
-    var imageFilter = function( data, filters ) {
-      if( !data.Image ) {
-        return false;
-      }
-      var name = data.Image;
-      filters = filters.split('|');
-      for (var i in filters) {
-        if( filters[i].charAt(0) != '!' && 
-            name.indexOf(filters[i]) != -1 ) {
-          return true;
-        } else if( name.indexOf(filters[i].slice(1)) != -1 ) {
-          return false;
-        }
-      }
-      return false;
-    };
-
     var advancedView = function( data, filters ) {
       if( !settings.advanced ) {
         filters += '|!alexagency/amhub';
       }
-      return imageFilter(data, filters);
+      return self.imageFilter(data, filters);
     };
 
     var deferred = $q.defer();

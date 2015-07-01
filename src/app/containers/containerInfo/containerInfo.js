@@ -62,18 +62,27 @@ angular.module( 'app.containerInfo', [
     });
   };
 
-  $scope.connectHTTP = function( port ) {
-    $scope.targeturl = "http://"+$location.host()+":"+port;   
+  $scope.connectHTTP = function( ip, port ) {
+    if(ip == '0.0.0.0') {
+      ip = $location.host();
+    }
+    $scope.targeturl = "http://"+ip+":"+port;    
   };
 
-  $scope.connectHTTPS = function( port ) {
-    $scope.targeturl = "https://"+$location.host()+":"+port;   
+  $scope.connectHTTPS = function( ip, port ) {
+    if(ip == '0.0.0.0') {
+      ip = $location.host();
+    }
+    $scope.targeturl = "https://"+ip+":"+port;   
   };
 
-  $scope.connectRDP = function( port ) {
+  $scope.connectRDP = function( ip, port ) {
+    if(ip == '0.0.0.0') {
+      ip = $location.host();
+    }
     var blob = 
       new Blob(["auto connect:i:1\n"+
-                "full address:s:"+$location.host()+":"+port+"\n"+
+                "full address:s:"+ip+":"+port+"\n"+
                 "username:s:user\n"+
                 "redirectclipboard:i:1"],
       {type: "text/plain;charset=" + document.characterSet});

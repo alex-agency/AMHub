@@ -35,15 +35,17 @@
                   
                   <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
                   ng-if="(c=='3389/tcp')?true:false" 
-                  ng-click="connectRDP(h[0].HostPort)">RDP Connect</a>
+                  ng-click="connectRDP(h[0].HostIp, h[0].HostPort)">RDP Connect</a>
                   
                   <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
                   ng-if="(c=='80/tcp' || c=='8080/tcp' || c=='9019/tcp')?true:false"
-                  ng-click="connectHTTP(h[0].HostPort)" target="_blank" ng-href="{{::targeturl}}">HTTP Connect</a>
+                  ng-click="connectHTTP(h[0].HostIp, h[0].HostPort)" 
+                  target="_blank" ng-href="{{::targeturl}}">HTTP Connect</a>
 
                   <a class="btn btn-success btn-xs" style="margin-bottom:2px" 
                   ng-if="(c=='443/tcp' || c=='8443/tcp')?true:false"
-                  ng-click="connectHTTPS(h[0].HostPort)" target="_blank" ng-href="{{::targeturl}}">HTTPS Connect</a>
+                  ng-click="connectHTTPS(h[0].HostIp, h[0].HostPort)" 
+                  target="_blank" ng-href="{{::targeturl}}">HTTPS Connect</a>
                 </li>
               </ul>
             </td>

@@ -6,7 +6,7 @@
     <div class="input-group">
       <span class="input-group-addon"><i class="fa fa-search"></i></span>
       <input ng-model="search" class="form-control" placeholder="Containers search for ...">
-      <span class="input-group-btn" ng-if="images.length > viewLimit">
+      <span class="input-group-btn" ng-show="images.length > viewLimit">
         <button class="btn btn-default" type="button" ng-click="viewLimit=999">Show All</button>
       </span>
     </div>
@@ -36,20 +36,21 @@
       </thead>
       <tbody>
         <tr ng-repeat="container in containers | filter:search | limitTo:viewLimit | orderBy:sort:reverse"
-        ng-hide="!settings.advanced && imageFilter(container, 'alexagency/amhub')">
+        ng-if="settings.advanced || !imageFilter(container, 'amhub')"
+        ng-init="name=container.Names[0].slice(1)">
           <td>
-            <button class="btn btn-success btn-xs" ui-sref="startContainer({name: container.Names[0].slice(1)})"
+            <button class="btn btn-success btn-xs" ui-sref="startContainer({name: name})"
             ng-if="container.Status.indexOf('Up')">
               Start
             </button>
-            <button class="btn btn-warning btn-xs" ui-sref="stopContainer({name: container.Names[0].slice(1)})"
+            <button class="btn btn-warning btn-xs" ui-sref="stopContainer({name: name})"
             ng-if=" !container.Status.indexOf('Up')">
               Stop
             </button>
-            <button class="btn btn-info btn-xs" ui-sref="commitContainer({name: container.Names[0].slice(1)})">
+            <button class="btn btn-info btn-xs" ui-sref="commitContainer({name: name})">
               Commit
             </button>
-            <button class="btn btn-danger btn-xs" ui-sref="removeContainer({name: container.Names[0].slice(1)})">
+            <button class="btn btn-danger btn-xs" ui-sref="removeContainer({name: name})">
               Remove
             </button>
           </td>
