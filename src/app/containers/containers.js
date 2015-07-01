@@ -119,15 +119,16 @@ angular.module( 'app.containers', [
       Container.get({ id: id }, function( container ) {
         var ports = container.NetworkSettings.Ports;
         for(var port in ports) {
-          var containerIp = ports[port][0].HostIp;
-          if(containerIp != "0.0.0.0") {
-            for(var i in addresses) {
-              if(addresses[i].ip == containerIp) {
-                addresses.splice(i,1);
+          if(ports[port] && ports[port][0]) {
+            var containerIp = ports[port][0].HostIp;
+            if(containerIp != "0.0.0.0") {
+              for(var i in addresses) {
+                if(addresses[i].ip == containerIp) {
+                  addresses.splice(i,1);
+                }
               }
-            }
+            } 
           }
-          break; // check first port only
         }
         return innerDeferred.resolve();
       });
