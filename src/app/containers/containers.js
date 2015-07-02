@@ -95,8 +95,13 @@ angular.module( 'app.containers', [
   this.getByName = function( name ) {
     return self.init().then(function() {
       for (var i in $rootScope.containers) {
-        if($rootScope.containers[i].Names[0].slice(1) == name) { 
-          return $rootScope.containers[i];
+        var container = $rootScope.containers[i];
+        if(container.Names[0]) {
+          if(container.Names[0].slice(1) == name) { 
+            return container;
+          }
+        } else {
+          return container; //return first container without name
         }
       }
     });
