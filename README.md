@@ -55,8 +55,8 @@ And manages available virtual ip-addresses.
 This project is containerized by docker and you can simply run it:
 
 ```
-# docker pull alexagency/amhub
-# docker run -d -p 80:80 -p 8000:8000 -v /var/run/docker.sock:/docker.sock alexagency/amhub
+  docker pull alexagency/amhub
+  docker run -d -p 80:80 -p 8000:8000 -v /var/run/docker.sock:/docker.sock alexagency/amhub
 ```
 
 and browsing to it:
