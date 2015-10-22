@@ -4,6 +4,8 @@
 Application Manager Docker Hub
 ===============================
 
+[![Join the chat at https://gitter.im/alex-agency/AMHub](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/alex-agency/AMHub?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Containers View 
 Shows all docker containers.
 
