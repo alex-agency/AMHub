@@ -14,6 +14,17 @@ var DOCKER_SOCKET = '/docker.sock';
 net.createServer(function (socket) {
   // get msg request from tcp client
   socket.on('data', function (msg) {
+    // define CORS header
+    var headerCORS = "\r\nAccess-Control-Allow-Headers: Content-Type" +
+      "\r\nAccess-Control-Allow-Methods: GET, POST, DELETE" +
+      "\r\nAccess-Control-Allow-Origin: *";
+    // resolve CORS prefligth request
+    if(msg.toString().indexOf("OPTIONS") === 0) {
+      socket.end("HTTP/1.1 200 OK" +
+        headerCORS +
+        "\r\nAccess-Control-Max-Age: 1728000");
+      return;
+    }
     // create connection to unix server
     var serviceSocket = new net.Socket();
     serviceSocket.connect(DOCKER_SOCKET, function () {
@@ -23,20 +34,26 @@ net.createServer(function (socket) {
     // get data request from unix server
     serviceSocket.on('data', function (data) {
       // modify header to enable CORS
-      var cors_enable = '\r\nAccess-Control-Allow-Headers: Content-Type';
-      cors_enable += '\r\nAccess-Control-Allow-Methods: GET, POST, DELETE';
-      cors_enable += '\r\nAccess-Control-Allow-Origin: *';
       var separator = '\r\n\r\n';
-      cors_enable += separator;
-      data = data.toString().replace(separator, cors_enable);
+      headerCORS += separator;
+      data = data.toString().replace(separator, headerCORS);
       // write tcp response
       socket.write(data.toString());
     });
     // close connection
     serviceSocket.on('end', function (end) {
-      console.log('TCP proxy server disconnected');
+      console.log('Docker server disconnected');
       socket.end();
     });
+    serviceSocket.on('error', function (err) {
+      console.log('Docker server error: '+err);
+      socket.end();
+    });
+  });
+  // reconnect
+  socket.on('end', function (end) {
+    console.log('TCP proxy server disconnected');
+    // TODO: reconnect
   });
 }).listen(PROXY_PORT, function () {
   console.log('TCP proxy server listening at %s port', PROXY_PORT);

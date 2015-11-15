@@ -2,8 +2,9 @@
 angular.module( 'docker', ['ngResource'] )
  
 .factory( 'Settings', function( $location ) {
+  var api = '/v1.19';
   // url to proxy server
-  var url = 'http://' + $location.host() + ':8000';
+  var url = 'http://' + $location.host() + ':8000' + api;
   return {
     url: url
   };
@@ -34,7 +35,7 @@ angular.module( 'docker', ['ngResource'] )
     // POST /images/create?fromImage=(name)
     pull: { method: 'POST', params:{ action: 'create', fromImage: '@fromImage' } },
     // DELETE /images/(id)?forse=1
-    remove: { method: 'DELETE', params:{ id: '@id', forse: 1 }, isArray: true }
+    remove: { method: 'DELETE', params:{ id: '@id', force: 1 }, isArray: true }
   });
 })
 

@@ -22,9 +22,9 @@ angular.module( 'app.bindingAddress', [])
   $scope.setBindings = function( ip ) {
     for(var port in $scope.bindingPorts) {
       if(ip) {
-        $scope.bindingPorts[port] = [{ HostIp: ip, HostPort: port.split('/')[0] }];
+        $scope.bindingPorts[port] = { HostIp: ip, HostPort: port.split('/')[0] };
       } else {
-        $scope.bindingPorts[port] = [{ HostIp: '', HostPort: '' }];
+        $scope.bindingPorts[port] = { HostIp: '', HostPort: '' };
       }
     }
   };

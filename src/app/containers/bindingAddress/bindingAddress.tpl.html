@@ -29,12 +29,12 @@
                   <div class="input-group input-group-sm">
                     <span class="input-group-addon">
                       <input type="checkbox" ng-model="checked" 
-                      ng-disabled="v[0].HostIp && !settings.disableAddressesLookup"  
-                      ng-change="v[0]['HostPort'] = ''">
+                      ng-disabled="v.HostIp && !settings.disableAddressesLookup"  
+                      ng-change="v.HostPort = ''">
                     </span>
-                    <input type="text" class="form-control" ng-model="v[0]['HostPort']" 
+                    <input type="text" class="form-control" ng-model="v.HostPort" 
                     placeholder="{{checked?'Enter port ...':'Random'}}" 
-                    ng-disabled="!checked || (v[0].HostIp && !settings.disableAddressesLookup)">
+                    ng-disabled="!checked || (v.HostIp && !settings.disableAddressesLookup)">
                   </div>
                 </td>
                 <td>

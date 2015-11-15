@@ -54,11 +54,20 @@ angular.module( 'app.startContainer', [
     Container.start({ 
       id: $scope.container.Id, 
       PublishAllPorts: true,
-      PortBindings: angular.toJson($scope.container.Config.ExposedPorts)
+      PortBindings: getPortBindings($scope.bindingPorts)
     }, function() {
       console.log('Container started.');
       $scope.$close();
     });
+  };
+
+  var getPortBindings = function( data ) {
+    for(var i in data) {
+      var arr = [];
+      arr.push(data[i]);
+      data[i] = arr;
+    }
+    return data;
   };
 
   $scope.close = function() {

@@ -69,22 +69,31 @@ angular.module( 'app.createContainer', [
     Container.create({
       Image: imageName,
       name: $scope.name,
-      Hostname: $scope.name,
+      Hostname: $scope.name//,
       //Memory: $scope.limits.memory*1073741824,
-      MemorySwap: $scope.limits.swap//,
+      //MemorySwap: $scope.limits.swap//,
       //CpuShares: 1024*$scope.limits.cpu/100
     }, function( created ) {
       Container.start({ 
         id: created.Id, 
         PublishAllPorts: true,
         Binds: bindingVolumes,
-        PortBindings: angular.toJson($scope.bindingPorts)
+        PortBindings: getPortBindings($scope.bindingPorts)
       }, function() {
         console.log('Container created and started.');
       });
       // close after creation
       $scope.$close();
     });
+  };
+
+  var getPortBindings = function( data ) {
+    for(var i in data) {
+      var arr = [];
+      arr.push(data[i]);
+      data[i] = arr;
+    }
+    return data;
   };
 
   $scope.close = function() {
