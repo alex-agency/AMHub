@@ -40,20 +40,20 @@ net.createServer(function (socket) {
       // write tcp response
       socket.write(data.toString());
     });
-    // close connection
+    // close connection event
     serviceSocket.on('end', function (end) {
       console.log('Docker server disconnected');
       socket.end();
     });
+    // error event
     serviceSocket.on('error', function (err) {
       console.log('Docker server error: '+err);
       socket.end();
     });
   });
-  // reconnect
+  // close connection event
   socket.on('end', function (end) {
-    console.log('TCP proxy server disconnected');
-    // TODO: reconnect
+    console.log('TCP proxy server disconnected: '+end);
   });
 }).listen(PROXY_PORT, function () {
   console.log('TCP proxy server listening at %s port', PROXY_PORT);
@@ -90,6 +90,15 @@ router.route('/config')
 router.route('/config/:param')
   .get(function (req, res) {
     res.json(config[req.params.param]);
+  });
+// system variables
+router.route('/env')
+  .get(function (req, res) {
+    res.json(process.env);
+  });
+router.route('/env/:param')
+  .get(function (req, res) {
+    res.json(process.env[req.params.param]);
   });
 app.use('/api', router);
 

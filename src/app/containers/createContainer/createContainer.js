@@ -40,7 +40,7 @@ angular.module( 'app.createContainer', [
 })
 
 .controller( 'CreateContainerCtrl', 
-  function CreateContainerCtrl( $scope, $rootScope, $stateParams, Cookies, Image, Container ) {
+  function CreateContainerCtrl( $scope, $rootScope, $stateParams, Cookies, Config, Image, Container, Env ) {
 
   var imageName = decodeURIComponent($stateParams.name);
 
@@ -57,6 +57,12 @@ angular.module( 'app.createContainer', [
     $scope.bindingPorts = image.Config.ExposedPorts;
   });
 
+  Config.get({}, function( config ) {
+    $scope.config = config;  
+  });
+
+  $scope.env = Env.get({});
+
   $scope.create = function() {
     var bindingVolumes = [];
     var i = 0;
@@ -65,6 +71,10 @@ angular.module( 'app.createContainer', [
       if(key) {
         bindingVolumes.push(key+':'+volume);
       }
+    }    
+    if ( $scope.config.docker ) {
+      bindingVolumes.push('/var/run/docker.sock:/var/run/docker.sock');
+      bindingVolumes.push($scope.env.DOCKER + ':/bin/docker');
     }
     Container.create({
       Image: imageName,
