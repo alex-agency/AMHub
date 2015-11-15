@@ -54,6 +54,14 @@
             Allow Docker inside Container
           </label>
         </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="restartPolicy.value" 
+              ng-true-value="{'Name':'always','MaximumRetryCount':0}"
+              ng-false-value="{}">
+            Allow Auto restart
+          </label>
+        </div>
       </div>
     </div>
   </form>

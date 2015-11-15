@@ -42,6 +42,8 @@ angular.module( 'app.startContainer', [
 .controller( 'StartContainerCtrl', 
   function StartContainerCtrl( $scope, $stateParams, Cookies, ContainerService, Container ) {
 
+  $scope.settings = Cookies.settings;
+
   ContainerService.getByName( decodeURIComponent($stateParams.name) )
     .then(function( container ) {
       Container.get({ id: container.Id }, function( info ) {
@@ -50,11 +52,16 @@ angular.module( 'app.startContainer', [
       });
   });
 
+  $scope.restartPolicy = {
+    value: {}
+  };
+
   $scope.start = function() {
     Container.start({ 
       id: $scope.container.Id, 
       PublishAllPorts: true,
-      PortBindings: getPortBindings($scope.bindingPorts)
+      PortBindings: getPortBindings($scope.bindingPorts),
+      RestartPolicy: $scope.restartPolicy.value   
     }, function() {
       console.log('Container started.');
       $scope.$close();

@@ -63,6 +63,10 @@ angular.module( 'app.createContainer', [
 
   $scope.env = Env.get({});
 
+  $scope.restartPolicy = {
+    value: {}
+  };
+
   $scope.create = function() {
     var bindingVolumes = [];
     var i = 0;
@@ -88,7 +92,8 @@ angular.module( 'app.createContainer', [
         id: created.Id, 
         PublishAllPorts: true,
         Binds: bindingVolumes,
-        PortBindings: getPortBindings($scope.bindingPorts)
+        PortBindings: getPortBindings($scope.bindingPorts),
+        RestartPolicy: $scope.restartPolicy.value   
       }, function() {
         console.log('Container created and started.');
       });
