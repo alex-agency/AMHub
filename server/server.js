@@ -40,23 +40,30 @@ net.createServer(function (socket) {
       // write tcp response
       socket.write(data.toString());
     });
+    // error event
+    serviceSocket.on('error', function (err) {
+      console.log('Docker server error: ');
+      console.log(err.stack);
+      socket.end();
+    });
     // close connection event
     serviceSocket.on('end', function (end) {
       console.log('Docker server disconnected');
       socket.end();
     });
-    // error event
-    serviceSocket.on('error', function (err) {
-      console.log('Docker server error: '+err);
-      socket.end();
-    });
+  });
+  // error event
+  socket.on('error', function (err) {
+    console.log('TCP proxy error: ');
+    console.log(err.stack);
+    socket.end();
   });
   // close connection event
   socket.on('end', function (end) {
-    console.log('TCP proxy server disconnected: '+end);
+    console.log('TCP proxy disconnected');
   });
 }).listen(PROXY_PORT, function () {
-  console.log('TCP proxy server listening at %s port', PROXY_PORT);
+  console.log('TCP proxy listening at %s port', PROXY_PORT);
 });
 
 /*
@@ -112,4 +119,10 @@ app.get('*', function (req, res) {
 server.listen(80, function () {
   console.log('Web server listening at http://%s:%s', 
     server.address().address, server.address().port);
+});
+
+process.on('uncaughtException', function(err) {
+    log("uncaughtException");
+    console.error(err.stack);
+    process.exit();
 });
