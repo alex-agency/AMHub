@@ -21,8 +21,8 @@ RUN apt-get update && apt-get install -y git supervisor && \
     apt-get clean
 
 # this allow speed up build proccess for minor changes
-RUN git clone --depth=1 https://github.com/alex-agency/AMHub . && \
-    npm install && bower install --allow-root
+#RUN git clone --depth=1 https://github.com/alex-agency/AMHub . && \
+#    npm install && bower install --allow-root
 
 # copy supervisord configs
 COPY ./server/supervisord.conf /etc/supervisor/supervisord.conf
