@@ -1,6 +1,14 @@
 FROM node:4.2.2-slim
 MAINTAINER Alex
 
+# resolve docker dependencies
+RUN apt-get update && apt-get install -y libapparmor-dev && \
+    apt-get clean && \
+    wget -c http://cz.archive.ubuntu.com/ubuntu/pool/main/l/lvm2/libdevmapper1.02.1_1.02.99-1ubuntu1_amd64.deb && \
+    wget -c http://cz.archive.ubuntu.com/ubuntu/pool/main/l/lvm2/dmsetup_1.02.99-1ubuntu1_amd64.deb && \
+    dpkg -i dmsetup_1.02.99-1ubuntu1_amd64.deb libdevmapper1.02.1_1.02.99-1ubuntu1_amd64.deb && \
+    rm -fv dmsetup_1.02.99-1ubuntu1_amd64.deb libdevmapper1.02.1_1.02.99-1ubuntu1_amd64.deb
+
 # install dev env
 RUN npm -g install grunt-cli karma --save-dev bower && \
     npm cache clear
