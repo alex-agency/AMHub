@@ -70,6 +70,10 @@ angular.module( 'app.startContainer', [
 
   var getPortBindings = function( data ) {
     for(var i in data) {
+      if(Array.isArray(data[i])) {
+        return data;
+      }
+      // wrap object to array
       var arr = [];
       arr.push(data[i]);
       data[i] = arr;

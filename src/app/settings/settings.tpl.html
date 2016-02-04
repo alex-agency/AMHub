@@ -8,7 +8,7 @@
       <label for="filter" class="col-lg-2 control-label">Filter</label>
       <div class="col-lg-10">
         <input type="text" class="form-control" id="filter" 
-        placeholder="Enter filter" ng-model="settings.filter" ng-change="updateCookies()"
+        placeholder="Enter filter ..." ng-model="settings.filter" ng-change="updateCookies()"
         ng-model-options="{debounce:600}">
       </div>
     </div>
@@ -30,54 +30,94 @@
       </div>
     </div>
     <div class="form-group" ng-if="settings.advanced">
-      <label for="address" class="col-lg-2 control-label">Addresses</label>
+      <label class="col-lg-2 control-label">Variables</label>        
       <div class="col-lg-10">
-        <div class="panel panel-default">
+        <div class="panel panel-default">          
           <div class="table-responsive">
-            <table class="table">
+            <table class="table panel-default">
               <thead>
                 <tr>
-                  <th class="col-xs-4">Actions</th>
-                  <th>IPv4</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="address in config.addresses">
-                  <td>
-                    <button class="btn btn-success btn-xs" ng-click="edit=!edit">
-                      Edit
-                    </button>
-                    <button class="btn btn-danger btn-xs" 
-                    ng-click="config.addresses.splice($index,1);saveConfig()">
-                      Remove
-                    </button>
-                  </td>
                   <td>
                     <div class="input-group input-group-sm">
-                      <input ng-if="edit" type="text" class="form-control" id="address" 
-                        placeholder="Enter IPv4 ..." ng-model="address.ip" ng-change="saveConfig()" 
-                        ng-model-options="{debounce:1000}">
-                      <span ng-if=" !edit">{{:: address.ip }}</span>
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                          ng-click="config.variables.push({pair:newVariable});newVariable='';saveConfig()">
+                          Add
+                        </button>
+                      </span>     
+                      <input class="form-control" placeholder="Enter variable ..." 
+                        ng-model="newVariable">
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <button class="btn btn-info btn-xs" 
-                    ng-click="config.addresses.push({ip:newIP});saveConfig()">
-                      Add
-                    </button>
-                  </td>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in config.variables">                            
                   <td>
                     <div class="input-group input-group-sm">
-                      <input type="text" class="form-control" placeholder="Enter IPv4 ..." 
-                      ng-model="newIP">
-                    </div>  
-                  </td>  
-                </tr>
+                      <span class="input-group-addon">
+                        <input type="checkbox" ng-model="checked" ng-click="edit=!edit">
+                      </span>
+                      <input type="text" class="form-control" placeholder="Enter variable ..." 
+                        ng-model="item.pair" ng-disabled="!checked" ng-change="saveConfig()" 
+                        ng-model-options="{debounce:1000}">                        
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                          ng-click="config.variables.splice($index,1);saveConfig()" ng-if="!edit">
+                          Remove
+                        </button>
+                      </span>
+                    </div>
+                  </td>
               </tbody>
             </table>
-          </div>        
+          </div>
+        </div>
+       </div>
+    </div>
+    <div class="form-group" ng-if="settings.advanced">
+      <label class="col-lg-2 control-label">Addresses</label>        
+      <div class="col-lg-10">
+        <div class="panel panel-default">          
+          <div class="table-responsive">
+            <table class="table panel-default">
+              <thead>
+                <tr>
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                          ng-click="config.addresses.push({ip:newIp});newIp='';saveConfig()">
+                          Add
+                        </button>
+                      </span>     
+                      <input class="form-control" placeholder="Enter IPv4 ..." 
+                        ng-model="newIp">
+                    </div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="address in config.addresses">                            
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-addon">
+                        <input type="checkbox" ng-model="checked" ng-click="edit=!edit">
+                      </span>
+                      <input type="text" class="form-control" placeholder="Enter IPv4 ..." 
+                        ng-model="address.ip" ng-disabled="!checked" ng-change="saveConfig()" 
+                        ng-model-options="{debounce:1000}">                        
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                          ng-click="config.addresses.splice($index,1);saveConfig()" ng-if="!edit">
+                          Remove
+                        </button>
+                      </span>
+                    </div>
+                  </td>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="checkbox">
           <label>

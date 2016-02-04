@@ -1,4 +1,5 @@
 {
+    "variables": [],
     "addresses": [],
-    "docker": true
+    "docker": false
 }

@@ -5,6 +5,7 @@ angular.module( 'app.createContainer', [
 
 .config( function config( $stateProvider ) {
   var home = 'home';
+  var size = '';
   $stateProvider
     .state( 'createContainerMain', {
       parent: home,
@@ -14,7 +15,8 @@ angular.module( 'app.createContainer', [
           .open({
             // main view
             templateUrl: 'containers/createContainer/createContainer.tpl.html',
-            controller: 'CreateContainerCtrl'
+            controller: 'CreateContainerCtrl',
+            size: size
           })
           .result.then( function() {
             // after clicking OK button
@@ -46,6 +48,10 @@ angular.module( 'app.createContainer', [
 
   $scope.settings = Cookies.settings;
   $scope.hostVolumes = [];
+  $scope.variables = [];
+  $scope.searchThreshold = 10;
+  $scope.variablesLimit = 10;
+  $scope.count = 1;
   $scope.limits = {
     memory: '1.5',
     swap: '0',
@@ -54,24 +60,46 @@ angular.module( 'app.createContainer', [
 
   Image.get({ id: imageName }, function( image ) {
     $scope.image = image;
-    $scope.bindingPorts = image.Config.ExposedPorts;
+    $scope.bindingPorts = image.Config.ExposedPorts;   
+    for(var i in image.Config.Env) {
+      var pair = image.Config.Env[i];
+      if($scope.variables.indexOf(pair) == -1) { 
+        $scope.variables.push(pair);
+      }
+    }
   });
 
   Config.get({}, function( config ) {
-    $scope.config = config;  
+    $scope.config = config;
+    for(var i in config.variables) {
+      var pair = config.variables[i].pair;
+      if($scope.variables.indexOf(pair) == -1) { 
+        $scope.variables.push(pair);
+      }
+    } 
   });
-
+  
   $scope.env = Env.get({});
 
   $scope.restartPolicy = {
     value: {}
   };
-
+  
+  $scope.batch = function() {
+    var name = $scope.name;
+    for (var i=1; i <= $scope.count; i++) {
+      if($scope.count > 1) {
+        $scope.name = name+"-"+i;
+      }
+      $scope.create();
+    }      
+  };
+  
   $scope.create = function() {
     var bindingVolumes = [];
-    var i = 0;
+    var index = 0;
     for (var volume in $scope.image.Config.Volumes) {
-      var key = $scope.hostVolumes[i]; i++;
+      var key = $scope.hostVolumes[index]; index++;
       if(key) {
         bindingVolumes.push(key+':'+volume);
       }
@@ -83,7 +111,8 @@ angular.module( 'app.createContainer', [
     Container.create({
       Image: imageName,
       name: $scope.name,
-      Hostname: $scope.name//,
+      Hostname: $scope.name,
+      Env: $scope.variables//,
       //Memory: $scope.limits.memory*1073741824,
       //MemorySwap: $scope.limits.swap//,
       //CpuShares: 1024*$scope.limits.cpu/100
@@ -104,6 +133,10 @@ angular.module( 'app.createContainer', [
 
   var getPortBindings = function( data ) {
     for(var i in data) {
+      if(Array.isArray(data[i])) {
+        return data;
+      }
+      // wrap object to array
       var arr = [];
       arr.push(data[i]);
       data[i] = arr;

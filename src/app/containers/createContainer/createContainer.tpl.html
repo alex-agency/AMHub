@@ -8,11 +8,11 @@
       <label for="name" class="col-lg-3 control-label">Name</label>
       <div class="col-lg-9"> 
         <input type="text" class="form-control" id="name" 
-        placeholder="Enter name" ng-model="name">
+          placeholder="Enter name ..." ng-model="name" required>
       </div>
-    </div>
+    </div>   
     <div class="form-group" ng-if="settings.advanced && image.Config.Volumes">
-      <label for="name" class="col-lg-3 control-label">Binding Volumes</label>
+      <label class="col-lg-3 control-label">Binding Volumes</label>
       <div class="col-lg-9"> 
         <div class="panel panel-default">
           <div class="table-responsive">
@@ -31,7 +31,7 @@
                           <input type="checkbox" ng-model="checked" ng-click="hostVolumes[$index] = ''">
                         </span>
                         <input type="text" class="form-control" ng-model="hostVolumes[$index]" 
-                        ng-disabled="!checked" placeholder="{{checked?'Enter volume ...':'Random'}}">
+                          ng-disabled="!checked" placeholder="{{checked?'Enter volume ...':'Random'}}">
                       </div>
                     </td>
                     <td>
@@ -46,7 +46,65 @@
     </div>
     <div ui-view="bindingAddress"></div>
     <div class="form-group" ng-if="settings.advanced">
-      <label for="name" class="col-lg-3 control-label">Settings</label>
+      <label class="col-lg-3 control-label">Environment</label>        
+      <div class="col-lg-9">   
+        <div class="panel panel-default">
+          <div class="panel-heading" ng-hide="variables.length < searchThreshold">
+            <div class="input-group input-group-sm">
+              <span class="input-group-addon"><i class="fa fa-search"></i></span>     
+              <input ng-model="search" class="form-control" placeholder="Environment search for ...">      
+              <span class="input-group-btn" ng-show="variables.length > variablesLimit">
+                <button class="btn btn-default" type="button" ng-click="variablesLimit=100">Show All</button>
+              </span>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table panel-default">
+              <thead>
+                <tr>
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                          ng-click="variables.push(newVariable);newVariable=''">
+                          Add
+                        </button>
+                      </span>     
+                      <input class="form-control" placeholder="Enter variable ..." 
+                        ng-model="newVariable">
+                    </div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in variables | filter:search | limitTo:variablesLimit">                            
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-addon">
+                        <input type="checkbox" ng-model="checked" 
+                          ng-click="edit=!edit"
+                          ng-disabled="image.Config.Env.indexOf(item) != -1">
+                      </span>
+                      <input type="text" class="form-control" placeholder="Enter variable ..." 
+                        ng-model="variables[$index]" ng-model-options="{debounce:3000}" 
+                        ng-disabled="!edit">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" 
+                          ng-click="variables.splice($index,1)" 
+                          ng-if="!edit && image.Config.Env.indexOf(item) == -1">
+                          Remove
+                        </button>
+                      </span>
+                    </div>
+                  </td>   
+              </tbody>
+            </table>
+          </div>
+        </div>
+       </div>  
+    </div>
+    <div class="form-group" ng-if="settings.advanced">
+      <label class="col-lg-3 control-label">Settings</label>
       <div class="col-lg-9">
         <div class="checkbox">
           <label>
@@ -64,9 +122,16 @@
         </div>
       </div>
     </div>
+    <div class="form-group" ng-show="settings.advanced">
+      <label for="count" class="col-lg-3 control-label">How many?</label>        
+      <div class="col-lg-2"> 
+        <input type="number" class="form-control" id="count"
+          ng-model="count" min="1" max="100" required>
+      </div> 
+    </div>
   </form>
 </div>
 <div class="modal-footer">
   <button class="btn btn-default" ng-click="close()">Close</button>
-  <button class="btn btn-primary" ng-click="create()">Create</button>
+  <button class="btn btn-primary" ng-click="batch()">Create</button>
 </div>
