@@ -1,10 +1,11 @@
 // https://docs.docker.com/reference/api/docker_remote_api_v1.16/ 
+// https://docs.docker.com/engine/api/v1.39/
 angular.module( 'docker', ['ngResource'] )
  
 .factory( 'Settings', function( $location ) {
-  var api = '/v1.19';
+  var api = '/v1.19';  // TODO: move to '/v1.39';
   // url to proxy server
-  var url = 'http://' + $location.host() + ':8000' + api;
+  var url = 'http://' + $location.host() + ':2375' + api;
   return {
     url: url
   };
@@ -41,14 +42,14 @@ angular.module( 'docker', ['ngResource'] )
 
 .factory( 'Container', function( $resource, Settings ) {
   return $resource(Settings.url+'/containers/:id/:action', {}, {
-    // GET /containers/json?all=1
-    query: { method: 'GET', params:{ action: 'json', all: 1 }, isArray: true },
+    // GET /containers/json?all=true
+    query: { method: 'GET', params:{ action: 'json', all: true }, isArray: true },
     // GET /containers/(id)/json
     get: { method: 'GET', params:{ id: '@id', action: 'json' } },
     // GET /containers/(id)/top
     top: { method: 'GET', params:{ id: '@id', action: 'top' } },
-    // POST /containers/create
-    create: { method: 'POST', params:{ name: '@name', action: 'create' } }, 
+    // POST /containers/create?name=(name)
+    create: { method: 'POST', params:{ name: '@name',  action: 'create' } }, 
     // POST /containers/(id)/start
     start: { method: 'POST', params:{ id: '@id', action: 'start' } }, 
     // POST /containers/(id)/stop

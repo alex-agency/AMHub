@@ -9,13 +9,16 @@ angular.module( 'app.imageInfo', [
     .state( 'imageInfo', {
       url: 'images/:name',
       parent: home,
-      onEnter: function onEnter( $modal, $state ) {
-        $modal
+      onEnter: function onEnter( $uibModal, $state, $stateParams ) {
+        $uibModal
           // handle modal open
           .open({
             templateUrl: 'images/imageInfo/imageInfo.tpl.html',
             controller: 'ImageInfoCtrl',
-            size: 'lg'
+            size: 'lg',
+            resolve: {
+              params: $stateParams
+            }
           })
           .result.then( function() {
             // after clicking OK button
@@ -29,9 +32,9 @@ angular.module( 'app.imageInfo', [
 })
 
 .controller( 'ImageInfoCtrl', 
-  function ImageInfoCtrl( $scope, $rootScope, $stateParams, Image, ContainerService ) {
+  function ImageInfoCtrl( $scope, params, Image, ContainerService ) {
 
-  var name = decodeURIComponent($stateParams.name);
+  var name = decodeURIComponent(params.name);
   
   $scope.image = Image.get({ id: name });
   

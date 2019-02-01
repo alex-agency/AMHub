@@ -7,8 +7,8 @@
 */
 var net = require('net');
 
-var PROXY_PORT = 8000;
-var DOCKER_SOCKET = '/docker.sock';
+var PROXY_PORT = 2375;
+var DOCKER_SOCKET = '/var/run/docker.sock';
 
 // create tcp server
 net.createServer(function (socket) {
@@ -60,7 +60,7 @@ net.createServer(function (socket) {
   });
   // close connection event
   socket.on('end', function (end) {
-    console.log('TCP proxy disconnected');
+    //console.log('TCP proxy disconnected');
   });
 }).listen(PROXY_PORT, function () {
   console.log('TCP proxy listening at %s port', PROXY_PORT);
@@ -82,6 +82,7 @@ var router = express.Router();
 var fs = require('fs')
 var configFile = 'server/config.json'
 var config = JSON.parse(fs.readFileSync(configFile));
+// routes
 router.route('/config')
   .get(function (req, res) {
     res.json(config);
@@ -112,17 +113,17 @@ app.use('/api', router);
 // redirect everything to index.html
 var path = require('path');
 app.use(express.static(path.resolve(__dirname, '../build')));
-app.get('*', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
+app.get('/', function (req, res) {
+  res.redirect('/index.html');
 });
 
-server.listen(80, function () {
+server.listen(8080, function () {
   console.log('Web server listening at http://%s:%s', 
     server.address().address, server.address().port);
 });
 
 process.on('uncaughtException', function(err) {
-    log("uncaughtException");
-    console.error(err.stack);
+    process.stderr.write("\nuncaughtException\n");
+    process.stderr.write(err.stack);
     process.exit();
 });

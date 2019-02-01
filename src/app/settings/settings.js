@@ -11,8 +11,8 @@ angular.module( 'app.settings', [
     .state( 'settings', {
       url: 'settings',
       parent: home,
-      onEnter: function onEnter( $modal, $state, $stateParams ) {
-        $modal
+      onEnter: function onEnter( $uibModal, $state, $stateParams ) {
+        $uibModal
           // handle modal open
           .open({
             templateUrl: 'settings/settings.tpl.html',

@@ -9,12 +9,15 @@ angular.module( 'app.removeContainer', [
     .state( 'removeContainer', {
       url: 'containers/:name/remove',
       parent: home,
-      onEnter: function onEnter( $modal, $state ) {
-        $modal
+      onEnter: function onEnter( $uibModal, $state, $stateParams ) {
+        $uibModal
           // handle modal open
           .open({
             templateUrl: 'containers/removeContainer/removeContainer.tpl.html',
-            controller: 'RemoveContainerCtrl'
+            controller: 'RemoveContainerCtrl',
+            resolve: {
+              params: $stateParams
+            }
           })
           .result.then( function() {
             // after clicking OK button
@@ -29,9 +32,9 @@ angular.module( 'app.removeContainer', [
 })
 
 .controller( 'RemoveContainerCtrl', 
-  function RemoveContainerCtrl( $scope, $stateParams, ContainerService ) {
+  function RemoveContainerCtrl( $scope, params, ContainerService ) {
 
-  ContainerService.getByName( decodeURIComponent($stateParams.name) )
+  ContainerService.getByName( decodeURIComponent(params.name) )
     .then(function( container ) {
       $scope.container = container;
   });

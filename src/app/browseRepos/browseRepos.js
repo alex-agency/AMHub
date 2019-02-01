@@ -9,8 +9,8 @@ angular.module( 'app.browseRepos', [
     .state( 'browseRepos', {
       url: 'browse',
       parent: home,
-      onEnter: function onEnter( $modal, $state ) {
-        $modal
+      onEnter: function onEnter( $uibModal, $state ) {
+        $uibModal
           // handle modal open
           .open({
             templateUrl: 'browseRepos/browseRepos.tpl.html',
@@ -29,7 +29,7 @@ angular.module( 'app.browseRepos', [
 })
 
 .controller( 'BrowseReposCtrl', 
-  function BrowseReposCtrl( $scope, $stateParams, Image ) {
+  function BrowseReposCtrl( $scope, Image ) {
 
   $scope.searchfor = '';
   $scope.sort = '-star_count';

@@ -8,13 +8,16 @@ angular.module( 'app.startContainer', [
   $stateProvider
     .state( 'startContainerMain', {
       parent: home,
-      onEnter: function onEnter( $modal, $state ) {
-        $modal
+      onEnter: function onEnter( $uibModal, $state, $stateParams ) {
+        $uibModal
           // handle modal open
           .open({
             // main view
             templateUrl: 'containers/startContainer/startContainer.tpl.html',
-            controller: 'StartContainerCtrl'
+            controller: 'StartContainerCtrl',
+            resolve: {
+              params: $stateParams
+            }
           })
           .result.then( function() {
             // after clicking OK button
@@ -40,11 +43,11 @@ angular.module( 'app.startContainer', [
 })
 
 .controller( 'StartContainerCtrl', 
-  function StartContainerCtrl( $scope, $stateParams, Cookies, ContainerService, Container ) {
+  function StartContainerCtrl( $scope, params, Cookies, ContainerService, Container ) {
 
   $scope.settings = Cookies.settings;
 
-  ContainerService.getByName( decodeURIComponent($stateParams.name) )
+  ContainerService.getByName( decodeURIComponent(params.name) )
     .then(function( container ) {
       Container.get({ id: container.Id }, function( info ) {
         $scope.container = info;

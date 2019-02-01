@@ -1,25 +1,7 @@
-angular.module( 'app.containers', [
-  //'ui.router'
-])
-
-/*
-.config(function config( $stateProvider ) {
-  $stateProvider
-    .state( 'containers', {
-      url: '/containers',
-      views: {
-        "containers": {
-          controller: 'ContainersCtrl',
-          templateUrl: 'containers/containers.tpl.html'
-        }
-      }
-    })
-  ;
-})
-*/
+angular.module( 'app.containers', [ ])
 
 .controller( 'ContainersCtrl', 
-  function ContainersCtrl( $scope, $modal, $interval, Cookies, ContainerService, ImageService ) {
+  function ContainersCtrl( $scope, $interval, Cookies, ContainerService, ImageService ) {
 
   $scope.settings = Cookies.settings;
   $scope.searchThreshold = 10;
@@ -29,7 +11,7 @@ angular.module( 'app.containers', [
   $scope.update = function() {
     ContainerService.update();
   };
-  var intervalPromise = $interval($scope.update, 8000);
+  var intervalPromise = $interval($scope.update, 10000);
 
   ContainerService.update().then( ImageService.update() );
   
@@ -71,8 +53,11 @@ angular.module( 'app.containers', [
 
   this.update = function() {
     var settings = Cookies.settings;
-    
+
     var advancedView = function( data, filters ) {
+      if ( filters === undefined ) {
+        filters = "";
+      }
       if( !settings.advanced ) {
         filters += '|!alexagency/amhub';
       }

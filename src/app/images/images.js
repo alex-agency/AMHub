@@ -1,25 +1,7 @@
-angular.module( 'app.images', [
-  //'ui.router'
-])
-
-/*
-.config(function config( $stateProvider ) {
-  $stateProvider
-    .state( 'images', {
-      url: '/images',
-      views: {
-        "images": {
-          controller: 'ImagesCtrl',
-          templateUrl: 'images/images.tpl.html'
-        }
-      }
-    })
-  ;
-})
-*/
+angular.module( 'app.images', [ ])
 
 .controller( 'ImagesCtrl', 
-  function ImagesCtrl( $scope, $rootScope, $modal, $interval, Cookies, ImageService ) {
+  function ImagesCtrl( $scope, $interval, Cookies, ImageService ) {
 
   $scope.settings = Cookies.settings;
   $scope.searchThreshold = 10;
@@ -29,12 +11,12 @@ angular.module( 'app.images', [
   $scope.update = function() {
     ImageService.update();
   };
-  var intervalPromise = $interval($scope.update, 15000);
+  var intervalPromise = $interval($scope.update, 22000);
 
   $scope.getContainersCount = function( data ) {
     var containers = [];
     for (var i in $scope.containers) {
-      if( $scope.containers[i].Image == data.RepoTags[0] ) {
+      if( $scope.containers > 0 && $scope.containers[i].Image == data.RepoTags[0] ) {
         containers.push($scope.containers[i]);
       }
     }
@@ -64,6 +46,9 @@ angular.module( 'app.images', [
     var settings = Cookies.settings;
 
     var advancedView = function( data, filters ) {
+      if ( filters === undefined ) {
+        filters = "";
+      }
       if( !settings.advanced ) {
         filters += '|!<none>|!alexagency/amhub';
       }

@@ -1,7 +1,7 @@
 angular.module( 'app.bindingAddress', [])
 
 .controller( 'BindingAddressCtrl', 
-  function BindingAddressCtrl( $scope, $stateParams, Cookies, Config, ContainerService ) {
+  function BindingAddressCtrl( $scope, Cookies, Config, ContainerService ) {
 
   $scope.settings = Cookies.settings;
 

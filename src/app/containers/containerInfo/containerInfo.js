@@ -9,13 +9,16 @@ angular.module( 'app.containerInfo', [
     .state( 'containerInfo', {
       url: 'containers/:name',
       parent: home,
-      onEnter: function onEnter( $modal, $state ) {
-        $modal
+      onEnter: function onEnter( $uibModal, $state, $stateParams ) {
+        $uibModal
           // handle modal open
           .open({
             templateUrl: 'containers/containerInfo/containerInfo.tpl.html',
             controller: 'ContainerInfoCtrl',
-            size: 'lg'
+            size: 'lg',
+            resolve: {
+              params: $stateParams
+            }
           })
           .result.then( function() {
             // after clicking OK button
@@ -28,7 +31,7 @@ angular.module( 'app.containerInfo', [
     .state( 'stopContainer', {
       url: 'containers/:name/stop',
       parent: 'home',
-      onEnter: function onEnter( $rootScope, $state, $stateParams, ContainerService, Container ) {
+      onEnter: function onEnter( $state, $stateParams, ContainerService, Container ) {
         ContainerService.getByName( decodeURIComponent($stateParams.name) )
           .then(function( container ) {
             Container.stop({ id: container.Id }, function() {
@@ -42,10 +45,10 @@ angular.module( 'app.containerInfo', [
 })
 
 .controller( 'ContainerInfoCtrl', 
-  function ContainerInfoCtrl( $scope, $stateParams, $location, $interval, ContainerService, Container ) {
+  function ContainerInfoCtrl( $scope, params, $location, $interval, ContainerService, Container ) {
 
   var intervalPromise; 
-  ContainerService.getByName( decodeURIComponent($stateParams.name) )
+  ContainerService.getByName( decodeURIComponent(params.name) )
     .then(function( container ) {
       Container.get({ id: container.Id }, function( data ) {
         $scope.container = data;

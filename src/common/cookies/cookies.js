@@ -1,17 +1,15 @@
-angular.module( 'cookies', [
-  'ngCookies'
-])
+angular.module( 'cookies', ['ngCookies'])
 
-.factory( 'Cookies', function( $cookieStore, $location ) {
+.factory( 'Cookies', function( $cookies ) {
   // default settings
   var settings = {
     advanced: false,
     filter: ''
   };
 
-  var cookies = $cookieStore.get('settings');
+  var cookies = $cookies.getObject('settings');
   if( ! cookies ) {
-    $cookieStore.put( 'settings', settings );
+    $cookies.putObject('settings', settings);
   } else {
     settings = cookies;
   }
@@ -19,7 +17,7 @@ angular.module( 'cookies', [
   return {
     settings: settings,
     update: function() {
-      $cookieStore.put( 'settings', settings );
+      $cookies.putObject( 'settings', settings );
     }
   };
 })

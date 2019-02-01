@@ -9,14 +9,17 @@ angular.module( 'app.createContainer', [
   $stateProvider
     .state( 'createContainerMain', {
       parent: home,
-      onEnter: function onEnter( $modal, $state ) {
-        $modal
+      onEnter: function onEnter( $uibModal, $state, $stateParams ) {
+        $uibModal
           // handle modal open
           .open({
             // main view
             templateUrl: 'containers/createContainer/createContainer.tpl.html',
             controller: 'CreateContainerCtrl',
-            size: size
+            size: size,
+            resolve: {
+              params: $stateParams
+            }
           })
           .result.then( function() {
             // after clicking OK button
@@ -42,9 +45,8 @@ angular.module( 'app.createContainer', [
 })
 
 .controller( 'CreateContainerCtrl', 
-  function CreateContainerCtrl( $scope, $rootScope, $stateParams, Cookies, Config, Image, Container, Env ) {
-
-  var imageName = decodeURIComponent($stateParams.name);
+  function CreateContainerCtrl( $scope, params, Cookies, Config, Image, Container, Env ) {
+  var imageName = decodeURIComponent(params.name);
 
   $scope.settings = Cookies.settings;
   $scope.hostVolumes = [];

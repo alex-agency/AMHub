@@ -25,6 +25,8 @@ angular.module( 'amhub', [
   $locationProvider.html5Mode({ enabled: false, requireBase: false });
   // redirect any unmatched url
   $urlRouterProvider.otherwise( '/' );
+  // remove #!/ prefix
+  $locationProvider.hashPrefix( '' );
 })
 
 .run( function run () {
@@ -33,9 +35,9 @@ angular.module( 'amhub', [
 .controller( 'AppCtrl', function AppCtrl ( $scope ) {
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if( toState.data && toState.data.pageTitle ) {
-      $scope.pageTitle = toState.data.pageTitle + ' | AM Hub';
+      $scope.pageTitle = toState.data.pageTitle + ' | AM Hub 2.0';
     } else {
-      $scope.pageTitle = 'AM Hub' ;
+      $scope.pageTitle = 'AM Hub 2.0' ;
     }
   });
 })

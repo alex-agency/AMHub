@@ -9,12 +9,15 @@ angular.module( 'app.commitContainer', [
     .state( 'commitContainer', {
       url: 'containers/:name/commit',
       parent: home,
-      onEnter: function onEnter( $modal, $state ) {
-        $modal
+      onEnter: function onEnter( $uibModal, $state, $stateParams ) {
+        $uibModal
           // handle modal open
           .open({
             templateUrl: 'containers/commitContainer/commitContainer.tpl.html',
-            controller: 'CommitContainerCtrl'
+            controller: 'CommitContainerCtrl',
+            resolve: {
+              params: $stateParams
+            }
           })
           .result.then( function() {
             // after clicking OK button
@@ -29,9 +32,9 @@ angular.module( 'app.commitContainer', [
 })
 
 .controller( 'CommitContainerCtrl', 
-  function CommitContainerCtrl( $scope, $stateParams, ContainerService, Commit, ImageService ) {
+  function CommitContainerCtrl( $scope, params, ContainerService, Commit, ImageService ) {
 
-  ContainerService.getByName( decodeURIComponent($stateParams.name) )
+  ContainerService.getByName( decodeURIComponent(params.name) )
     .then(function( container ) {
       $scope.container = container;
   });

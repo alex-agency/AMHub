@@ -2,8 +2,8 @@
 [![Build Status][travis-image]][travis-url]
 [![Code Climate](https://codeclimate.com/github/alex-agency/AMHub/badges/gpa.svg)](https://codeclimate.com/github/alex-agency/AMHub)
 
-Application Manager Docker Hub
-===============================
+Application Manager Docker Hub 2.0
+==================================
 
 ## Containers View 
 Shows all docker containers.
@@ -57,7 +57,7 @@ This project is containerized by docker and you can simply run it:
 
 ```
  docker pull alexagency/amhub
- docker run -d -p 80:80 -p 8000:8000 -e DOCKER=$(which docker) -v /var/run/docker.sock:/docker.sock alexagency/amhub
+ docker run -d -p 80:8080 -p 2375:2375 -v /var/run/docker.sock:/var/run/docker.sock alexagency/amhub
 ```
 
 and browsing to it:
@@ -73,6 +73,13 @@ In case if you using docker-machine, create new docker machine and use its ip-ad
  docker-machine ip dev
  docker-machine ssh dev
 ```
+
+You can run legacy AMHub 1.0 version executing next command:
+
+```
+docker run -d -p 80:80 -p 8000:8000 -v /var/run/docker.sock:/docker.sock alexagency/amhub:1.0
+```
+
 
 ## License
 

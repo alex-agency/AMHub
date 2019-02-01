@@ -30,7 +30,7 @@ angular.module( 'app.home', [
 })
 
 .controller( 'AboutCtrl', 
-  function AboutCtrl( $scope, $modal ) {
+  function AboutCtrl() {
 
 })
 

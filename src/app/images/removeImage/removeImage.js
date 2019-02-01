@@ -9,12 +9,15 @@ angular.module( 'app.removeImage', [
     .state( 'removeImage', {
       url: 'images/:name/remove',
       parent: home,
-      onEnter: function onEnter( $modal, $state ) {
-        $modal
+      onEnter: function onEnter( $uibModal, $state, $stateParams ) {
+        $uibModal
           // handle modal open
           .open({
             templateUrl: 'images/removeImage/removeImage.tpl.html',
-            controller: 'RemoveImageCtrl'
+            controller: 'RemoveImageCtrl',
+            resolve: {
+              params: $stateParams
+            }
           })
           .result.then( function() {
             // after clicking OK button
@@ -29,9 +32,9 @@ angular.module( 'app.removeImage', [
 })
 
 .controller( 'RemoveImageCtrl', 
-  function RemoveImageCtrl( $scope, $stateParams, ImageService, ContainerService ) {
+  function RemoveImageCtrl( $scope, params, ImageService, ContainerService ) {
 
-  var name = decodeURIComponent($stateParams.name);
+  var name = decodeURIComponent(params.name);
 
   ImageService.getAllByName( name )
     .then(function( images ) {
