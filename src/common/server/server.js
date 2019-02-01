@@ -2,7 +2,7 @@ angular.module( 'server', ['ngResource'] )
  
 .factory( 'Server', function( $location ) {
   // url to api
-  var url = 'http://' + $location.host() + ':8080/api';
+  var url = 'http://' + $location.host() + ':' + $location.port() + '/api';
   return {
     url: url
   };
