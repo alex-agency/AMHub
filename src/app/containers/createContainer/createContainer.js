@@ -37,7 +37,7 @@ angular.module( 'app.createContainer', [
       views: {
         "bindingAddress@": {
           controller: 'BindingAddressCtrl',
-          templateUrl: 'containers/bindingAddress/bindingAddress.tpl.html'
+          templateUrl: 'containers/createContainer/bindingAddress/bindingAddress.tpl.html'
         }
       }
     })

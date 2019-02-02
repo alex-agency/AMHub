@@ -63,7 +63,9 @@ angular.module( 'docker', ['ngResource'] )
 .factory( 'Network', function( $resource, Settings ) {
   return $resource(Settings.url+'/networks/:id/:action', {}, {
     // GET /networks
-    query: { method: 'GET' },
+    query: { method: 'GET', isArray: true },
+    // GET /networks/(id)
+    get: { method: 'GET', params:{ id: '@id' } },
     // GET /containers/(id)/connect?container=(name)
     connect: { method: 'POST', params:{ id: '@id', action: 'connect', container: '@container' } },
     // GET /containers/(id)/connect?container=(name)

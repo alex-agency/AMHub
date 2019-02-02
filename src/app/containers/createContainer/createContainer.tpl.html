@@ -11,6 +11,7 @@
           placeholder="Enter name ..." ng-model="name" required>
       </div>
     </div>
+    <div ui-view="bindingAddress"></div>
     <div class="form-group" ng-if="settings.advanced && image.Config.Volumes">
       <label class="col-lg-3 control-label">Binding Volumes</label>
       <div class="col-lg-9"> 
@@ -44,7 +45,6 @@
         </div>
       </div>
     </div>
-    <div ui-view="bindingAddress"></div>
     <div class="form-group" ng-if="settings.advanced">
       <label class="col-lg-3 control-label">Environment</label>        
       <div class="col-lg-9">

@@ -26,6 +26,17 @@ angular.module( 'app.containerInfo', [
             // after clicking Cancel button or clicking background
             $state.transitionTo(home);
           });
+      },
+      // nestead views
+      views: {
+        "containerNetwork@": {
+          controller: 'ContainerNetworkCtrl',
+          templateUrl: 'containers/containerInfo/containerNetwork/containerNetwork.tpl.html'
+        },
+        "containerProcesses@": {
+          controller: 'ContainerProcessesCtrl',
+          templateUrl: 'containers/containerInfo/containerProcesses/containerProcesses.tpl.html'
+        }
       }
     })
     .state( 'startContainer', {
@@ -58,27 +69,17 @@ angular.module( 'app.containerInfo', [
 })
 
 .controller( 'ContainerInfoCtrl', 
-  function ContainerInfoCtrl( $scope, params, $location, $interval, ContainerService, Container ) {
+  function ContainerInfoCtrl( $scope, params, $location, ContainerService, Container ) {
 
-  var intervalPromise; 
+
   ContainerService.getByName( decodeURIComponent(params.name) )
-    .then(function( container ) {
-      Container.get({ id: container.Id }, function( data ) {
-        $scope.container = data;
-        if(container.Status.indexOf('Up') != -1) {
-          intervalPromise = $interval(top, 5000);
-          top();
-        }
-      });
+  .then(function( container ) {
+    Container.get({ id: container.Id }, function( data ) {
+      $scope.container = data;
+    });
   });
 
-  var top = function() {
-    Container.top({ id: $scope.container.Id }, function( data ) {
-      $scope.top = data;
-    });
-  };
-
-  $scope.connectHTTP = function( ip, port ) {
+    $scope.connectHTTP = function( ip, port ) {
     if(ip == '0.0.0.0') {
       ip = $location.host();
     }
@@ -109,10 +110,6 @@ angular.module( 'app.containerInfo', [
   $scope.close = function() {
     $scope.$dismiss();
   };
-
-  $scope.$on('$destroy', function () { 
-    $interval.cancel(intervalPromise);
-  });
 
 })
 

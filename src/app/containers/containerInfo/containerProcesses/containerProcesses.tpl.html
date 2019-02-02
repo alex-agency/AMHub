@@ -1,0 +1,19 @@
+<div class="panel panel-default" ng-if="top.Processes?true:false">
+  <div class="panel-heading">
+    <h3 class="panel-title">Running processes</h3>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th ng-repeat="title in top.Titles">{{ title }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="process in top.Processes">
+          <td ng-repeat="data in process">{{ data }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

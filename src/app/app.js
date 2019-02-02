@@ -12,9 +12,11 @@ angular.module( 'amhub', [
   'app.removeImage',
   'app.browseRepos',
   'app.containers',
-  'app.bindingAddress',
   'app.createContainer',
+  'app.bindingAddress',
   'app.containerInfo',
+  'app.containerProcesses',
+  'app.containerNetwork',
   'app.commitContainer',
   'app.removeContainer'
 ])
