@@ -56,10 +56,9 @@
           </td>
           <td>
             <li ng-repeat='name in image.RepoTags'>
-              <a ui-sref="imageInfo({name: name})" ng-if="settings.advanced && !imageFilter(image, '<none>')">
+              <a ui-sref="imageInfo({name: name})" ng-if="!imageFilter(image, '<none>')">
                 {{:: name }}
               </a>
-              <span ng-if=" !settings.advanced && !imageFilter(image, '<none>')">{{:: name }}</span> 
             </li>
           </td>
           <td ng-if="settings.advanced">{{:: image.VirtualSize | filesize }}</td>

@@ -78,7 +78,7 @@ angular.module( 'app.containerInfo', [
     });
   });
 
-    $scope.connectHTTP = function( ip, port ) {
+  $scope.connectHTTP = function( ip, port ) {
     if(ip == '0.0.0.0') {
       ip = $location.host();
     }

@@ -1,7 +1,9 @@
 angular.module( 'app.containerProcesses', [])
 
 .controller( 'ContainerProcessesCtrl', 
-  function ContainerProcessesCtrl( $scope, $interval, Container ) {
+  function ContainerProcessesCtrl( $scope, $interval, Container, Cookies ) {
+
+  $scope.settings = Cookies.settings;
 
   var top = function() {
     if($scope.container !== undefined && $scope.container.State.Running) {
@@ -10,7 +12,7 @@ angular.module( 'app.containerProcesses', [])
       });
     }
   };
-  var intervalPromise = $interval(top, 5000); 
+  var intervalPromise = $interval(top, 2500); 
   $scope.$on('$destroy', function () { 
     $interval.cancel(intervalPromise);
   });

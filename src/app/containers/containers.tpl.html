@@ -47,7 +47,7 @@
             ng-if=" !container.Status.indexOf('Up')">
               Stop
             </button>
-            <button class="btn btn-info btn-xs" ui-sref="commitContainer({name: name})">
+            <button ng-if="settings.advanced" class="btn btn-info btn-xs" ui-sref="commitContainer({name: name})">
               Commit
             </button>
             <button class="btn btn-danger btn-xs" ui-sref="removeContainer({name: name})">
