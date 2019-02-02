@@ -1,9 +1,8 @@
-// https://docs.docker.com/reference/api/docker_remote_api_v1.16/ 
 // https://docs.docker.com/engine/api/v1.39/
 angular.module( 'docker', ['ngResource'] )
  
 .factory( 'Settings', function( $location ) {
-  var api = '/v1.19';  // TODO: move to '/v1.39';
+  var api = '/v1.39';  // TODO: move to '/v1.39';
   // url to proxy server
   var url = 'http://' + $location.host() + ':2375' + api;
   return {
@@ -35,8 +34,8 @@ angular.module( 'docker', ['ngResource'] )
     search: { method: 'GET', params:{ action: 'search', term: '@term' }, isArray: true },
     // POST /images/create?fromImage=(name)
     pull: { method: 'POST', params:{ action: 'create', fromImage: '@fromImage' } },
-    // DELETE /images/(id)?forse=1
-    remove: { method: 'DELETE', params:{ id: '@id', force: 1 }, isArray: true }
+    // DELETE /images/(id)?forse=true
+    remove: { method: 'DELETE', params:{ id: '@id', force: true }, isArray: true }
   });
 })
 
@@ -51,13 +50,13 @@ angular.module( 'docker', ['ngResource'] )
     // POST /containers/create?name=(name)
     create: { method: 'POST', params:{ name: '@name',  action: 'create' } }, 
     // POST /containers/(id)/start
-    start: { method: 'POST', params:{ id: '@id', action: 'start' } }, 
-    // POST /containers/(id)/stop
-    stop: { method: 'POST', params:{ id: '@id', action: 'stop' } },
+    start: { method: 'POST', params:{ id: '@id', action: 'start' }, hasBody: false }, 
+    // POST /containers/(id)/stop?t=5
+    stop: { method: 'POST', params:{ id: '@id', action: 'stop', t: 5 } },
     // POST /containers/(id)/kill
     kill: { method: 'POST', params:{ id: '@id', action: 'kill' } }, 
-    // DELETE /containers/(id)
-    remove: { method: 'DELETE', params:{ id: '@id' } }
+    // DELETE /containers/(id)?forse=true
+    remove: { method: 'DELETE', params:{ id: '@id', force: true } }
   });
 })
 

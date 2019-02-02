@@ -14,13 +14,16 @@ angular.module( 'app.images', [ ])
   var intervalPromise = $interval($scope.update, 22000);
 
   $scope.getContainersCount = function( data ) {
-    var containers = [];
+    if ($scope.containers === 0) {
+      return 0;
+    }
+    var count = 0;
     for (var i in $scope.containers) {
-      if( $scope.containers > 0 && $scope.containers[i].Image == data.RepoTags[0] ) {
-        containers.push($scope.containers[i]);
+      if( $scope.containers[i].Image === data.RepoTags[0] ) {
+        count++;
       }
     }
-    return containers.length;
+    return count;
   };
 
   $scope.imageFilter = ImageService.imageFilter;

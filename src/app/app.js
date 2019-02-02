@@ -13,7 +13,6 @@ angular.module( 'amhub', [
   'app.browseRepos',
   'app.containers',
   'app.bindingAddress',
-  'app.startContainer',
   'app.createContainer',
   'app.containerInfo',
   'app.commitContainer',

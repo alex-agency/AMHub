@@ -54,15 +54,10 @@ angular.module( 'app.createContainer', [
   $scope.searchThreshold = 10;
   $scope.variablesLimit = 10;
   $scope.count = 1;
-  $scope.limits = {
-    memory: '1.5',
-    swap: '0',
-    cpu: '50'
-  };
 
   Image.get({ id: imageName }, function( image ) {
     $scope.image = image;
-    $scope.bindingPorts = image.Config.ExposedPorts;   
+    $scope.bindingPorts = image.Config.ExposedPorts;    
     for(var i in image.Config.Env) {
       var pair = image.Config.Env[i];
       if($scope.variables.indexOf(pair) == -1) { 
@@ -98,6 +93,37 @@ angular.module( 'app.createContainer', [
   };
   
   $scope.create = function() {
+    Container.create({
+      name: $scope.name,
+      Hostname: $scope.name,
+      Env: $scope.variables,
+      Image: imageName,
+      Volumes: $scope.image.Config.Volumes,
+      ExposedPorts: transformExposedPorts($scope.image.Config.ExposedPorts),
+      //MacAddress: "12:34:56:78:9a:bc",
+      HostConfig: getHostConfig()
+    }, function( created ) {
+      console.log('Container created.');
+      Container.start({ 
+        id: created.Id
+      }, function() {
+        console.log('Container started.');
+      });
+      // close after creation
+      $scope.$close();
+    });
+  };
+
+  var getHostConfig = function() {
+    return {
+      Binds: getBinds(),
+      PortBindings: getPortBindings($scope.bindingPorts),
+      PublishAllPorts: true,
+      RestartPolicy: $scope.restartPolicy.value 
+    };
+  };
+
+  var getBinds = function() {
     var bindingVolumes = [];
     var index = 0;
     for (var volume in $scope.image.Config.Volumes) {
@@ -110,27 +136,15 @@ angular.module( 'app.createContainer', [
       bindingVolumes.push('/var/run/docker.sock:/var/run/docker.sock');
       bindingVolumes.push($scope.env.DOCKER + ':/bin/docker');
     }
-    Container.create({
-      Image: imageName,
-      name: $scope.name,
-      Hostname: $scope.name,
-      Env: $scope.variables//,
-      //Memory: $scope.limits.memory*1073741824,
-      //MemorySwap: $scope.limits.swap//,
-      //CpuShares: 1024*$scope.limits.cpu/100
-    }, function( created ) {
-      Container.start({ 
-        id: created.Id, 
-        PublishAllPorts: true,
-        Binds: bindingVolumes,
-        PortBindings: getPortBindings($scope.bindingPorts),
-        RestartPolicy: $scope.restartPolicy.value   
-      }, function() {
-        console.log('Container created and started.');
-      });
-      // close after creation
-      $scope.$close();
-    });
+    return bindingVolumes;
+  };
+
+  var transformExposedPorts = function( data ) {
+    var ports = {};
+    for (var key in data) {
+      ports[key] = {};
+    }
+    return ports;
   };
 
   var getPortBindings = function( data ) {

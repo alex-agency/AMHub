@@ -47,6 +47,7 @@ angular.module( 'app.browseRepos', [
   
   $scope.pull = function( name ) {
     Image.pull({ fromImage: name+':latest' });
+    $scope.$dismiss();
   };
 
   $scope.close = function() {

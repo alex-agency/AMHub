@@ -28,6 +28,19 @@ angular.module( 'app.containerInfo', [
           });
       }
     })
+    .state( 'startContainer', {
+      url: 'containers/:name/start',
+      parent: 'home',
+      onEnter: function onEnter( $state, $stateParams, ContainerService, Container ) {
+        ContainerService.getByName( decodeURIComponent($stateParams.name) )
+          .then(function( container ) {
+            Container.start({ id: container.Id }, function() {
+              console.log('Container started.');
+            });
+        });
+        $state.transitionTo('home');
+      }
+    })
     .state( 'stopContainer', {
       url: 'containers/:name/stop',
       parent: 'home',

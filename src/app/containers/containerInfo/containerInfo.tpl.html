@@ -15,16 +15,24 @@
             <td>{{:: container.Name.slice(1) }}</td>
           </tr>
           <tr>
+            <th>Image</th>
+            <td>{{:: container.Config.Image }}</td>
+          </tr>
+          <tr>
             <th>Created</th>
             <td>{{:: container.Created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
           </tr>
-          <tr>
+          <tr ng-if="container.State.Running === true">
             <th>Started</th>
             <td>{{:: container.State.StartedAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
           </tr>
           <tr>
             <th>Hostname</th>
             <td>{{:: container.Config.Hostname }}</td>
+          </tr>
+          <tr>
+            <th>Mac address</th>
+            <td>{{:: container.Config.MacAddress }}</td>
           </tr>
           <tr>
             <th>Ports</th>
@@ -51,10 +59,6 @@
             </td>
           </tr>
           <tr>
-            <th>Path</th>
-            <td>{{:: container.Path }}</td>
-          </tr>
-          <tr>
             <th>Environment</th>
             <td>
               <ul style="display:inline-table">
@@ -63,13 +67,29 @@
             </td>
           </tr>
           <tr>
-            <th>Volumes</th>
+            <th>Mounts</th>
             <td>
               <ul style="display:inline-table">
-                <li ng-repeat="(k,v) in container.Volumes">{{:: v }} -> {{:: k }}</li>
+                <li ng-repeat="k in container.Mounts">{{:: k.Source }} -> {{:: k.Destination }}</li>
               </ul>
             </td>
-          </tr>          
+          </tr>
+          <tr>
+            <th>Path</th>
+            <td>{{:: container.Path }}</td>
+          </tr>
+          <tr>
+            <th>Working directory</th>
+            <td>{{:: container.Config.WorkingDir }}</td>
+          </tr>
+          <tr>
+            <th>Command</th>
+            <td>
+              <ul style="display:inline-table">
+                <span ng-repeat="k in container.Config.Cmd">{{:: k }} </span>
+              </ul>
+            </td>
+          </tr>         
         </tbody>
       </table>
     </div>

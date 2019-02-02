@@ -43,7 +43,7 @@
         ng-if="settings.advanced || !imageFilter(image, '<none>')">
           <td>
             <span class="badge" ng-if=" !imageFilter(image, '<none>')">
-              {{:: getContainersCount(image) }}
+              {{ getContainersCount(image) }}
             </span>
             <button class="btn btn-success btn-xs" ng-if=" !imageFilter(image, '<none>')"
             ui-sref="createContainer({name: image.RepoTags[0]})">

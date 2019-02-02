@@ -11,16 +11,20 @@
       <table class="table table-bordered">
         <tbody>
           <tr>
+            <th>Tags</th>
+            <td>
+                <ul style="display:inline-table">
+                  <span ng-repeat="k in image.RepoTags">{{:: k }} </span>
+                </ul>
+              </td>
+          </tr>
+          <tr>
             <th>Created</th>
             <td>{{:: image.Created | date:'yyyy-MM-dd HH:mm:ss' }}</td>
           </tr>
           <tr>
-            <th>Environment</th>
-            <td>
-              <ul style="display:inline-table">
-                <li ng-repeat="k in image.Config.Env">{{:: k }}</li>
-              </ul>
-            </td>
+            <th>Hostname</th>
+            <td>{{:: image.Config.Hostname }}</td>
           </tr>
           <tr>
             <th>Exposed ports</th>
@@ -31,14 +35,30 @@
             </td>
           </tr>
           <tr>
-            <th>Hostname</th>
-            <td>{{:: image.Config.Hostname }}</td>
-          </tr>
+              <th>Environment</th>
+              <td>
+                <ul style="display:inline-table">
+                  <li ng-repeat="k in image.Config.Env">{{:: k }}</li>
+                </ul>
+              </td>
+            </tr>
           <tr>
             <th>Volumes</th>
             <td>
               <ul style="display:inline-table">
                 <li ng-repeat="(k,v) in image.Config.Volumes">{{:: k }}</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Working directory</th>
+            <td>{{:: image.Config.WorkingDir }}</td>
+          </tr>
+          <tr>
+            <th>Command</th>
+            <td>
+              <ul style="display:inline-table">
+                <span ng-repeat="k in image.Config.Cmd">{{:: k }} </span>
               </ul>
             </td>
           </tr>
