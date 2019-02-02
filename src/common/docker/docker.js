@@ -48,7 +48,7 @@ angular.module( 'docker', ['ngResource'] )
     // GET /containers/(id)/top
     top: { method: 'GET', params:{ id: '@id', action: 'top' } },
     // POST /containers/create?name=(name)
-    create: { method: 'POST', params:{ name: '@name',  action: 'create' } }, 
+    create: { method: 'POST', params:{ name: '@name', action: 'create' } }, 
     // POST /containers/(id)/start
     start: { method: 'POST', params:{ id: '@id', action: 'start' }, hasBody: false }, 
     // POST /containers/(id)/stop?t=5
@@ -59,6 +59,17 @@ angular.module( 'docker', ['ngResource'] )
     remove: { method: 'DELETE', params:{ id: '@id', force: true } }
   });
 })
+
+.factory( 'Network', function( $resource, Settings ) {
+  return $resource(Settings.url+'/networks/:id/:action', {}, {
+    // GET /networks
+    query: { method: 'GET' },
+    // GET /containers/(id)/connect?container=(name)
+    connect: { method: 'POST', params:{ id: '@id', action: 'connect', container: '@container' } },
+    // GET /containers/(id)/connect?container=(name)
+    disconnect: { method: 'POST', params:{ id: '@id', action: 'disconnect', container: '@container', force: true } },
+  });
+})  
 
 .factory( 'Commit', function( $resource, Settings ) {
   // POST /commit?container=(id)&repo=(name)
