@@ -9,6 +9,8 @@
           <th>Action</th>
           <th>Name</th>
           <th>Subnet</th>
+          <th>IPv4 Address</th>
+          <th>Mac Address</th>
         </tr>
       </thead>
       <tbody>
@@ -19,8 +21,10 @@
             <a ng-switch-when="false" class="btn btn-success btn-xs" style="margin-bottom:2px" 
             ng-click="connect(container.Id, net.Id)">Connect</a>
           </td>
-          <td>{{ net.Name }}</td>
-          <td><span ng-repeat="config in net.IPAM.Config">{{ config.Subnet }}</span></td>
+          <td>{{:: net.Name }}</td>
+          <td><span ng-repeat="config in net.IPAM.Config">{{:: config.Subnet }}</span></td>
+          <td>{{ net.Containers[container.Id].IPv4Address }}</td>
+          <td>{{ net.Containers[container.Id].MacAddress }}</td>
         </tr>
       </tbody>
     </table>

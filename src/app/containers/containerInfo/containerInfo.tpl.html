@@ -30,10 +30,6 @@
             <th>Hostname</th>
             <td>{{:: container.Config.Hostname }}</td>
           </tr>
-          <tr ng-if="::container.Config.MacAddress">
-            <th>Mac address</th>
-            <td>{{:: container.Config.MacAddress }}</td>
-          </tr>
           <tr ng-if="container.NetworkSettings.Ports">
             <th>Ports</th>
             <td>
