@@ -15,9 +15,9 @@
         <tr ng-repeat="net in networks">
           <td ng-switch on="net.Containers[container.Id] !== underfined">
             <a ng-switch-when="true" class="btn btn-danger btn-xs" style="margin-bottom:2px" 
-            ng-click="">Disconnect</a>
+            ng-click="disconnect(container.Id, net.Id)">Disconnect</a>
             <a ng-switch-when="false" class="btn btn-success btn-xs" style="margin-bottom:2px" 
-            ng-click="">Connect</a>
+            ng-click="connect(container.Id, net.Id)">Connect</a>
           </td>
           <td>{{ net.Name }}</td>
           <td><span ng-repeat="config in net.IPAM.Config">{{ config.Subnet }}</span></td>

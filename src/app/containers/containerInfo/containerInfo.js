@@ -71,7 +71,6 @@ angular.module( 'app.containerInfo', [
 .controller( 'ContainerInfoCtrl', 
   function ContainerInfoCtrl( $scope, params, $location, ContainerService, Container ) {
 
-
   ContainerService.getByName( decodeURIComponent(params.name) )
   .then(function( container ) {
     Container.get({ id: container.Id }, function( data ) {
