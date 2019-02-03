@@ -100,7 +100,7 @@ angular.module( 'app.createContainer', [
       Image: imageName,
       Volumes: $scope.image.Config.Volumes,
       ExposedPorts: transformExposedPorts($scope.image.Config.ExposedPorts),
-      //MacAddress: "12:34:56:78:9a:bc",
+      MacAddress: generateMacAddress(),
       HostConfig: getHostConfig()
     }, function( created ) {
       console.log('Container created.');
@@ -158,6 +158,19 @@ angular.module( 'app.createContainer', [
       data[i] = arr;
     }
     return data;
+  };
+
+  var generateMacAddress = function() {
+    var hexDigits = "0123456789ABCDEF";
+    var macAddress = "";
+    for (var i = 0; i < 6; i++) {
+      macAddress+=hexDigits.charAt(Math.round(Math.random() * 15));
+      macAddress+=hexDigits.charAt(Math.round(Math.random() * 15));
+      if (i != 5) {
+        macAddress += ":";
+      }
+    }
+    return macAddress;
   };
 
   $scope.close = function() {
